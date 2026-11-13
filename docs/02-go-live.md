@@ -20,9 +20,10 @@ A preview is already live, set up the quick way under the developer's own Netlif
 | --- | --- |
 | Preview address | **https://milica-uzelac.netlify.app** |
 | Netlify project | `milica-uzelac`, in the developer's team (Free plan, credits shared with the developer's other project) |
-| How it was deployed | Uploaded from this computer with Netlify's command-line tool. **Not connected to GitHub yet.** |
+| Code | Private GitHub repository **zerotoonebros/milica-uzelac-sajt** (developer's account; to be transferred to the client later) |
+| How it was deployed | Uploaded from this computer with Netlify's command-line tool. **Netlify is not linked to the GitHub repository yet**, so pushing to GitHub does not publish anything. |
 | Forms | Detection enabled; all five forms are registered. No e-mail notifications set yet (Step 7). |
-| Editing panel (`/admin/`) | Opens, but **login does not work yet** — it needs the GitHub repository (Steps 1, 2 and 4). |
+| Editing panel (`/admin/`) | Opens, but **login does not work yet** — it needs the login setup in Step 4. The panel already points at the repository (`config.yml`), but that change goes live with the next deploy. |
 | Google | Hidden: indexing is switched off in the site settings. |
 
 **To publish a change while it is set up this way**, run in the project folder (each run uses 15 Netlify credits):
@@ -36,7 +37,11 @@ Two things that came up during this first deploy and will come up again on any n
 - **Login wall.** The team's default is "team login required" for new projects, so a fresh project shows visitors a Netlify login page. It was switched off for this project only, through Netlify's API; in the dashboard the same switch is in the project's access and security settings (the exact label was not checked). The team default was left as it was.
 - **"Powered by Netlify" badge.** Netlify's Free plan shows a small badge in the bottom-right corner of the site. It disappears on a paid plan; check the project's settings for whether it can be turned off on Free.
 
-To finish the proper setup (automatic publishing and client editing), continue with Steps 1, 2, 4 and 5 below. In Step 3, instead of importing a new project, open the existing one and link the repository: **Project configuration → Build & deploy → Continuous deployment → Link repository**.
+**Steps 1 and 2 below are done.** To finish the proper setup (automatic publishing and client editing):
+
+1. **Link the repository** — in the existing Netlify project: **Project configuration → Build & deploy → Continuous deployment → Link repository** → GitHub → `milica-uzelac-sajt`. Netlify asks to be authorized on GitHub; allow it for this one repository. From then on every push to `main` publishes the site (15 credits each), and the first link triggers one deploy.
+2. **Step 4** — client login for the editing panel.
+3. **Step 5** — the publish button.
 
 ---
 
