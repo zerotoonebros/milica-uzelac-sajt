@@ -74,6 +74,7 @@ docs/                 guides (see below)
 
 | File | For | Contents |
 | --- | --- | --- |
+| [TODO.md](TODO.md) | you | **Everything that is left to do**, as a checklist |
 | [docs/01-design-system.md](docs/01-design-system.md) | you + client | Colors with HEX codes, typography, buttons, shapes, spacing |
 | [docs/02-go-live.md](docs/02-go-live.md) | you | Step by step: GitHub → Netlify → domain → CMS login → sharing the preview with the client |
 | [docs/03-analytics.md](docs/03-analytics.md) | you | GTM, GA4 events and key events, Search Console, Meta Pixel, consent, UTM links |
