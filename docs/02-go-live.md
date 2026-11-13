@@ -2,7 +2,7 @@
 
 This guide takes the site from your computer to the internet and gives the client a login to edit it. Do the steps in order. Total time: about 1–2 hours, plus waiting for the domain.
 
-Menu names in GitHub and Netlify change now and then; if a label differs slightly from what is written here, look for the closest match.
+Menu names in GitHub and Netlify change now and then; if a label differs slightly from what is written here, look for the closest match. Netlify's **Project configuration** currently has these tabs: General · Environment variables · Developer settings · Notifications · Security · Configuration · Emails.
 
 **What you get at the end**
 
@@ -34,12 +34,12 @@ npx netlify-cli deploy --prod
 
 Two things that came up during this first deploy and will come up again on any new project in this team:
 
-- **Login wall.** The team's default is "team login required" for new projects, so a fresh project shows visitors a Netlify login page. It was switched off for this project only, through Netlify's API; in the dashboard the same switch is in the project's access and security settings (the exact label was not checked). The team default was left as it was.
-- **"Powered by Netlify" badge.** Netlify's Free plan shows a small badge in the bottom-right corner of the site. It disappears on a paid plan; check the project's settings for whether it can be turned off on Free.
+- **Login wall.** The team's default is "team login required" for new projects, so a fresh project shows visitors a Netlify login page. It was switched off for this project only (in the dashboard: **Project configuration → General → Visitor access**). The team default was left as it was.
+- **"Powered by Netlify" badge.** Netlify's Free plan shows a small badge in the bottom-right corner of the site. Its setting is under **Project configuration → General → Powered by Netlify badge**.
 
 **Steps 1 and 2 below are done.** To finish the proper setup (automatic publishing and client editing):
 
-1. **Link the repository** — in the existing Netlify project: **Project configuration → Build & deploy → Continuous deployment → Link repository** → GitHub → `milica-uzelac-sajt`. Netlify asks to be authorized on GitHub; allow it for this one repository. From then on every push to `main` publishes the site (15 credits each), and the first link triggers one deploy.
+1. **Link the repository** — in the existing Netlify project: **Project configuration → Developer settings → Continuous deployment → Repository → Link repository** → GitHub → `milica-uzelac-sajt`. Netlify asks to be authorized on GitHub; allow it for this one repository. From then on every push to `main` publishes the site (15 credits each), and the first link triggers one deploy.
 2. **Step 4** — client login for the editing panel.
 3. **Step 5** — the publish button.
 
@@ -148,7 +148,7 @@ The CMS signs people in with their GitHub account. Netlify acts as the go-betwee
 
 ### 4b. Add the keys to Netlify
 
-1. Netlify → your project → **Project configuration → Access & security → OAuth**. (This is *not* the "Identity" section.)
+1. Netlify → your project → **Project configuration → Security → OAuth**. (This is *not* the "Identity" section.)
 2. **Authentication providers → Install provider → GitHub**.
 3. Paste the Client ID and Client secret → **Install**.
 
@@ -175,7 +175,7 @@ In `config.yml` the option `skip_ci: true` means:
 
 For the **Publish Changes** button in the CMS header to work on Netlify, give it a build hook:
 
-1. Netlify → **Project configuration → Build & deploy → Build hooks → Add build hook**. Name: `CMS`, branch: `main` → **Save**. Copy the URL.
+1. Netlify → **Project configuration → Developer settings → Continuous deployment → Build hooks → Add build hook**. Name: `CMS`, branch: `main` → **Save**. Copy the URL.
 2. In the CMS: account menu (top right) → **Settings → Developer** → paste the URL into the deploy hook field.
 
 The hook URL is stored only in that browser, so repeat the second part on the client's computer. If you skip this step, **Save and Publish** still works.
