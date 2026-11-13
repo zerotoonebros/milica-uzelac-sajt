@@ -138,6 +138,6 @@ grep -rniE "upiši|upisati|tvojdomen|primer: true" src/content
 
 ## Housekeeping
 
-- [ ] **Revoke the Netlify command-line tool's access.** It was authorized on 13 Nov to do the first deploy and is no longer needed. It is signed out on this computer and its stored key has been deleted, but the authorization itself still exists on Netlify's side until you revoke it: Netlify → your avatar → **User settings → Applications** → find **Netlify CLI** among the authorized applications → revoke.
+- [x] **Netlify command-line tool's access revoked** (13 Nov). It was authorized only for the first deploy. It is signed out on this computer, its stored key is deleted, and the authorization was revoked in Netlify's user settings. To use the tool again, run `npx netlify-cli login`.
 
 - **Commits are authored as "Murmix"** with your e-mail, set for this project only. The client will see that in the history after the transfer.
