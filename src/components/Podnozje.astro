@@ -1,0 +1,306 @@
+---
+// Podnožje: poziv na uvodni razgovor, box za poruku, newsletter, društvene mreže, linkovi.
+import Logo from './Logo.astro';
+import Ikona from './Ikona.astro';
+import Oblik from './Oblik.astro';
+import Mreze from './Mreze.astro';
+import KontaktForma from './KontaktForma.astro';
+import NewsletterForma from './NewsletterForma.astro';
+import { sajt, navigacija, mdRed } from '../lib/sajt';
+
+interface Props {
+  /** Sakrij box za poruku (npr. na stranici Kontakt, gde već postoji forma) */
+  bezPoruke?: boolean;
+  /** Sakrij traku sa pozivom na zakazivanje */
+  bezPoziva?: boolean;
+}
+const { bezPoruke = false, bezPoziva = false } = Astro.props;
+const godina = new Date().getFullYear();
+---
+
+{
+  !bezPoziva && (
+    <section class="poziv sekcija sekcija--mala" aria-labelledby="poziv-naslov">
+      <Oblik vrsta="sunce" boja="var(--c-kajsija)" class="poziv__oblik poziv__oblik--1" />
+      <Oblik vrsta="list" boja="var(--c-plava)" class="poziv__oblik poziv__oblik--2" />
+      <Oblik vrsta="oblutak" boja="var(--c-svetloplava)" class="poziv__oblik poziv__oblik--3" />
+      <div class="omot poziv__unutra" data-otkrij>
+        <span class="rukopis" aria-hidden="true">Tvoj red je.</span>
+        <h2 id="poziv-naslov" set:html={mdRed(sajt.futer.cta_naslov)} />
+        <p class="uvod">{sajt.futer.cta_tekst}</p>
+        <a href={sajt.zakazivanje.link} class="dugme" data-prati="booking_click" data-mesto="poziv-podnozje">
+          {sajt.zakazivanje.tekst_dugmeta}
+          <Ikona naziv="strelica" />
+        </a>
+      </div>
+    </section>
+  )
+}
+
+<footer class="podnozje tamna">
+  <div class="omot">
+    <div class:list={['podnozje__vrh', { 'podnozje__vrh--jedno': bezPoruke }]}>
+      {
+        !bezPoruke && (
+          <section class="podnozje__blok" aria-labelledby="futer-poruka-naslov">
+            <span class="nadnaslov">Kontakt</span>
+            <h2 id="futer-poruka-naslov" class="podnozje__naslov">
+              {sajt.futer.poruka_naslov}
+            </h2>
+            <p class="podnozje__opis">{sajt.futer.poruka_tekst}</p>
+            <KontaktForma id="futer-poruka" mesto="podnozje" />
+          </section>
+        )
+      }
+
+      <section class="podnozje__blok podnozje__blok--newsletter" aria-labelledby="futer-newsletter-naslov">
+        <span class="nadnaslov">Newsletter</span>
+        <h2 id="futer-newsletter-naslov" class="podnozje__naslov">{sajt.futer.newsletter_naslov}</h2>
+        <p class="podnozje__opis">{sajt.futer.newsletter_tekst}</p>
+        <NewsletterForma id="futer-newsletter" mesto="podnozje" />
+
+        <div class="podnozje__mreze">
+          <p class="podnozje__mreze-naslov">Prati me</p>
+          <Mreze />
+        </div>
+      </section>
+    </div>
+
+    <div class="podnozje__sredina">
+      <a href="/" class="podnozje__logo">
+        <Logo tamnaPozadina />
+      </a>
+      <nav aria-label="Navigacija u podnožju">
+        <ul class="podnozje__nav">
+          {
+            navigacija.map((stavka) => (
+              <li>
+                <a href={stavka.link}>{stavka.naziv}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <ul class="podnozje__kontakt">
+        {
+          sajt.email && (
+            <li>
+              <a href={`mailto:${sajt.email}`}>
+                <Ikona naziv="mejl" velicina={18} />
+                {sajt.email}
+              </a>
+            </li>
+          )
+        }
+        {
+          sajt.telefon && (
+            <li>
+              <a href={`tel:${sajt.telefon.replace(/[^+\d]/g, '')}`}>
+                <Ikona naziv="telefon" velicina={18} />
+                {sajt.telefon}
+              </a>
+            </li>
+          )
+        }
+        {
+          sajt.lokacija && (
+            <li>
+              <span>
+                <Ikona naziv="mesto" velicina={18} />
+                {sajt.lokacija}
+              </span>
+            </li>
+          )
+        }
+      </ul>
+    </div>
+
+    <div class="podnozje__dno">
+      <p>© {godina} {sajt.naziv}. Sva prava zadržana.</p>
+      <ul class="podnozje__pravno">
+        <li><a href="/politika-privatnosti/">Politika privatnosti</a></li>
+        <li><a href="/politika-kolacica/">Politika kolačića</a></li>
+        <li><button type="button" data-kolacici-otvori>Podešavanja kolačića</button></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* --- Poziv na zakazivanje --- */
+  .poziv {
+    overflow: hidden;
+    background: var(--c-kajsija-blaga);
+    text-align: center;
+  }
+  .poziv__unutra {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 1.1rem;
+    max-width: 46rem;
+  }
+  .poziv__unutra .rukopis {
+    margin-bottom: -0.6rem;
+  }
+  .poziv__unutra .dugme {
+    margin-top: 0.75rem;
+  }
+  .poziv :global(.poziv__oblik--1) {
+    width: clamp(9rem, 20vw, 17rem);
+    left: -4rem;
+    bottom: -5rem;
+  }
+  .poziv :global(.poziv__oblik--2) {
+    width: clamp(6rem, 12vw, 10rem);
+    left: clamp(1rem, 9vw, 9rem);
+    bottom: -2.5rem;
+    transform: rotate(18deg);
+  }
+  .poziv :global(.poziv__oblik--3) {
+    width: clamp(10rem, 24vw, 20rem);
+    right: -5rem;
+    top: -6rem;
+  }
+  @media (max-width: 44em) {
+    .poziv :global(.poziv__oblik--1),
+    .poziv :global(.poziv__oblik--2) {
+      opacity: 0.55;
+    }
+  }
+
+  /* --- Podnožje --- */
+  .podnozje {
+    padding-block: var(--r-sekcija-mala) 2rem;
+  }
+  .podnozje__vrh {
+    display: grid;
+    gap: clamp(3rem, 2rem + 4vw, 6rem);
+    padding-bottom: var(--r-sekcija-mala);
+  }
+  @media (min-width: 60em) {
+    .podnozje__vrh {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    }
+    .podnozje__vrh--jedno {
+      grid-template-columns: minmax(0, 40rem);
+    }
+  }
+  .podnozje__blok {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+  }
+  .podnozje__naslov {
+    font-size: var(--fs-h2);
+  }
+  .podnozje__opis {
+    max-width: 34rem;
+    margin-bottom: 0.75rem;
+    color: rgb(248 240 233 / 0.8);
+  }
+  .podnozje__mreze {
+    display: grid;
+    gap: 0.9rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgb(248 240 233 / 0.18);
+  }
+  .podnozje__mreze-naslov {
+    font-size: var(--fs-sitni);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--c-kajsija);
+  }
+
+  .podnozje__sredina {
+    display: grid;
+    gap: 2rem;
+    padding-block: 2.5rem;
+    border-top: 1px solid rgb(248 240 233 / 0.18);
+  }
+  @media (min-width: 60em) {
+    .podnozje__sredina {
+      grid-template-columns: auto 1fr auto;
+      align-items: start;
+      gap: 3rem;
+    }
+  }
+  .podnozje__logo {
+    display: inline-flex;
+    text-decoration: none;
+  }
+  .podnozje__nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, max-content));
+    gap: 0.35rem 2.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  @media (min-width: 60em) {
+    .podnozje__nav {
+      justify-content: center;
+      grid-template-columns: repeat(4, max-content);
+    }
+  }
+  .podnozje__nav a,
+  .podnozje__kontakt a,
+  .podnozje__pravno a,
+  .podnozje__pravno button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-block: 0.4rem;
+    color: rgb(248 240 233 / 0.85);
+    text-decoration: none;
+    transition: color var(--t-brzo);
+  }
+  .podnozje__nav a:hover,
+  .podnozje__kontakt a:hover,
+  .podnozje__pravno a:hover,
+  .podnozje__pravno button:hover {
+    color: var(--c-kajsija);
+  }
+  .podnozje__kontakt {
+    display: grid;
+    gap: 0.35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .podnozje__kontakt span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-block: 0.4rem;
+    color: rgb(248 240 233 / 0.85);
+  }
+  .podnozje__dno {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(248 240 233 / 0.18);
+    font-size: var(--fs-mali);
+    color: rgb(248 240 233 / 0.7);
+  }
+  .podnozje__pravno {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .podnozje__pravno button {
+    border: 0;
+    background: none;
+    font-size: inherit;
+  }
+  .podnozje__dno p {
+    padding-block: 0.4rem;
+  }
+</style>

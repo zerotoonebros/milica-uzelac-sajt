@@ -1,0 +1,17 @@
+---
+import Osnovni from '../layouts/Osnovni.astro';
+import UvodStranice from '../components/UvodStranice.astro';
+import Ikona from '../components/Ikona.astro';
+import ostale from '../content/stranice/ostale.json';
+
+const s = ostale.nije_pronadjeno;
+---
+
+<Osnovni naslov="Stranica nije pronađena" opis={s.tekst} bezIndeksa bezPoruke bezPoziva>
+  <UvodStranice rukopis="Ups…" naslov={s.naslov} uvod={s.tekst} centrirano>
+    <div class="dugmad">
+      <a href="/" class="dugme">Početna stranica <Ikona naziv="strelica" /></a>
+      <a href="/kontakt/" class="dugme dugme--okvir">Piši mi</a>
+    </div>
+  </UvodStranice>
+</Osnovni>

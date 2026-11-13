@@ -1,0 +1,44 @@
+---
+// Lista programa jedne vrste (e-book ili masterclass).
+import { getCollection } from 'astro:content';
+import KarticaPrograma from './KarticaPrograma.astro';
+
+interface Props {
+  vrsta: 'e-book' | 'masterclass';
+  prazno?: string;
+  nivoNaslova?: 'h2' | 'h3';
+}
+const { vrsta, prazno, nivoNaslova = 'h2' } = Astro.props;
+
+const programi = (await getCollection('programi', ({ data }) => data.vrsta === vrsta)).sort(
+  (a, b) => a.data.redosled - b.data.redosled,
+);
+---
+
+{
+  programi.length > 0 ? (
+    <div class="mreza mreza--3">
+      {programi.map((p, i) => (
+        <div data-otkrij style={`--kasnjenje:${i % 3}`}>
+          <KarticaPrograma program={p} indeks={i + (vrsta === 'masterclass' ? 1 : 0)} nivoNaslova={nivoNaslova} />
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p class="lista-prazno">{prazno}</p>
+  )
+}
+
+<style>
+  .lista-prazno {
+    max-width: 40rem;
+    padding: 2rem;
+    border: 1px dashed var(--c-kajsija-tamna);
+    border-radius: var(--z-kartica);
+    font-size: var(--fs-uvod);
+    color: var(--c-teget-blagi);
+  }
+  .mreza > div {
+    display: grid;
+  }
+</style>

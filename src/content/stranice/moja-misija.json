@@ -1,0 +1,44 @@
+{
+  "seo": {
+    "naslov": "Moja misija — podrška ženama u ličnom i profesionalnom razvoju",
+    "opis": "Moja misija je da žene žive i rade u skladu sa svojim vrednostima: sa više samopouzdanja, jasnim granicama i hrabrošću za promenu."
+  },
+  "uvod": {
+    "nadnaslov": "Moja misija",
+    "naslov": "Da svaka žena živi život koji je *zaista njen*",
+    "tekst": "Verujem u svet u kome žene ne biraju između karijere i sebe, između brige o drugima i brige o sebi."
+  },
+  "izjava": {
+    "tekst": "Moja misija je da podržim žene da prepoznaju sopstvenu snagu, oslobode se uverenja koja ih koče i hrabro krenu ka životu i karijeri koji su u skladu sa njihovim vrednostima.",
+    "potpis": "Milica"
+  },
+  "vrednosti": {
+    "nadnaslov": "Vrednosti",
+    "naslov": "Na čemu zasnivam svoj rad",
+    "stavke": [
+      {
+        "naslov": "Iskrenost",
+        "tekst": "Promena počinje onda kada sebi kažemo istinu — nežno, ali bez ulepšavanja."
+      },
+      {
+        "naslov": "Poverenje",
+        "tekst": "Sve što podeliš ostaje između nas. Sigurnost je uslov za svaki dublji rad."
+      },
+      {
+        "naslov": "Odgovornost",
+        "tekst": "Ja donosim pitanja, alate i podršku. Ti donosiš odluke — jer je život tvoj."
+      },
+      {
+        "naslov": "Rast",
+        "tekst": "Ne juriš savršenstvo. Gradiš napredak koji možeš da održiš i kada postane teško."
+      }
+    ]
+  },
+  "vizija": {
+    "nadnaslov": "Vizija",
+    "naslov": "Šta želim da ostane *posle našeg rada*",
+    "tekst": "Želim da iz naše saradnje izađeš sa više poverenja u sebe nego u mene. Da znaš kako da prepoznaš svoje potrebe, postaviš granicu, doneseš odluku i ostaneš uz sebe — i onda kada ja više nisam deo tvog puta.\n\nSvaka žena koja to nauči menja i svoju okolinu: porodicu, tim, prijateljstva. Zato verujem da lični napredak nikada nije samo ličan.",
+    "slika": "",
+    "slika_alt": "Milica Uzelac"
+  }
+}

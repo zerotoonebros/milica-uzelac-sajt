@@ -1,0 +1,57 @@
+---
+// Linkovi ka društvenim mrežama (prikazuju se samo one koje su upisane u podešavanjima).
+import Ikona from './Ikona.astro';
+import { sajt } from '../lib/sajt';
+
+const mreze = [
+  { naziv: 'Instagram', ikona: 'instagram', link: sajt.drustvene_mreze.instagram },
+  { naziv: 'LinkedIn', ikona: 'linkedin', link: sajt.drustvene_mreze.linkedin },
+  { naziv: 'TikTok', ikona: 'tiktok', link: sajt.drustvene_mreze.tiktok },
+  { naziv: 'Facebook', ikona: 'facebook', link: sajt.drustvene_mreze.facebook },
+].filter((m) => m.link) as { naziv: string; ikona: 'instagram' | 'linkedin' | 'tiktok' | 'facebook'; link: string }[];
+---
+
+<ul class="mreze">
+  {
+    mreze.map((m) => (
+      <li>
+        <a href={m.link} target="_blank" rel="noopener me" aria-label={`${m.naziv} (otvara se u novoj kartici)`} data-prati="social_click" data-mesto={m.naziv.toLowerCase()}>
+          <Ikona naziv={m.ikona} velicina={22} />
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .mreze {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .mreze a {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    color: inherit;
+    opacity: 0.85;
+    transition:
+      background-color var(--t-brzo),
+      color var(--t-brzo),
+      opacity var(--t-brzo),
+      transform var(--t-brzo) var(--ease);
+  }
+  .mreze a:hover {
+    opacity: 1;
+    background: var(--c-kajsija);
+    border-color: var(--c-kajsija);
+    color: var(--c-teget);
+    transform: translateY(-2px);
+  }
+</style>

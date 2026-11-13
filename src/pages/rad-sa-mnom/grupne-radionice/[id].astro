@@ -1,0 +1,210 @@
+---
+import { getCollection } from 'astro:content';
+import Osnovni from '../../../layouts/Osnovni.astro';
+import UvodStranice from '../../../components/UvodStranice.astro';
+import Fotografija from '../../../components/Fotografija.astro';
+import Forma from '../../../components/Forma.astro';
+import Ikona from '../../../components/Ikona.astro';
+import { sajt, datumIVreme, nazivFormata, statusRadionice, apsolutni, mdClanak } from '../../../lib/sajt';
+
+export async function getStaticPaths() {
+  const radionice = await getCollection('radionice');
+  return radionice.map((radionica) => ({ params: { id: radionica.id }, props: { radionica } }));
+}
+
+const { radionica } = Astro.props;
+const r = radionica.data;
+const sadrzaj = await mdClanak(radionica.body);
+const status = statusRadionice[r.status];
+const link = `/rad-sa-mnom/grupne-radionice/${radionica.id}/`;
+
+// Strukturisani podaci za Google (događaj) — samo za prave, nadolazeće radionice
+const shema =
+  !r.primer && r.status !== 'zavrseno'
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Event',
+        name: r.naslov,
+        description: r.opis,
+        startDate: r.datum.toISOString().slice(0, 16),
+        eventAttendanceMode:
+          r.format === 'online'
+            ? 'https://schema.org/OnlineEventAttendanceMode'
+            : 'https://schema.org/OfflineEventAttendanceMode',
+        eventStatus: 'https://schema.org/EventScheduled',
+        location:
+          r.format === 'online'
+            ? { '@type': 'VirtualLocation', url: apsolutni(link, Astro.site) }
+            : { '@type': 'Place', name: r.lokacija ?? 'Srbija', address: r.lokacija ?? 'Srbija' },
+        organizer: { '@type': 'Person', name: sajt.naziv, url: apsolutni('/', Astro.site) },
+        url: apsolutni(link, Astro.site),
+      }
+    : undefined;
+---
+
+<Osnovni naslov={r.seo_naslov || r.naslov} opis={r.seo_opis || r.opis} slika={r.slika} shema={shema}>
+  <UvodStranice
+    nadnaslov={`${nazivFormata[r.format]} radionica`}
+    naslov={r.naslov}
+    uvod={r.opis}
+    putanja={[
+      { naziv: 'Rad sa mnom', link: '/rad-sa-mnom/' },
+      { naziv: 'Grupne radionice', link: '/rad-sa-mnom/grupne-radionice/' },
+      { naziv: r.naslov },
+    ]}
+  >
+    <p class="oznake">
+      <span class:list={['oznaka', status.otvoreno ? 'oznaka--kajsija' : 'oznaka--okvir']}>{status.tekst}</span>
+      {r.primer && <span class="oznaka oznaka--okvir">Primer radionice — zameniti pravim podacima</span>}
+    </p>
+  </UvodStranice>
+
+  <section class="sekcija sekcija--bez-vrha">
+    <div class="omot detalj">
+      <div class="detalj__sadrzaj">
+        {r.slika && <Fotografija slika={r.slika} alt={r.slika_alt ?? ''} odnos="16/9" prioritet sizes="(min-width: 60em) 55vw, 92vw" />}
+        <div class="tekst" set:html={sadrzaj} />
+
+        {
+          r.za_koga.length > 0 && (
+            <div class="detalj__blok">
+              <h2>Za koga je radionica</h2>
+              <ul class="kvacice">
+                {r.za_koga.map((stavka) => (
+                  <li>{stavka}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+        {
+          r.sta_dobijas.length > 0 && (
+            <div class="detalj__blok">
+              <h2>Šta dobijaš</h2>
+              <ul class="kvacice">
+                {r.sta_dobijas.map((stavka) => (
+                  <li>{stavka}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </div>
+
+      <aside class="detalj__strana" aria-label="Detalji i prijava">
+        <div class="detalj__kartica">
+          <dl class="cinjenice">
+            <div>
+              <dt><Ikona naziv="kalendar" velicina={20} />Termin</dt>
+              <dd class="cinjenice__veliko">{datumIVreme(r.datum)}</dd>
+            </div>
+            {
+              r.trajanje && (
+                <div>
+                  <dt><Ikona naziv="sat" velicina={20} />Trajanje</dt>
+                  <dd>{r.trajanje}</dd>
+                </div>
+              )
+            }
+            {
+              r.lokacija && (
+                <div>
+                  <dt><Ikona naziv="mesto" velicina={20} />Mesto</dt>
+                  <dd>{r.lokacija}</dd>
+                </div>
+              )
+            }
+            {
+              r.broj_mesta && (
+                <div>
+                  <dt><Ikona naziv="osobe" velicina={20} />Grupa</dt>
+                  <dd>{r.broj_mesta}</dd>
+                </div>
+              )
+            }
+            {
+              r.cena && (
+                <div>
+                  <dt><Ikona naziv="srce" velicina={20} />Cena</dt>
+                  <dd>{r.cena}</dd>
+                </div>
+              )
+            }
+          </dl>
+
+          {
+            status.otvoreno ? (
+              <div class="detalj__forma" id="prijava">
+                <h2 class="detalj__forma-naslov">Prijavi se</h2>
+                <Forma
+                  naziv="prijava-radionica"
+                  id="prijava"
+                  dugme="Pošalji prijavu"
+                  dogadjaj="workshop_signup"
+                  predmet={`Prijava na radionicu: ${r.naslov}`}
+                  uspehNaslov="Prijava je poslata!"
+                  uspehTekst="Hvala na prijavi. Uskoro ti na e-mail stižu potvrda i sve informacije o radionici."
+                >
+                  <input type="hidden" name="radionica" value={r.naslov} />
+                  <input type="hidden" name="termin" value={datumIVreme(r.datum)} />
+                  <div class="polje">
+                    <label for="prijava-ime">Ime i prezime</label>
+                    <input id="prijava-ime" name="ime" type="text" autocomplete="name" required />
+                  </div>
+                  <div class="polje">
+                    <label for="prijava-email">E-mail adresa</label>
+                    <input id="prijava-email" name="email" type="email" autocomplete="email" inputmode="email" required />
+                  </div>
+                  <div class="polje">
+                    <label for="prijava-telefon">Telefon <span class="polje__pomoc">(nije obavezno)</span></label>
+                    <input id="prijava-telefon" name="telefon" type="tel" autocomplete="tel" inputmode="tel" />
+                  </div>
+                  <div class="polje">
+                    <label for="prijava-poruka">Šta želiš da poneseš sa radionice? <span class="polje__pomoc">(nije obavezno)</span></label>
+                    <textarea id="prijava-poruka" name="poruka" rows="3"></textarea>
+                  </div>
+                  <div class="potvrda-omot">
+                    <label class="potvrda">
+                      <input type="checkbox" name="saglasnost" value="da" id="prijava-saglasnost" required />
+                      <span>
+                        Prihvatam da se moji podaci koriste za organizaciju radionice, u skladu sa
+                        <a href="/politika-privatnosti/">Politikom privatnosti</a>.
+                      </span>
+                    </label>
+                  </div>
+                  <div class="potvrda-omot">
+                    <label class="potvrda">
+                      <input type="checkbox" name="newsletter" value="da" id="prijava-newsletter" />
+                      <span>Želim da dobijam i newsletter (nije obavezno).</span>
+                    </label>
+                  </div>
+                </Forma>
+              </div>
+            ) : (
+              <div class="detalj__zatvoreno">
+                <p>
+                  {r.status === 'uskoro'
+                    ? 'Prijave se uskoro otvaraju. Javi mi se i obavestiću te čim krenu.'
+                    : r.status === 'popunjeno'
+                      ? 'Sva mesta su popunjena. Javi mi se ako želiš da budeš na listi čekanja.'
+                      : 'Ova radionica je održana. Pogledaj naredne termine ili mi piši.'}
+                </p>
+                <a href="/kontakt/" class="dugme dugme--okvir">
+                  Piši mi <Ikona naziv="strelica" />
+                </a>
+              </div>
+            )
+          }
+        </div>
+      </aside>
+    </div>
+  </section>
+</Osnovni>
+
+<style>
+  .oznake {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>

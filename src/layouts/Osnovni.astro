@@ -1,0 +1,172 @@
+---
+// Osnovni okvir svake stranice: <head> sa SEO oznakama, zaglavlje, sadržaj, podnožje.
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+import Zaglavlje from '../components/Zaglavlje.astro';
+import Podnozje from '../components/Podnozje.astro';
+import Kolacici from '../components/Kolacici.astro';
+import { sajt, nadjiSliku, cistTekst } from '../lib/sajt';
+import { getImage } from 'astro:assets';
+
+interface Props {
+  /** SEO naslov (title tag). Bez naziva sajta — on se dodaje automatski. */
+  naslov?: string | null;
+  /** Meta opis za Google (preporuka: 120–155 karaktera) */
+  opis?: string | null;
+  /** Slika za deljenje na mrežama (putanja iz CMS-a) */
+  slika?: string | null;
+  vrsta?: 'website' | 'article';
+  /** Stranica se ne prikazuje u Google pretrazi */
+  bezIndeksa?: boolean;
+  /** Strukturisani podaci (JSON-LD) */
+  shema?: Record<string, unknown> | Record<string, unknown>[];
+  bezPoruke?: boolean;
+  bezPoziva?: boolean;
+}
+
+const {
+  naslov,
+  opis,
+  slika,
+  vrsta = 'website',
+  bezIndeksa = false,
+  shema,
+  bezPoruke = false,
+  bezPoziva = false,
+} = Astro.props;
+
+const jePocetna = Astro.url.pathname === '/';
+const punNaslov = naslov
+  ? jePocetna || naslov.includes(sajt.naziv)
+    ? naslov
+    : `${naslov} | ${sajt.naziv}`
+  : sajt.seo.podrazumevani_naslov;
+const metaOpis = cistTekst(opis) || sajt.seo.podrazumevani_opis;
+const kanonski = new URL(Astro.url.pathname, Astro.site).href;
+const indeksiraj = sajt.seo.dozvoli_indeksiranje && !bezIndeksa;
+
+// Slika za deljenje: iz stranice → podrazumevana iz podešavanja → /og-podrazumevana.png
+let ogSlika = new URL('/og-podrazumevana.png', Astro.site).href;
+const ogFajl = nadjiSliku(slika) ?? nadjiSliku(sajt.seo.slika_za_deljenje);
+if (ogFajl) {
+  const obradjena = await getImage({ src: ogFajl, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+  ogSlika = new URL(obradjena.src, Astro.site).href;
+}
+
+const sheme = shema ? (Array.isArray(shema) ? shema : [shema]) : [];
+const gtmId = sajt.analitika.gtm_id?.trim() ?? '';
+---
+
+<!doctype html>
+<html lang="sr-Latn">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{punNaslov}</title>
+    <meta name="description" content={metaOpis} />
+    <link rel="canonical" href={kanonski} />
+    <meta name="robots" content={indeksiraj ? 'index, follow, max-image-preview:large' : 'noindex, nofollow'} />
+    {sajt.analitika.google_verifikacija && <meta name="google-site-verification" content={sajt.analitika.google_verifikacija} />}
+
+    <meta property="og:type" content={vrsta} />
+    <meta property="og:site_name" content={sajt.naziv} />
+    <meta property="og:locale" content="sr_RS" />
+    <meta property="og:title" content={punNaslov} />
+    <meta property="og:description" content={metaOpis} />
+    <meta property="og:url" content={kanonski} />
+    <meta property="og:image" content={ogSlika} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#F8F0E9" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${sajt.naziv} — Blog`} href="/rss.xml" />
+
+    <Font cssVariable="--font-jost" preload={[{ subset: 'latin', style: 'normal' }]} />
+    <Font cssVariable="--font-garamond" preload={[{ subset: 'latin', style: 'normal' }]} />
+    <Font cssVariable="--font-msmadi" />
+
+    {/* Saglasnost za kolačiće (Google Consent Mode v2): sve je podrazumevano isključeno.
+        Google Tag Manager se učitava tek kada posetiteljka prihvati analitičke ili marketinške kolačiće. */}
+    <script is:inline define:vars={{ gtmId }}>
+      document.documentElement.classList.add('js');
+      setTimeout(function () {
+        if (!window.__otkrijOK) document.documentElement.classList.remove('js');
+      }, 3500);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'granted',
+        security_storage: 'granted',
+      });
+
+      var KLJUC = 'mu-kolacici';
+      var GODINA = 365 * 24 * 60 * 60 * 1000;
+
+      function primeni(izbor) {
+        gtag('consent', 'update', {
+          analytics_storage: izbor.a ? 'granted' : 'denied',
+          ad_storage: izbor.m ? 'granted' : 'denied',
+          ad_user_data: izbor.m ? 'granted' : 'denied',
+          ad_personalization: izbor.m ? 'granted' : 'denied',
+        });
+        if ((izbor.a || izbor.m) && gtmId && !window.__gtmUcitan) {
+          window.__gtmUcitan = true;
+          dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(gtmId);
+          document.head.appendChild(s);
+        }
+      }
+
+      window.__kolacici = {
+        procitaj: function () {
+          try {
+            var izbor = JSON.parse(localStorage.getItem(KLJUC));
+            if (izbor && Date.now() - izbor.t < GODINA) return izbor;
+          } catch (e) {}
+          return null;
+        },
+        sacuvaj: function (a, m) {
+          var izbor = { a: !!a, m: !!m, t: Date.now() };
+          try {
+            localStorage.setItem(KLJUC, JSON.stringify(izbor));
+          } catch (e) {}
+          primeni(izbor);
+          dataLayer.push({ event: 'kolacici_izbor', analitika: izbor.a, marketing: izbor.m });
+        },
+      };
+
+      var sacuvano = window.__kolacici.procitaj();
+      if (sacuvano) primeni(sacuvano);
+    </script>
+
+    {sheme.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+    <slot name="head" />
+  </head>
+  <body>
+    <a href="#sadrzaj" class="preskoci">Preskoči na sadržaj</a>
+    <Zaglavlje />
+    <main id="sadrzaj">
+      <slot />
+    </main>
+    <Podnozje bezPoruke={bezPoruke} bezPoziva={bezPoziva} />
+    {sajt.analitika.prikazi_baner_za_kolacice && <Kolacici />}
+    <script>
+      import '../scripts/sajt.ts';
+    </script>
+  </body>
+</html>

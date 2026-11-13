@@ -1,0 +1,80 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Fotografija from './Fotografija.astro';
+import Ikona from './Ikona.astro';
+import { nazivVrste } from '../lib/sajt';
+
+interface Props {
+  program: CollectionEntry<'programi'>;
+  indeks?: number;
+  nivoNaslova?: 'h2' | 'h3';
+}
+const { program, indeks = 0, nivoNaslova: Naslov = 'h3' } = Astro.props;
+const p = program.data;
+const sabloni = [4, 2, 3] as const;
+---
+
+<article class="kartica kartica--link program">
+  <Fotografija
+    slika={p.slika}
+    alt={p.slika_alt ?? ''}
+    odnos="4/3"
+    sablon={sabloni[indeks % 3]}
+    napomena={false}
+    sizes="(min-width: 64em) 28vw, (min-width: 44em) 44vw, 88vw"
+  />
+  <p class="program__oznake">
+    <span class="oznaka">{nazivVrste[p.vrsta].jednina}</span>
+    <span class:list={['oznaka', p.status === 'dostupno' ? 'oznaka--kajsija' : 'oznaka--okvir']}>
+      {p.status === 'dostupno' ? 'Dostupno' : 'Uskoro'}
+    </span>
+    {p.primer && <span class="oznaka oznaka--okvir">Primer</span>}
+  </p>
+  <Naslov class="program__naslov">
+    <a href={`/programi/${program.id}/`} class="kartica__link">{p.naslov}</a>
+  </Naslov>
+  <p class="program__opis">{p.opis}</p>
+  {p.obim && <p class="program__obim"><Ikona naziv={p.vrsta === 'e-book' ? 'knjiga' : 'video'} velicina={18} />{p.obim}</p>}
+  <span class="link-strelica program__vise" aria-hidden="true">Saznaj više <Ikona naziv="strelica" /></span>
+</article>
+
+<style>
+  .program {
+    gap: 0.9rem;
+    padding: 1rem 1rem 1.75rem;
+  }
+  .program > :not(:first-child) {
+    margin-inline: 0.75rem;
+  }
+  .program__oznake {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+  .program__naslov {
+    font-family: var(--font-naslov);
+    font-size: var(--fs-h3);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+  }
+  .program__opis {
+    color: var(--c-teget-blagi);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+  }
+  .program__obim {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--fs-mali);
+  }
+  .program__obim :global(svg) {
+    color: var(--c-plava);
+  }
+  .program__vise {
+    align-self: flex-start;
+    margin-top: auto;
+  }
+</style>

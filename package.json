@@ -1,0 +1,30 @@
+{
+  "name": "milica-uzelac-sajt",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sajt Milica Uzelac — coach za lični napredak",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "brend": "node scripts/napravi-brend.mjs",
+    "provera": "node scripts/proveri-cms.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.4.11",
+    "marked": "^18.2.0",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@fontsource/eb-garamond": "^5.3.0",
+    "@fontsource/jost": "^5.3.0",
+    "@fontsource/ms-madi": "^5.3.0",
+    "fontkit": "^3.0.0",
+    "typescript": "^6.0.3",
+    "yaml": "^2.9.1"
+  }
+}

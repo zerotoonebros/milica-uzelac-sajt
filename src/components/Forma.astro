@@ -1,0 +1,114 @@
+---
+// Zajednički okvir za sve forme na sajtu (kontakt, newsletter, prijave, zakazivanje).
+// Forme prima Netlify Forms; zaštita od spama: skriveno polje-zamka + Netlify filter.
+import Ikona from './Ikona.astro';
+
+interface Props {
+  /** Naziv forme — pod tim imenom se upiti vide u Netlify-ju */
+  naziv: string;
+  /** Jedinstven prefiks za id polja (kada je ista forma dva puta na stranici) */
+  id: string;
+  dugme: string;
+  /** GA4 događaj koji se šalje posle uspešnog slanja */
+  dogadjaj: 'generate_lead' | 'newsletter_signup' | 'workshop_signup' | 'booking_request';
+  uspehNaslov?: string;
+  uspehTekst?: string;
+  /** Predmet mejla koji stiže vlasnici sajta */
+  predmet?: string;
+  class?: string;
+  dugmeKlasa?: string;
+}
+
+const {
+  naziv,
+  id,
+  dugme,
+  dogadjaj,
+  uspehNaslov = 'Hvala, poruka je poslata!',
+  uspehTekst = 'Javiću ti se u najkraćem roku.',
+  predmet,
+  class: klasa,
+  dugmeKlasa,
+} = Astro.props;
+---
+
+<form
+  class:list={['forma', klasa]}
+  name={naziv}
+  method="POST"
+  action="/hvala/"
+  data-netlify="true"
+  netlify-honeypot="vebsajt"
+  data-forma
+  data-dogadjaj={dogadjaj}
+  novalidate
+>
+  <input type="hidden" name="form-name" value={naziv} />
+  {predmet && <input type="hidden" name="subject" value={predmet} />}
+  <p class="medenjak" aria-hidden="true">
+    <label>Ovo polje ostavi prazno: <input name="vebsajt" tabindex="-1" autocomplete="off" /></label>
+  </p>
+
+  <slot />
+
+  <div class="forma__dno">
+    <button type="submit" class:list={['dugme', dugmeKlasa]} data-forma-dugme>
+      <span data-forma-dugme-tekst>{dugme}</span>
+      <Ikona naziv="strelica" />
+    </button>
+  </div>
+  <p class="forma__poruka forma__poruka--greska" role="alert" data-forma-greska hidden>
+    Nešto nije u redu sa slanjem. Pokušaj ponovo ili mi piši direktno na e-mail.
+  </p>
+</form>
+
+<div class="forma-uspeh" id={`${id}-uspeh`} data-forma-uspeh={naziv} tabindex="-1" hidden>
+  <span class="forma-uspeh__ikona"><Ikona naziv="kvacica" velicina={28} /></span>
+  <h3 class="forma-uspeh__naslov">{uspehNaslov}</h3>
+  <p>{uspehTekst}</p>
+  <p class="forma-uspeh__lokalno" data-forma-lokalno hidden>
+    Lokalni pregled: forma je ispravno popunjena, ali se poruke šalju tek kada je sajt objavljen na internetu.
+  </p>
+</div>
+
+<style>
+  .forma__dno {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.35rem;
+  }
+  .forma-uspeh {
+    display: grid;
+    gap: 0.75rem;
+    justify-items: start;
+    padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    border-radius: var(--z-kartica);
+    background: var(--c-papir);
+    border: 1px solid var(--c-linija);
+    color: var(--c-teget);
+  }
+  .forma-uspeh:focus {
+    outline: none;
+  }
+  .forma-uspeh__ikona {
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 50%;
+    background: var(--c-kajsija);
+    color: var(--c-teget);
+  }
+  .forma-uspeh__naslov {
+    color: var(--c-teget);
+  }
+  .forma-uspeh__lokalno {
+    font-size: var(--fs-sitni);
+    padding: 0.6rem 0.9rem;
+    border-radius: var(--z-mali);
+    border: 1px dashed var(--c-kajsija-tamna);
+    color: var(--c-teget-blagi);
+  }
+</style>

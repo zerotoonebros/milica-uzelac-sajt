@@ -1,0 +1,43 @@
+---
+// Prijava na newsletter — uz izričitu saglasnost (obavezno polje za potvrdu).
+import Forma from './Forma.astro';
+
+interface Props {
+  id?: string;
+  mesto?: string;
+  dugmeKlasa?: string;
+}
+const { id = 'newsletter', mesto = 'podnozje', dugmeKlasa } = Astro.props;
+---
+
+<Forma
+  naziv="newsletter"
+  id={id}
+  dugme="Prijavi me"
+  dogadjaj="newsletter_signup"
+  predmet="Nova prijava na newsletter"
+  uspehNaslov="Još jedan korak!"
+  uspehTekst="Hvala na prijavi. Ako ti stigne e-mail za potvrdu, klikni na link u njemu da bi prijava bila potpuna."
+  dugmeKlasa={dugmeKlasa}
+>
+  <input type="hidden" name="mesto" value={mesto} />
+  <div class="forma__red forma__red--2">
+    <div class="polje">
+      <label for={`${id}-ime`}>Ime</label>
+      <input id={`${id}-ime`} name="ime" type="text" autocomplete="given-name" required />
+    </div>
+    <div class="polje">
+      <label for={`${id}-email`}>E-mail adresa</label>
+      <input id={`${id}-email`} name="email" type="email" autocomplete="email" inputmode="email" required />
+    </div>
+  </div>
+  <div class="potvrda-omot">
+    <label class="potvrda">
+      <input type="checkbox" name="saglasnost_newsletter" value="da" id={`${id}-saglasnost`} required />
+      <span>
+        Želim da primam newsletter na ovu e-mail adresu. Mogu da se odjavim u svakom trenutku.
+        <a href="/politika-privatnosti/">Politika privatnosti</a>
+      </span>
+    </label>
+  </div>
+</Forma>

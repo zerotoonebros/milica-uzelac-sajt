@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import Osnovni from '../layouts/Osnovni.astro';
+import UvodStranice from '../components/UvodStranice.astro';
+import Utisak from '../components/Utisak.astro';
+import ostale from '../content/stranice/ostale.json';
+
+const s = ostale.utisci;
+const utisci = (await getCollection('utisci')).sort((a, b) => a.data.redosled - b.data.redosled);
+const [prvi, ...ostali] = utisci;
+---
+
+<Osnovni naslov={s.seo_naslov} opis={s.seo_opis}>
+  <UvodStranice nadnaslov={s.nadnaslov} naslov={s.naslov} uvod={s.tekst} putanja={[{ naziv: 'Utisci klijenata' }]} />
+
+  <section class="sekcija sekcija--bez-vrha" aria-label="Utisci">
+    <div class="omot">
+      {
+        prvi && (
+          <div class="prvi" data-otkrij>
+            <Utisak utisak={prvi} veliki />
+          </div>
+        )
+      }
+      <div class="zid">
+        {
+          ostali.map((u, i) => (
+            <div class="zid__stavka" data-otkrij style={`--kasnjenje:${i % 3}`}>
+              <Utisak utisak={u} />
+            </div>
+          ))
+        }
+      </div>
+      {utisci.length === 0 && <p class="uvod">Prvi utisci stižu uskoro.</p>}
+    </div>
+  </section>
+</Osnovni>
+
+<style>
+  .prvi {
+    margin-bottom: clamp(1.25rem, 0.9rem + 1.5vw, 2rem);
+  }
+  .prvi :global(.utisak) {
+    background: var(--c-svetloplava-blaga);
+    border-color: transparent;
+    padding: clamp(2rem, 1.2rem + 3.5vw, 4rem);
+  }
+  .zid {
+    columns: 1;
+    column-gap: clamp(1.25rem, 0.9rem + 1.5vw, 2rem);
+  }
+  @media (min-width: 44em) {
+    .zid {
+      columns: 2;
+    }
+  }
+  @media (min-width: 68em) {
+    .zid {
+      columns: 3;
+    }
+  }
+  .zid__stavka {
+    break-inside: avoid;
+    margin-bottom: clamp(1.25rem, 0.9rem + 1.5vw, 2rem);
+  }
+</style>

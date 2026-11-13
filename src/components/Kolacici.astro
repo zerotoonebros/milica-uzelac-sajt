@@ -1,0 +1,252 @@
+---
+// Baner za kolačiće: prihvatanje, odbijanje i podešavanje po kategorijama.
+// Analitički i marketinški alati se NE učitavaju dok posetiteljka ne da saglasnost.
+// Izbor može da promeni u svakom trenutku preko linka „Podešavanja kolačića“ u podnožju.
+import Ikona from './Ikona.astro';
+---
+
+<section class="kolacici" aria-labelledby="kolacici-naslov" data-kolacici hidden>
+  <div class="kolacici__zaglavlje">
+    <span class="kolacici__ikona"><Ikona naziv="kolacic" velicina={22} /></span>
+    <h2 id="kolacici-naslov" class="kolacici__naslov" tabindex="-1">Kolačići na ovom sajtu</h2>
+  </div>
+  <p class="kolacici__tekst">
+    Koristim neophodne kolačiće da bi sajt radio. Uz tvoju saglasnost koristim i analitičke i marketinške kolačiće, da
+    bih razumela kako se sajt koristi i unapredila ga. Više u
+    <a href="/politika-kolacica/">Politici kolačića</a>.
+  </p>
+
+  <div class="kolacici__opcije" data-kolacici-opcije hidden>
+    <label class="kolacici__opcija">
+      <input type="checkbox" checked disabled />
+      <span>
+        <strong>Neophodni</strong>
+        <small>Pamte tvoj izbor kolačića i omogućavaju rad sajta. Uvek su uključeni.</small>
+      </span>
+    </label>
+    <label class="kolacici__opcija">
+      <input type="checkbox" data-kolacici-analitika />
+      <span>
+        <strong>Analitički</strong>
+        <small>Zbirna, anonimna statistika poseta (Google Analytics).</small>
+      </span>
+    </label>
+    <label class="kolacici__opcija">
+      <input type="checkbox" data-kolacici-marketing />
+      <span>
+        <strong>Marketinški</strong>
+        <small>Merenje rezultata oglasa i prilagođeno oglašavanje (npr. Meta Pixel).</small>
+      </span>
+    </label>
+  </div>
+
+  <div class="kolacici__dugmad">
+    <button type="button" class="dugme dugme--malo" data-kolacici-prihvati>Prihvati sve</button>
+    <button type="button" class="dugme dugme--malo dugme--okvir" data-kolacici-odbij>Samo neophodni</button>
+    <button type="button" class="kolacici__link" data-kolacici-podesi aria-expanded="false">Podešavanja</button>
+    <button type="button" class="dugme dugme--malo dugme--okvir" data-kolacici-sacuvaj hidden>Sačuvaj izbor</button>
+  </div>
+</section>
+
+<script>
+  declare global {
+    interface Window {
+      __kolacici?: {
+        procitaj: () => { a: boolean; m: boolean; t: number } | null;
+        sacuvaj: (a: boolean, m: boolean) => void;
+      };
+    }
+  }
+
+  const baner = document.querySelector<HTMLElement>('[data-kolacici]');
+  const api = window.__kolacici;
+
+  if (baner && api) {
+    const opcije = baner.querySelector<HTMLElement>('[data-kolacici-opcije]')!;
+    const analitika = baner.querySelector<HTMLInputElement>('[data-kolacici-analitika]')!;
+    const marketing = baner.querySelector<HTMLInputElement>('[data-kolacici-marketing]')!;
+    const podesi = baner.querySelector<HTMLButtonElement>('[data-kolacici-podesi]')!;
+    const sacuvaj = baner.querySelector<HTMLButtonElement>('[data-kolacici-sacuvaj]')!;
+    const naslov = baner.querySelector<HTMLElement>('#kolacici-naslov')!;
+
+    const prikaziOpcije = (da: boolean) => {
+      opcije.hidden = !da;
+      sacuvaj.hidden = !da;
+      podesi.hidden = da;
+      podesi.setAttribute('aria-expanded', String(da));
+    };
+
+    const otvori = (saOpcijama = false) => {
+      const izbor = api.procitaj();
+      analitika.checked = izbor?.a ?? false;
+      marketing.checked = izbor?.m ?? false;
+      prikaziOpcije(saOpcijama);
+      baner.hidden = false;
+    };
+
+    const zatvori = (a: boolean, m: boolean) => {
+      api.sacuvaj(a, m);
+      baner.hidden = true;
+    };
+
+    baner.querySelector('[data-kolacici-prihvati]')!.addEventListener('click', () => zatvori(true, true));
+    baner.querySelector('[data-kolacici-odbij]')!.addEventListener('click', () => zatvori(false, false));
+    sacuvaj.addEventListener('click', () => zatvori(analitika.checked, marketing.checked));
+    podesi.addEventListener('click', () => prikaziOpcije(true));
+
+    // Link „Podešavanja kolačića“ (podnožje, politika kolačića)
+    document.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('[data-kolacici-otvori]')) {
+        e.preventDefault();
+        otvori(true);
+        naslov.focus();
+      }
+    });
+
+    // Prvi dolazak (ili je izbor stariji od 12 meseci): prikaži baner
+    if (!api.procitaj()) otvori(false);
+  }
+</script>
+
+<style>
+  .kolacici {
+    position: fixed;
+    z-index: 150;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    display: grid;
+    gap: 0.9rem;
+    max-width: 30rem;
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+    padding: 1.4rem 1.5rem 1.5rem;
+    background: var(--c-papir);
+    border: 1px solid var(--c-linija);
+    border-radius: var(--z-kartica);
+    box-shadow: var(--senka-2);
+    animation: kolacici-ulaz 500ms var(--ease) both;
+    animation-delay: 600ms;
+  }
+  @keyframes kolacici-ulaz {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+  }
+  @media (min-width: 40em) {
+    .kolacici {
+      left: 1.5rem;
+      right: auto;
+      bottom: 1.5rem;
+    }
+  }
+  .kolacici__zaglavlje {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  .kolacici__ikona {
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background: var(--c-kajsija-blaga);
+    color: var(--c-teget);
+    flex: none;
+  }
+  .kolacici__naslov {
+    font-size: 1.5rem;
+  }
+  .kolacici__naslov:focus {
+    outline: none;
+  }
+  .kolacici__tekst {
+    font-size: var(--fs-mali);
+    line-height: 1.55;
+    color: var(--c-teget-blagi);
+  }
+  .kolacici__tekst a {
+    color: var(--c-plava);
+  }
+  .kolacici__opcije {
+    display: grid;
+    gap: 0.25rem;
+    padding: 0.4rem 0;
+    border-block: 1px solid var(--c-linija);
+  }
+  .kolacici__opcija {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.8rem;
+    align-items: start;
+    padding: 0.6rem 0;
+    cursor: pointer;
+  }
+  .kolacici__opcija span {
+    display: grid;
+    gap: 0.1rem;
+  }
+  .kolacici__opcija strong {
+    font-weight: 500;
+    font-size: 1rem;
+  }
+  .kolacici__opcija small {
+    font-size: var(--fs-sitni);
+    line-height: 1.45;
+    color: var(--c-teget-blagi);
+  }
+  /* Prekidač */
+  .kolacici__opcija input {
+    appearance: none;
+    position: relative;
+    width: 2.75rem;
+    height: 1.6rem;
+    margin: 0.15rem 0 0;
+    border-radius: var(--z-pilula);
+    background: var(--c-magla);
+    cursor: pointer;
+    transition: background-color var(--t-brzo);
+  }
+  .kolacici__opcija input::after {
+    content: '';
+    position: absolute;
+    top: 0.2rem;
+    left: 0.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background: var(--c-papir);
+    transition: transform var(--t-brzo) var(--ease);
+  }
+  .kolacici__opcija input:checked {
+    background: var(--c-plava);
+  }
+  .kolacici__opcija input:checked::after {
+    transform: translateX(1.15rem);
+  }
+  .kolacici__opcija input:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  .kolacici__dugmad {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 0.75rem;
+  }
+  .kolacici__dugmad .dugme {
+    flex: 1 1 auto;
+  }
+  .kolacici__link {
+    padding: 0.6rem 0.25rem;
+    border: 0;
+    background: none;
+    font-size: var(--fs-mali);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    color: var(--c-teget);
+  }
+</style>

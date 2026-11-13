@@ -1,0 +1,47 @@
+# Podešavanja za Netlify (hosting). Netlify ovaj fajl čita sam — ništa se ne podešava ručno.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+[functions]
+  directory = "netlify/functions"
+
+# ---------- Bezbednosna zaglavlja ----------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# ---------- Keširanje ----------
+# Fajlovi u /_astro/ imaju jedinstveno ime pri svakoj izmeni, pa mogu da se keširaju godinu dana.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/brend/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# Panel za uređivanje se ne kešira i ne indeksira
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-cache"
+
+# ---------- Preusmerenja ----------
+# Primer: stara adresa → nova adresa (301 čuva poziciju na Google-u)
+# [[redirects]]
+#   from = "/stara-adresa/"
+#   to = "/nova-adresa/"
+#   status = 301

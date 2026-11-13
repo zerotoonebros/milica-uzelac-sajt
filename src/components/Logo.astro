@@ -1,0 +1,90 @@
+---
+// Logo: znak + ime + podnaslov. Varijante: horizontalna (zaglavlje) i vertikalna (podnožje).
+import { sajt } from '../lib/sajt';
+
+interface Props {
+  varijanta?: 'horizontalni' | 'vertikalni';
+  podnaslov?: boolean;
+  tamnaPozadina?: boolean;
+  class?: string;
+}
+const { varijanta = 'horizontalni', podnaslov = true, tamnaPozadina = false, class: klasa } = Astro.props;
+const bojaZnaka = tamnaPozadina ? '#C9D6EC' : '#2B4A9B';
+const bojaLinije = tamnaPozadina ? '#1B2545' : '#F8F0E9';
+---
+
+<span class:list={['logo', `logo--${varijanta}`, { 'logo--tamna': tamnaPozadina }, klasa]}>
+  <svg class="logo__znak" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+    <circle cx="34.5" cy="13.5" r="9.5" fill="#F4C39E"></circle>
+    <path
+      d="M22 9.500c9.500-.8 18.500 5.200 20.300 14.700 1.800 9.600-4.300 19-14.300 20.800-10 1.900-20.300-3.800-22.700-13.300C2.900 22.100 9.800 10.600 22 9.500Z"
+      fill={bojaZnaka}></path>
+    <path
+      d="M12.500 33.500c4.500-.5 7.500-3 9.800-6.500 2.400-3.700 5.200-6.800 10.200-7.500"
+      stroke={bojaLinije}
+      stroke-width="2.400"
+      stroke-linecap="round"
+      fill="none"></path>
+  </svg>
+  <span class="logo__tekst">
+    <span class="logo__ime">{sajt.naziv}</span>
+    {podnaslov && <span class="logo__podnaslov">{sajt.podnaslov}</span>}
+  </span>
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--c-teget);
+    line-height: 1;
+  }
+  .logo--tamna {
+    color: var(--c-bez);
+  }
+  .logo__znak {
+    flex: none;
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+  .logo__tekst {
+    display: grid;
+    gap: 0.32rem;
+  }
+  .logo__ime {
+    font-family: var(--font-naslov);
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+  .logo__podnaslov {
+    font-family: var(--font-tekst);
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0.78;
+  }
+  .logo--vertikalni {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.9rem;
+  }
+  .logo--vertikalni .logo__znak {
+    width: 3.75rem;
+    height: 3.75rem;
+  }
+  .logo--vertikalni .logo__ime {
+    font-size: 2.1rem;
+  }
+  .logo--vertikalni .logo__podnaslov {
+    font-size: 0.7rem;
+  }
+  .logo--vertikalni .logo__tekst {
+    gap: 0.5rem;
+    justify-items: center;
+  }
+</style>

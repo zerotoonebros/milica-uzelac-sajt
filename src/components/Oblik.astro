@@ -1,0 +1,45 @@
+---
+// Dekorativni „isečeni papir“ oblici — organske forme iz vizuelnog identiteta.
+interface Props {
+  vrsta?: keyof typeof oblici;
+  boja?: string;
+  class?: string;
+  style?: string;
+}
+
+const oblici = {
+  kamen:
+    '<path d="M100 12c30-2 62 12 76 40s10 62-8 86-50 42-82 40-60-22-72-50S6 60 28 36 70 14 100 12Z"/>',
+  oblutak: '<path d="M38 60C58 22 112 8 152 30s52 70 30 108-74 52-116 34S18 98 38 60Z"/>',
+  polukrug: '<path d="M14 84c58-6 116-6 172 0-2 52-40 88-88 88S16 136 14 84Z"/>',
+  luk: '<path d="M38 188V92c0-38 26-66 62-66s62 28 62 66v96c-42 4-84 4-124 0Z"/>',
+  list: '<path d="M102 14c46 34 58 86 0 172C42 100 54 48 102 14Z"/>',
+  prsten:
+    '<path fill-rule="evenodd" d="M104 10c44 2 80 34 84 80s-26 92-76 98-94-24-102-72S46 8 104 10Zm-4 50c-24 2-42 20-40 44s22 40 46 38 40-22 36-46-20-38-42-36Z"/>',
+  sunce: '<circle cx="100" cy="100" r="88"/>',
+  talas:
+    '<path fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" d="M10 110c22-34 44-34 62-8s40 26 58-6 38-30 60-4"/>',
+  tacke:
+    '<circle cx="30" cy="30" r="7"/><circle cx="80" cy="30" r="7"/><circle cx="130" cy="30" r="7"/><circle cx="30" cy="80" r="7"/><circle cx="80" cy="80" r="7"/><circle cx="130" cy="80" r="7"/><circle cx="30" cy="130" r="7"/><circle cx="80" cy="130" r="7"/><circle cx="130" cy="130" r="7"/>',
+} as const;
+
+const { vrsta = 'kamen', boja = 'var(--c-kajsija)', class: klasa, style } = Astro.props;
+---
+
+<svg
+  class:list={['oblik', klasa]}
+  viewBox="0 0 200 200"
+  fill="currentColor"
+  style={`color:${boja};${style ?? ''}`}
+  aria-hidden="true"
+  focusable="false"
+  set:html={oblici[vrsta]}
+/>
+
+<style>
+  .oblik {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+  }
+</style>

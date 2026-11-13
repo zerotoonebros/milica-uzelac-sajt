@@ -1,0 +1,95 @@
+---
+import Osnovni from '../../layouts/Osnovni.astro';
+import UvodStranice from '../../components/UvodStranice.astro';
+import Ikona from '../../components/Ikona.astro';
+import { sajt } from '../../lib/sajt';
+import s from '../../content/stranice/rad-sa-mnom.json';
+---
+
+<Osnovni naslov={s.seo.naslov} opis={s.seo.opis}>
+  <UvodStranice
+    nadnaslov={s.uvod.nadnaslov}
+    naslov={s.uvod.naslov}
+    uvod={s.uvod.tekst}
+    putanja={[{ naziv: 'Rad sa mnom' }]}
+  />
+
+  <section class="sekcija sekcija--bez-vrha" aria-label="Načini rada">
+    <div class="omot mreza mreza--2">
+      {
+        s.opcije.map((opcija, i) => (
+          <article class="kartica kartica--link opcija" data-otkrij style={`--kasnjenje:${i}`}>
+            <span class="opcija__ikona">
+              <Ikona naziv={opcija.ikona as any} velicina={30} />
+            </span>
+            <h2 class="opcija__naslov">
+              <a href={opcija.link} class="kartica__link">
+                {opcija.naslov}
+              </a>
+            </h2>
+            <p class="uvod">{opcija.tekst}</p>
+            <ul class="kvacice">
+              {opcija.stavke.map((stavka) => (
+                <li>{stavka}</li>
+              ))}
+            </ul>
+            <span class="link-strelica opcija__vise" aria-hidden="true">
+              {opcija.dugme_tekst} <Ikona naziv="strelica" />
+            </span>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="sekcija sekcija--mala sekcija--nebo" aria-labelledby="nedoumica-naslov">
+    <div class="omot nedoumica" data-otkrij>
+      <div class="stog stog--mali">
+        <h2 id="nedoumica-naslov">{s.nedoumica.naslov}</h2>
+        <p class="uvod">{s.nedoumica.tekst}</p>
+      </div>
+      <a href={sajt.zakazivanje.link} class="dugme" data-prati="booking_click" data-mesto="rad-sa-mnom">
+        {sajt.zakazivanje.tekst_dugmeta}
+        <Ikona naziv="strelica" />
+      </a>
+    </div>
+  </section>
+</Osnovni>
+
+<style>
+  .opcija {
+    gap: 1.25rem;
+    padding: clamp(1.75rem, 1.2rem + 2.5vw, 3.25rem);
+  }
+  .opcija__ikona {
+    display: grid;
+    place-items: center;
+    width: 4.25rem;
+    height: 4.25rem;
+    border-radius: 46% 54% 52% 48% / 50% 46% 54% 50%;
+    background: var(--c-plava);
+    color: var(--c-papir);
+  }
+  .opcija__naslov {
+    font-size: var(--fs-h2);
+  }
+  .opcija__vise {
+    align-self: flex-start;
+    margin-top: auto;
+    padding-top: 1rem;
+  }
+  .nedoumica {
+    display: grid;
+    gap: 2rem;
+    align-items: center;
+  }
+  @media (min-width: 56em) {
+    .nedoumica {
+      grid-template-columns: 1fr auto;
+      gap: 4rem;
+    }
+  }
+  .nedoumica .uvod {
+    max-width: 40rem;
+  }
+</style>

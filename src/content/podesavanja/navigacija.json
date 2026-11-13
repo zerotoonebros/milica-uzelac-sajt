@@ -1,0 +1,26 @@
+{
+  "stavke": [
+    { "naziv": "Početna", "link": "/", "podmeni": [] },
+    { "naziv": "O meni", "link": "/o-meni/", "podmeni": [] },
+    { "naziv": "Moja misija", "link": "/moja-misija/", "podmeni": [] },
+    {
+      "naziv": "Rad sa mnom",
+      "link": "/rad-sa-mnom/",
+      "podmeni": [
+        { "naziv": "Individualne sesije", "link": "/rad-sa-mnom/individualne-sesije/", "opis": "Coaching jedan na jedan, uživo ili online" },
+        { "naziv": "Grupne radionice", "link": "/rad-sa-mnom/grupne-radionice/", "opis": "Rad u maloj grupi, online i uživo" }
+      ]
+    },
+    {
+      "naziv": "Programi",
+      "link": "/programi/",
+      "podmeni": [
+        { "naziv": "E-book programi", "link": "/programi/e-book/", "opis": "Vodiči koje prolaziš svojim tempom" },
+        { "naziv": "Online Masterclass programi", "link": "/programi/masterclass/", "opis": "Video programi sa radnim materijalima" }
+      ]
+    },
+    { "naziv": "Blog", "link": "/blog/", "podmeni": [] },
+    { "naziv": "Utisci klijenata", "link": "/utisci/", "podmeni": [] },
+    { "naziv": "Kontakt", "link": "/kontakt/", "podmeni": [] }
+  ]
+}

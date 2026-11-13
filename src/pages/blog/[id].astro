@@ -1,0 +1,136 @@
+---
+import { getCollection } from 'astro:content';
+import Osnovni from '../../layouts/Osnovni.astro';
+import UvodStranice from '../../components/UvodStranice.astro';
+import Fotografija from '../../components/Fotografija.astro';
+import KarticaBlog from '../../components/KarticaBlog.astro';
+import Logo from '../../components/Logo.astro';
+import Ikona from '../../components/Ikona.astro';
+import { sajt, datum, vremeCitanja, apsolutni, mdClanak } from '../../lib/sajt';
+import s from '../../content/stranice/blog.json';
+
+export async function getStaticPaths() {
+  const tekstovi = await getCollection('blog', ({ data }) => !data.nacrt);
+  return tekstovi.map((tekst) => ({ params: { id: tekst.id }, props: { tekst } }));
+}
+
+const { tekst } = Astro.props;
+const t = tekst.data;
+const sadrzaj = await mdClanak(tekst.body);
+const link = `/blog/${tekst.id}/`;
+
+const svi = (await getCollection('blog', ({ data }) => !data.nacrt)).sort(
+  (a, b) => b.data.datum.valueOf() - a.data.datum.valueOf(),
+);
+const drugi = [
+  ...svi.filter((x) => x.id !== tekst.id && x.data.kategorija === t.kategorija),
+  ...svi.filter((x) => x.id !== tekst.id && x.data.kategorija !== t.kategorija),
+].slice(0, 3);
+
+const shema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: t.naslov,
+  description: t.seo_opis || t.opis,
+  datePublished: t.datum.toISOString(),
+  dateModified: (t.azurirano ?? t.datum).toISOString(),
+  inLanguage: 'sr-Latn',
+  articleSection: t.kategorija,
+  mainEntityOfPage: apsolutni(link, Astro.site),
+  author: { '@type': 'Person', name: sajt.naziv, url: apsolutni('/o-meni/', Astro.site) },
+  publisher: { '@type': 'Person', name: sajt.naziv },
+};
+---
+
+<Osnovni naslov={t.seo_naslov || t.naslov} opis={t.seo_opis || t.opis} slika={t.slika} vrsta="article" shema={shema}>
+  <Fragment slot="head">
+    <meta property="article:published_time" content={t.datum.toISOString()} />
+    {t.azurirano && <meta property="article:modified_time" content={t.azurirano.toISOString()} />}
+  </Fragment>
+
+  <article>
+    <UvodStranice
+      nadnaslov={t.kategorija}
+      naslov={t.naslov}
+      uvod={t.opis}
+      putanja={[{ naziv: 'Blog', link: '/blog/' }, { naziv: t.naslov }]}
+      oblici={false}
+      uzak
+    >
+      <p class="clanak__meta">
+        <span>{sajt.naziv}</span>
+        <span aria-hidden="true">·</span>
+        <time datetime={t.datum.toISOString().slice(0, 10)}>{datum(t.datum)}</time>
+        <span aria-hidden="true">·</span>
+        <span>{vremeCitanja(tekst.body ?? '')} min čitanja</span>
+      </p>
+    </UvodStranice>
+
+    <div class="omot clanak__slika" style="max-width:calc(60rem + 2 * var(--r-ivica))">
+      <Fotografija
+        slika={t.slika}
+        alt={t.slika_alt ?? ''}
+        odnos="2/1"
+        sablon={3}
+        napomena={!t.slika}
+        prioritet
+        sizes="(min-width: 64em) 60rem, 92vw"
+      />
+    </div>
+
+    <div class="omot omot--tekst clanak__telo">
+      <div class="tekst" set:html={sadrzaj} />
+
+      <aside class="autor" aria-label="O autorki">
+        <Logo podnaslov={false} />
+        <p>{s.autor.tekst}</p>
+        <a href={sajt.zakazivanje.link} class="dugme dugme--malo" data-prati="booking_click" data-mesto="blog-tekst">
+          {sajt.zakazivanje.tekst_dugmeta}
+          <Ikona naziv="strelica" />
+        </a>
+      </aside>
+    </div>
+  </article>
+
+  {
+    drugi.length > 0 && (
+      <section class="sekcija sekcija--papir" aria-labelledby="jos-naslov">
+        <div class="omot">
+          <h2 id="jos-naslov" class="jos__naslov">
+            Pročitaj i <em>ovo</em>
+          </h2>
+          <div class="mreza mreza--3">
+            {drugi.map((x, i) => (
+              <KarticaBlog tekst={x} indeks={i + 1} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</Osnovni>
+
+<style>
+  .clanak__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: var(--fs-mali);
+    color: var(--c-teget-blagi);
+  }
+  .clanak__telo {
+    padding-block: clamp(2.5rem, 2rem + 3vw, 4.5rem) var(--r-sekcija);
+  }
+  .autor {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+    margin-top: 3.5rem;
+    padding: clamp(1.5rem, 1.2rem + 1.5vw, 2.25rem);
+    border-radius: var(--z-kartica);
+    background: var(--c-kajsija-blaga);
+  }
+  .jos__naslov {
+    margin-bottom: 2.5rem;
+  }
+</style>

@@ -1,0 +1,214 @@
+---
+// Zakazivanje uvodnog razgovora.
+// • Ako je u podešavanjima upisan link kalendara (Cal.com / Calendly), prikazuje se kalendar.
+//   Kalendar se učitava tek na klik — do tada se ništa ne šalje trećoj strani.
+// • Ako link nije upisan, prikazuje se forma „Zatraži termin“.
+import Osnovni from '../layouts/Osnovni.astro';
+import UvodStranice from '../components/UvodStranice.astro';
+import Forma from '../components/Forma.astro';
+import Ikona from '../components/Ikona.astro';
+import ostale from '../content/stranice/ostale.json';
+import { sajt } from '../lib/sajt';
+
+const s = ostale.zakazivanje;
+const kalendar = sajt.zakazivanje.kalendar_url?.trim();
+---
+
+<Osnovni naslov={s.seo_naslov} opis={s.seo_opis} bezPoziva>
+  <UvodStranice nadnaslov={s.nadnaslov} naslov={s.naslov} uvod={s.tekst} putanja={[{ naziv: 'Zakazivanje' }]} />
+
+  <section class="sekcija sekcija--bez-vrha" aria-label="Zakazivanje">
+    <div class="omot zakazivanje">
+      <div class="zakazivanje__info" data-otkrij>
+        <h2>{s.sta_ocekivati_naslov}</h2>
+        <ul class="kvacice">
+          {s.sta_ocekivati.map((stavka) => <li>{stavka}</li>)}
+        </ul>
+        <dl class="cinjenice zakazivanje__detalji">
+          {
+            s.detalji.map((d) => (
+              <div>
+                <dt>
+                  <Ikona naziv={d.ikona as any} velicina={20} />
+                  {d.naziv}
+                </dt>
+                <dd>{d.vrednost}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+
+      <div class="zakazivanje__akcija" data-otkrij style="--kasnjenje:1">
+        {
+          kalendar ? (
+            <div class="kalendar" data-kalendar data-url={kalendar}>
+              <h2>{s.kalendar_naslov}</h2>
+              <p>{s.kalendar_tekst}</p>
+              <div class="dugmad">
+                <button type="button" class="dugme" data-kalendar-otvori data-prati="booking_click" data-mesto="zakazivanje-kalendar">
+                  Prikaži kalendar <Ikona naziv="kalendar" />
+                </button>
+                <a href={kalendar} target="_blank" rel="noopener" class="link-strelica" data-prati="booking_click" data-mesto="zakazivanje-nova-kartica">
+                  Otvori u novoj kartici <Ikona naziv="strelica-gore" />
+                </a>
+              </div>
+              <p class="kalendar__napomena">
+                Kalendar je usluga treće strane. Klikom na dugme učitava se sa njihovog servera, u skladu sa
+                <a href="/politika-privatnosti/">Politikom privatnosti</a>.
+              </p>
+              <div class="kalendar__okvir" data-kalendar-okvir hidden></div>
+            </div>
+          ) : (
+            <div class="kalendar">
+              <h2>{s.forma_naslov}</h2>
+              <p>{s.forma_tekst}</p>
+              <Forma
+                naziv="zakazivanje"
+                id="zakazivanje"
+                dugme="Zatraži termin"
+                dogadjaj="booking_request"
+                predmet="Zahtev za uvodni razgovor"
+                uspehNaslov="Zahtev je poslat!"
+                uspehTekst="Hvala! Javiću ti se na e-mail sa potvrdom termina, najčešće u roku od dva radna dana."
+              >
+                <div class="forma__red forma__red--2">
+                  <div class="polje">
+                    <label for="zakazivanje-ime">Ime i prezime</label>
+                    <input id="zakazivanje-ime" name="ime" type="text" autocomplete="name" required />
+                  </div>
+                  <div class="polje">
+                    <label for="zakazivanje-email">E-mail adresa</label>
+                    <input id="zakazivanje-email" name="email" type="email" autocomplete="email" inputmode="email" required />
+                  </div>
+                </div>
+                <div class="forma__red forma__red--2">
+                  <div class="polje">
+                    <label for="zakazivanje-telefon">Telefon <span class="polje__pomoc">(nije obavezno)</span></label>
+                    <input id="zakazivanje-telefon" name="telefon" type="tel" autocomplete="tel" inputmode="tel" />
+                  </div>
+                  <div class="polje">
+                    <label for="zakazivanje-tema">Tema</label>
+                    <select id="zakazivanje-tema" name="tema">
+                      <option value="">Izaberi (nije obavezno)</option>
+                      <option>Karijera i promena posla</option>
+                      <option>Samopouzdanje</option>
+                      <option>Postavljanje granica</option>
+                      <option>Stres i balans</option>
+                      <option>Nešto drugo</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="polje">
+                  <label for="zakazivanje-termini">Kada ti najviše odgovara?</label>
+                  <textarea id="zakazivanje-termini" name="termini" rows="3" placeholder="Npr. radnim danima posle 17h ili subotom pre podne" required></textarea>
+                </div>
+                <div class="potvrda-omot">
+                  <label class="potvrda">
+                    <input type="checkbox" name="saglasnost" value="da" id="zakazivanje-saglasnost" required />
+                    <span>
+                      Prihvatam da se moji podaci koriste za dogovor termina, u skladu sa
+                      <a href="/politika-privatnosti/">Politikom privatnosti</a>.
+                    </span>
+                  </label>
+                </div>
+              </Forma>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </section>
+</Osnovni>
+
+<script>
+  // Kalendar se učitava tek kada posetiteljka klikne na dugme.
+  const omot = document.querySelector<HTMLElement>('[data-kalendar]');
+  const dugme = omot?.querySelector<HTMLButtonElement>('[data-kalendar-otvori]');
+  const okvir = omot?.querySelector<HTMLElement>('[data-kalendar-okvir]');
+
+  if (omot && dugme && okvir) {
+    dugme.addEventListener('click', () => {
+      if (okvir.childElementCount === 0) {
+        const iframe = document.createElement('iframe');
+        iframe.src = omot.dataset.url!;
+        iframe.title = 'Kalendar za zakazivanje uvodnog razgovora';
+        iframe.loading = 'lazy';
+        okvir.appendChild(iframe);
+      }
+      okvir.hidden = false;
+      dugme.hidden = true;
+      okvir.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    // booking_complete — kada kalendar javi da je termin uspešno zakazan (Calendly i Cal.com)
+    let zabelezeno = false;
+    window.addEventListener('message', (e) => {
+      if (zabelezeno) return;
+      const izvor = e.origin;
+      const d = e.data as { event?: string; type?: string; originator?: string } | undefined;
+      const calendly = izvor.endsWith('calendly.com') && d?.event === 'calendly.event_scheduled';
+      const cal =
+        (izvor.endsWith('cal.com') || d?.originator === 'CAL') && /bookingSuccessful/i.test(String(d?.type ?? ''));
+      if (calendly || cal) {
+        zabelezeno = true;
+        window.prati('booking_complete');
+      }
+    });
+  }
+</script>
+
+<style>
+  .zakazivanje {
+    display: grid;
+    gap: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+    align-items: start;
+  }
+  @media (min-width: 60em) {
+    .zakazivanje {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    }
+  }
+  .zakazivanje__info {
+    display: grid;
+    gap: 1.75rem;
+  }
+  .zakazivanje h2 {
+    font-size: var(--fs-h3);
+  }
+  .zakazivanje__detalji {
+    padding: 1.75rem;
+    border-radius: var(--z-kartica);
+    background: var(--c-svetloplava-blaga);
+  }
+  .kalendar {
+    display: grid;
+    gap: 1.25rem;
+    padding: clamp(1.5rem, 1rem + 2.5vw, 3rem);
+    border-radius: var(--z-veliki);
+    background: var(--c-papir);
+    border: 1px solid var(--c-linija);
+    box-shadow: var(--senka-1);
+  }
+  .kalendar > p {
+    color: var(--c-teget-blagi);
+  }
+  .kalendar__napomena {
+    font-size: var(--fs-sitni);
+  }
+  .kalendar__napomena a {
+    color: var(--c-plava);
+  }
+  .kalendar__okvir {
+    overflow: hidden;
+    border: 1px solid var(--c-linija);
+    border-radius: var(--z-kartica);
+    background: #fff;
+  }
+  .kalendar__okvir :global(iframe) {
+    display: block;
+    width: 100%;
+    height: min(46rem, 85vh);
+    border: 0;
+  }
+</style>

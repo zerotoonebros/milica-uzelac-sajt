@@ -1,0 +1,146 @@
+---
+import Osnovni from '../layouts/Osnovni.astro';
+import UvodStranice from '../components/UvodStranice.astro';
+import Fotografija from '../components/Fotografija.astro';
+import Ikona from '../components/Ikona.astro';
+import Oblik from '../components/Oblik.astro';
+import { sajt, md, mdRed, apsolutni } from '../lib/sajt';
+import s from '../content/stranice/o-meni.json';
+
+const shema = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  mainEntity: {
+    '@type': 'Person',
+    name: sajt.naziv,
+    jobTitle: sajt.podnaslov,
+    url: apsolutni('/o-meni/', Astro.site),
+  },
+};
+---
+
+<Osnovni naslov={s.seo.naslov} opis={s.seo.opis} slika={s.prica.slika} shema={shema}>
+  <UvodStranice
+    rukopis={s.uvod.rukopis}
+    naslov={s.uvod.naslov}
+    uvod={s.uvod.tekst}
+    putanja={[{ naziv: 'O meni' }]}
+  />
+
+  <section class="sekcija sekcija--bez-vrha" aria-labelledby="prica-naslov">
+    <div class="omot dvodelno dvodelno--slika-uza">
+      <div class="prica__slika" data-otkrij>
+        <Oblik vrsta="oblutak" boja="var(--c-svetloplava)" class="prica__oblik" />
+        <Fotografija slika={s.prica.slika} alt={s.prica.slika_alt} oblik="luk" odnos="4/5" sablon={1} prioritet />
+      </div>
+      <div class="stog" data-otkrij style="--kasnjenje:1">
+        <span class="nadnaslov">{s.prica.nadnaslov}</span>
+        <h2 id="prica-naslov" set:html={mdRed(s.prica.naslov)} />
+        <div class="tekst" set:html={md(s.prica.tekst)} />
+      </div>
+    </div>
+  </section>
+
+  <section class="sekcija sekcija--papir" aria-labelledby="pristup-naslov">
+    <div class="omot">
+      <div class="glava-sekcije" data-otkrij>
+        <span class="nadnaslov">{s.pristup.nadnaslov}</span>
+        <h2 id="pristup-naslov" set:html={mdRed(s.pristup.naslov)} />
+      </div>
+      <div class="mreza mreza--2">
+        {
+          s.pristup.stavke.map((stavka, i) => (
+            <article class="vrednost" data-otkrij style={`--kasnjenje:${i % 2}`}>
+              <span class="vrednost__ikona">
+                <Ikona naziv={stavka.ikona as any} velicina={26} />
+              </span>
+              <div>
+                <h3>{stavka.naslov}</h3>
+                <p>{stavka.tekst}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="sekcija" aria-labelledby="obrazovanje-naslov">
+    <div class="omot dvodelno">
+      <div class="stog" data-otkrij>
+        <span class="nadnaslov">{s.obrazovanje.nadnaslov}</span>
+        <h2 id="obrazovanje-naslov" set:html={mdRed(s.obrazovanje.naslov)} />
+        <ul class="kvacice">
+          {s.obrazovanje.stavke.map((stavka) => <li>{stavka}</li>)}
+        </ul>
+      </div>
+      <div class="licno" data-otkrij style="--kasnjenje:1">
+        <Fotografija slika={s.licno.slika} alt={s.licno.slika_alt} odnos="3/2" sablon={3} />
+        <h3 set:html={mdRed(s.licno.naslov)} />
+        <p>{s.licno.tekst}</p>
+      </div>
+    </div>
+  </section>
+</Osnovni>
+
+<style>
+  .prica__slika {
+    position: relative;
+    width: min(100%, 25rem);
+    margin-inline: auto;
+  }
+  .prica__slika :global(.foto) {
+    position: relative;
+    z-index: 1;
+    box-shadow: var(--senka-2);
+  }
+  .prica__slika :global(.prica__oblik) {
+    width: 70%;
+    right: -22%;
+    bottom: -8%;
+  }
+  .vrednost {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.25rem;
+    align-items: start;
+    padding: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+    border: 1px solid var(--c-linija);
+    border-radius: var(--z-kartica);
+    background: var(--c-bez);
+  }
+  .vrednost__ikona {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 46% 54% 52% 48% / 50% 46% 54% 50%;
+    background: var(--c-kajsija);
+    color: var(--c-teget);
+  }
+  .vrednost h3 {
+    margin-bottom: 0.4rem;
+    font-size: clamp(1.4rem, 1.3rem + 0.5vw, 1.7rem);
+  }
+  .vrednost p {
+    color: var(--c-teget-blagi);
+  }
+  .licno {
+    display: grid;
+    gap: 1rem;
+    padding: 1rem 1rem 2rem;
+    border-radius: var(--z-kartica);
+    background: var(--c-papir);
+    border: 1px solid var(--c-linija);
+  }
+  .licno h3,
+  .licno p {
+    margin-inline: 1rem;
+  }
+  .licno h3 {
+    margin-top: 0.5rem;
+  }
+  .licno p {
+    color: var(--c-teget-blagi);
+  }
+</style>

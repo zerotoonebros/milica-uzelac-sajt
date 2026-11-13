@@ -1,0 +1,120 @@
+---
+import { getCollection } from 'astro:content';
+import Osnovni from '../../layouts/Osnovni.astro';
+import UvodStranice from '../../components/UvodStranice.astro';
+import KarticaBlog from '../../components/KarticaBlog.astro';
+import Fotografija from '../../components/Fotografija.astro';
+import Ikona from '../../components/Ikona.astro';
+import { datum, vremeCitanja, apsolutni } from '../../lib/sajt';
+import s from '../../content/stranice/blog.json';
+
+const tekstovi = (await getCollection('blog', ({ data }) => !data.nacrt)).sort(
+  (a, b) => b.data.datum.valueOf() - a.data.datum.valueOf(),
+);
+const [glavni, ...ostali] = tekstovi;
+
+const shema = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: s.seo.naslov,
+  url: apsolutni('/blog/', Astro.site),
+  inLanguage: 'sr-Latn',
+};
+---
+
+<Osnovni naslov={s.seo.naslov} opis={s.seo.opis} shema={shema}>
+  <UvodStranice nadnaslov={s.uvod.nadnaslov} naslov={s.uvod.naslov} uvod={s.uvod.tekst} putanja={[{ naziv: 'Blog' }]} />
+
+  <section class="sekcija sekcija--bez-vrha" aria-label="Tekstovi">
+    <div class="omot">
+      {
+        glavni && (
+          <article class="glavni" data-otkrij>
+            <Fotografija
+              slika={glavni.data.slika}
+              alt={glavni.data.slika_alt ?? ''}
+              odnos="3/2"
+              sablon={3}
+              napomena={false}
+              prioritet
+              sizes="(min-width: 56em) 52vw, 92vw"
+            />
+            <div class="glavni__telo">
+              <p>
+                <span class="oznaka oznaka--kajsija">Najnovije</span> <span class="oznaka">{glavni.data.kategorija}</span>
+              </p>
+              <h2 class="glavni__naslov">
+                <a href={`/blog/${glavni.id}/`}>{glavni.data.naslov}</a>
+              </h2>
+              <p class="uvod">{glavni.data.opis}</p>
+              <p class="glavni__meta">
+                <time datetime={glavni.data.datum.toISOString().slice(0, 10)}>{datum(glavni.data.datum)}</time>
+                <span aria-hidden="true">·</span>
+                <span>{vremeCitanja(glavni.body ?? '')} min čitanja</span>
+              </p>
+              <span class="link-strelica" aria-hidden="true">Pročitaj tekst <Ikona naziv="strelica" /></span>
+            </div>
+          </article>
+        )
+      }
+
+      {
+        ostali.length > 0 && (
+          <div class="mreza mreza--3 ostali">
+            {ostali.map((t, i) => (
+              <div data-otkrij style={`--kasnjenje:${i % 3}`}>
+                <KarticaBlog tekst={t} indeks={i} nivoNaslova="h2" />
+              </div>
+            ))}
+          </div>
+        )
+      }
+
+      {tekstovi.length === 0 && <p class="uvod">Prvi tekstovi stižu uskoro.</p>}
+    </div>
+  </section>
+</Osnovni>
+
+<style>
+  .glavni {
+    position: relative;
+    display: grid;
+    gap: clamp(1.5rem, 1rem + 3vw, 4rem);
+    align-items: center;
+  }
+  @media (min-width: 56em) {
+    .glavni {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    }
+  }
+  .glavni__telo {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+  }
+  .glavni__naslov {
+    font-size: var(--fs-h2);
+  }
+  .glavni__naslov a {
+    text-decoration: none;
+  }
+  .glavni__naslov a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .glavni:hover .glavni__naslov a {
+    color: var(--c-plava);
+  }
+  .glavni__meta {
+    display: flex;
+    gap: 0.5rem;
+    font-size: var(--fs-mali);
+    color: var(--c-teget-blagi);
+  }
+  .ostali {
+    margin-top: var(--r-sekcija-mala);
+    padding-top: var(--r-sekcija-mala);
+    border-top: 1px solid var(--c-linija);
+  }
+</style>

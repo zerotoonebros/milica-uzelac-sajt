@@ -1,0 +1,39 @@
+{
+  "seo": {
+    "naslov": "Grupne radionice za žene — online i uživo",
+    "opis": "Tematske radionice za žene u maloj grupi: postavljanje granica, samopouzdanje, karijerna promena. Pogledaj naredne termine i prijavi se."
+  },
+  "uvod": {
+    "nadnaslov": "Grupne radionice",
+    "naslov": "Učimo zajedno, *rastemo svaka svojim putem*",
+    "tekst": "Tematske radionice u maloj grupi — online i uživo. Jedna tema, konkretni alati i podrška žena koje prolaze kroz slično."
+  },
+  "naredne": {
+    "naslov": "Naredne radionice",
+    "prazno": "Trenutno nema zakazanih radionica. Prijavi se na newsletter i prva ćeš saznati za nove termine."
+  },
+  "prosle": {
+    "naslov": "Održane radionice"
+  },
+  "prednosti": {
+    "nadnaslov": "Zašto grupa",
+    "naslov": "Šta dobijaš na radionici",
+    "stavke": [
+      {
+        "ikona": "iskra",
+        "naslov": "Konkretne alate",
+        "tekst": "Vežbe i tehnike koje možeš da primeniš već istog dana."
+      },
+      {
+        "ikona": "osobe",
+        "naslov": "Podršku grupe",
+        "tekst": "Iskustva drugih žena pokazuju ti da nisi sama i daju nove ideje."
+      },
+      {
+        "ikona": "knjiga",
+        "naslov": "Radne materijale",
+        "tekst": "Radnu svesku i podsetnike uz koje nastavljaš da vežbaš kod kuće."
+      }
+    ]
+  }
+}

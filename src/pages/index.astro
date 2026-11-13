@@ -1,0 +1,592 @@
+---
+import { getCollection } from 'astro:content';
+import Osnovni from '../layouts/Osnovni.astro';
+import Fotografija from '../components/Fotografija.astro';
+import Ikona from '../components/Ikona.astro';
+import Oblik from '../components/Oblik.astro';
+import KarticaBlog from '../components/KarticaBlog.astro';
+import KarticaRadionice from '../components/KarticaRadionice.astro';
+import Utisak from '../components/Utisak.astro';
+import { sajt, mdRed, md, apsolutni } from '../lib/sajt';
+import s from '../content/stranice/pocetna.json';
+
+const tekstovi = (await getCollection('blog', ({ data }) => !data.nacrt))
+  .sort((a, b) => b.data.datum.valueOf() - a.data.datum.valueOf())
+  .slice(0, 3);
+
+const radionice = (await getCollection('radionice'))
+  .filter((r) => r.data.status !== 'zavrseno')
+  .sort((a, b) => a.data.datum.valueOf() - b.data.datum.valueOf())
+  .slice(0, 2);
+
+const utisci = (await getCollection('utisci'))
+  .filter((u) => u.data.istaknuto)
+  .sort((a, b) => a.data.redosled - b.data.redosled)
+  .slice(0, 3);
+
+const mreze = Object.values(sajt.drustvene_mreze).filter((m) => m && m.split('/').filter(Boolean).length > 2);
+
+const shema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: sajt.naziv,
+    url: apsolutni('/', Astro.site),
+    inLanguage: 'sr-Latn',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    '@id': apsolutni('/#coach', Astro.site),
+    name: `${sajt.naziv} — ${sajt.podnaslov}`,
+    description: sajt.seo.podrazumevani_opis,
+    url: apsolutni('/', Astro.site),
+    image: apsolutni('/og-podrazumevana.png', Astro.site),
+    ...(sajt.email && !sajt.email.includes('tvojdomen') ? { email: sajt.email } : {}),
+    ...(sajt.telefon ? { telephone: sajt.telefon } : {}),
+    areaServed: 'RS',
+    founder: { '@type': 'Person', name: sajt.naziv, jobTitle: sajt.podnaslov },
+    ...(mreze.length ? { sameAs: mreze } : {}),
+  },
+];
+---
+
+<Osnovni naslov={s.seo.naslov} opis={s.seo.opis} shema={shema}>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="omot hero__unutra">
+      <div class="hero__tekst">
+        <span class="rukopis hero__rukopis">{s.hero.rukopis}</span>
+        <h1 class="naslov-display" set:html={mdRed(s.hero.naslov)} />
+        <p class="uvod hero__uvod">{s.hero.tekst}</p>
+        <div class="dugmad">
+          <a href={sajt.zakazivanje.link} class="dugme" data-prati="booking_click" data-mesto="hero">
+            {sajt.zakazivanje.tekst_dugmeta}
+            <Ikona naziv="strelica" />
+          </a>
+          {
+            s.hero.dugme_tekst && (
+              <a href={s.hero.dugme_link} class="dugme dugme--okvir">
+                {s.hero.dugme_tekst}
+              </a>
+            )
+          }
+        </div>
+        {
+          s.hero.istaknuto.length > 0 && (
+            <ul class="hero__istaknuto">
+              {s.hero.istaknuto.map((stavka) => (
+                <li>{stavka}</li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+
+      <div class="hero__slika">
+        <Oblik vrsta="sunce" boja="var(--c-kajsija)" class="hero__oblik hero__oblik--sunce" />
+        <Oblik vrsta="oblutak" boja="var(--c-svetloplava)" class="hero__oblik hero__oblik--oblutak" />
+        <Fotografija
+          slika={s.hero.slika}
+          alt={s.hero.slika_alt}
+          oblik="luk"
+          odnos="4/5"
+          sablon={1}
+          prioritet
+          sizes="(min-width: 56em) 36vw, 80vw"
+        />
+        <Oblik vrsta="list" boja="var(--c-plava)" class="hero__oblik hero__oblik--list" />
+        <Oblik vrsta="talas" boja="var(--c-teget)" class="hero__oblik hero__oblik--talas" />
+      </div>
+    </div>
+  </section>
+
+  <!-- PREPOZNAVANJE -->
+  <section class="sekcija sekcija--papir prepoznavanje" aria-labelledby="prepoznavanje-naslov">
+    <div class="omot prepoznavanje__mreza">
+      <div class="prepoznavanje__glava" data-otkrij>
+        <span class="rukopis">{s.prepoznavanje.rukopis}</span>
+        <h2 id="prepoznavanje-naslov" set:html={mdRed(s.prepoznavanje.naslov)} />
+      </div>
+      <div class="prepoznavanje__telo">
+        <ul class="prepoznavanje__lista">
+          {
+            s.prepoznavanje.stavke.map((stavka, i) => (
+              <li data-otkrij style={`--kasnjenje:${i}`}>
+                <span class="prepoznavanje__broj" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <p>{stavka}</p>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="prepoznavanje__zakljucak" data-otkrij>{s.prepoznavanje.zakljucak}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- O MENI -->
+  <section class="sekcija" aria-labelledby="o-meni-naslov">
+    <div class="omot dvodelno dvodelno--slika-uza">
+      <div class="o-meni__slika" data-otkrij>
+        <Oblik vrsta="kamen" boja="var(--c-kajsija-blaga)" class="o-meni__oblik" />
+        <Fotografija slika={s.o_meni.slika} alt={s.o_meni.slika_alt} oblik="meko" odnos="1/1" sablon={2} />
+      </div>
+      <div class="stog" data-otkrij style="--kasnjenje:1">
+        <span class="nadnaslov">{s.o_meni.nadnaslov}</span>
+        <h2 id="o-meni-naslov" set:html={mdRed(s.o_meni.naslov)} />
+        <div class="tekst" set:html={md(s.o_meni.tekst)} />
+        <a href={s.o_meni.dugme_link} class="link-strelica">{s.o_meni.dugme_tekst} <Ikona naziv="strelica" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- USLUGE -->
+  <section class="sekcija sekcija--nebo" aria-labelledby="usluge-naslov">
+    <div class="omot">
+      <div class="glava-sekcije" data-otkrij>
+        <span class="nadnaslov">{s.usluge.nadnaslov}</span>
+        <h2 id="usluge-naslov" set:html={mdRed(s.usluge.naslov)} />
+        <p class="uvod">{s.usluge.tekst}</p>
+      </div>
+      <div class="mreza mreza--4">
+        {
+          s.usluge.stavke.map((usluga, i) => (
+            <article class="kartica kartica--link usluga" data-otkrij style={`--kasnjenje:${i}`}>
+              <span class="usluga__ikona">
+                <Ikona naziv={usluga.ikona as any} velicina={28} />
+              </span>
+              <h3 class="usluga__naslov">
+                <a href={usluga.link} class="kartica__link">
+                  {usluga.naslov}
+                </a>
+              </h3>
+              <p class="usluga__tekst">{usluga.tekst}</p>
+              <span class="usluga__strelica" aria-hidden="true">
+                <Ikona naziv="strelica" velicina={20} />
+              </span>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCES + TEME -->
+  <section class="sekcija" aria-labelledby="proces-naslov">
+    <div class="omot">
+      <div class="glava-sekcije glava-sekcije--centar" data-otkrij>
+        <span class="nadnaslov nadnaslov--centar">{s.proces.nadnaslov}</span>
+        <h2 id="proces-naslov" set:html={mdRed(s.proces.naslov)} />
+      </div>
+      <ol class="proces">
+        {
+          s.proces.koraci.map((korak, i) => (
+            <li class="proces__korak" data-otkrij style={`--kasnjenje:${i}`}>
+              <span class="proces__broj" aria-hidden="true">
+                {i + 1}
+              </span>
+              <h3>{korak.naslov}</h3>
+              <p>{korak.tekst}</p>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="teme" data-otkrij>
+        <h2 class="teme__naslov">{s.teme.naslov}</h2>
+        <ul class="teme__lista">
+          {s.teme.stavke.map((tema) => <li>{tema}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- UTISCI -->
+  {
+    utisci.length > 0 && (
+      <section class="sekcija sekcija--bez-tamna" aria-labelledby="utisci-naslov">
+        <div class="omot">
+          <div class="glava-sekcije" data-otkrij>
+            <span class="nadnaslov">{s.utisci.nadnaslov}</span>
+            <h2 id="utisci-naslov" set:html={mdRed(s.utisci.naslov)} />
+          </div>
+          <div class="mreza mreza--3">
+            {utisci.map((u, i) => (
+              <div data-otkrij style={`--kasnjenje:${i}`}>
+                <Utisak utisak={u} />
+              </div>
+            ))}
+          </div>
+          <p class="sekcija__vise">
+            <a href="/utisci/" class="link-strelica">
+              {s.utisci.dugme_tekst} <Ikona naziv="strelica" />
+            </a>
+          </p>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- RADIONICE -->
+  {
+    radionice.length > 0 && (
+      <section class="sekcija" aria-labelledby="radionice-naslov">
+        <div class="omot">
+          <div class="glava-sekcije glava-sekcije--red" data-otkrij>
+            <div class="stog stog--mali">
+              <span class="nadnaslov">{s.radionica.nadnaslov}</span>
+              <h2 id="radionice-naslov">
+                Grupne <em>radionice</em>
+              </h2>
+            </div>
+            <a href="/rad-sa-mnom/grupne-radionice/" class="link-strelica">
+              {s.radionica.dugme_tekst} <Ikona naziv="strelica" />
+            </a>
+          </div>
+          <div class="mreza mreza--2">
+            {radionice.map((r, i) => (
+              <div data-otkrij style={`--kasnjenje:${i}`}>
+                <KarticaRadionice radionica={r} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- BLOG -->
+  {
+    tekstovi.length > 0 && (
+      <section class="sekcija sekcija--papir" aria-labelledby="blog-naslov">
+        <div class="omot">
+          <div class="glava-sekcije glava-sekcije--red" data-otkrij>
+            <div class="stog stog--mali">
+              <span class="nadnaslov">{s.blog.nadnaslov}</span>
+              <h2 id="blog-naslov" set:html={mdRed(s.blog.naslov)} />
+            </div>
+            <a href="/blog/" class="link-strelica">
+              {s.blog.dugme_tekst} <Ikona naziv="strelica" />
+            </a>
+          </div>
+          <div class="mreza mreza--3">
+            {tekstovi.map((t, i) => (
+              <div data-otkrij style={`--kasnjenje:${i}`}>
+                <KarticaBlog tekst={t} indeks={i} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</Osnovni>
+
+<style>
+  /* --- Hero --- */
+  .hero {
+    position: relative;
+    padding-block: clamp(2rem, 1rem + 4vw, 4.5rem) clamp(4rem, 3rem + 5vw, 7rem);
+    overflow: hidden;
+  }
+  .hero__unutra {
+    display: grid;
+    gap: clamp(3rem, 2rem + 4vw, 5rem);
+    align-items: center;
+  }
+  @media (min-width: 56em) {
+    .hero__unutra {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    }
+  }
+  .hero__tekst {
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+  }
+  .hero__rukopis {
+    margin-bottom: -0.9rem;
+    transform: rotate(-3deg);
+    transform-origin: left bottom;
+  }
+  .hero__uvod {
+    max-width: 36rem;
+  }
+  .hero__istaknuto {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.75rem;
+    list-style: none;
+    margin: 0.75rem 0 0;
+    padding: 1.25rem 0 0;
+    border-top: 1px solid var(--c-linija);
+    font-size: var(--fs-mali);
+    letter-spacing: 0.02em;
+    color: var(--c-teget-blagi);
+  }
+  .hero__istaknuto li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .hero__istaknuto li::before {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--c-kajsija-tamna);
+  }
+  .hero__slika {
+    position: relative;
+    width: min(100%, 26rem);
+    margin-inline: auto;
+  }
+  .hero__slika :global(.foto) {
+    position: relative;
+    z-index: 1;
+    box-shadow: var(--senka-2);
+  }
+  .hero__slika :global(.hero__oblik--sunce) {
+    width: 46%;
+    top: -7%;
+    right: -16%;
+  }
+  .hero__slika :global(.hero__oblik--oblutak) {
+    width: 62%;
+    left: -24%;
+    bottom: 8%;
+  }
+  .hero__slika :global(.hero__oblik--list) {
+    z-index: 2;
+    width: 30%;
+    left: -11%;
+    bottom: -6%;
+    transform: rotate(-24deg);
+  }
+  .hero__slika :global(.hero__oblik--talas) {
+    z-index: 2;
+    width: 34%;
+    right: -12%;
+    bottom: 10%;
+    opacity: 0.8;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__slika :global(.hero__oblik--sunce) {
+      animation: lebdi 9s ease-in-out infinite alternate;
+    }
+    .hero__slika :global(.hero__oblik--list) {
+      animation: njisi 7s ease-in-out infinite alternate;
+    }
+  }
+  @keyframes lebdi {
+    to {
+      transform: translate(-6%, 8%);
+    }
+  }
+  @keyframes njisi {
+    from {
+      transform: rotate(-24deg);
+    }
+    to {
+      transform: rotate(-14deg);
+    }
+  }
+
+  /* --- Prepoznavanje --- */
+  .prepoznavanje__mreza {
+    display: grid;
+    gap: clamp(2rem, 1rem + 4vw, 5rem);
+  }
+  @media (min-width: 56em) {
+    .prepoznavanje__mreza {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: start;
+    }
+    .prepoznavanje__glava {
+      position: sticky;
+      top: calc(var(--visina-zaglavlja) + 2rem);
+    }
+  }
+  .prepoznavanje__glava {
+    display: grid;
+    gap: 0.5rem;
+  }
+  .prepoznavanje__lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .prepoznavanje__lista li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.25rem;
+    align-items: baseline;
+    padding-block: 1.4rem;
+    border-bottom: 1px solid var(--c-linija);
+    font-size: var(--fs-uvod);
+    line-height: 1.5;
+  }
+  .prepoznavanje__lista li:first-child {
+    padding-top: 0;
+  }
+  .prepoznavanje__broj {
+    font-family: var(--font-naslov);
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--c-kajsija-tamna);
+  }
+  .prepoznavanje__zakljucak {
+    margin-top: 2rem;
+    padding: 1.5rem 1.75rem;
+    border-radius: var(--z-kartica);
+    background: var(--c-kajsija-blaga);
+    font-family: var(--font-naslov);
+    font-size: clamp(1.35rem, 1.2rem + 0.7vw, 1.7rem);
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.35;
+  }
+
+  /* --- O meni --- */
+  .o-meni__slika {
+    position: relative;
+    width: min(100%, 27rem);
+    margin-inline: auto;
+  }
+  .o-meni__slika :global(.foto) {
+    position: relative;
+    z-index: 1;
+  }
+  .o-meni__slika :global(.o-meni__oblik) {
+    width: 108%;
+    left: -10%;
+    top: -8%;
+    color: var(--c-kajsija);
+    transform: rotate(-12deg);
+  }
+
+  /* --- Usluge --- */
+  .usluga {
+    min-height: 100%;
+    gap: 0.9rem;
+  }
+  .usluga__ikona {
+    display: grid;
+    place-items: center;
+    width: 3.75rem;
+    height: 3.75rem;
+    margin-bottom: 0.5rem;
+    border-radius: 46% 54% 52% 48% / 50% 46% 54% 50%;
+    background: var(--c-kajsija-blaga);
+    color: var(--c-plava);
+    transition:
+      background-color var(--t-srednje),
+      color var(--t-srednje);
+  }
+  .usluga:hover .usluga__ikona {
+    background: var(--c-plava);
+    color: var(--c-papir);
+  }
+  .usluga__naslov {
+    font-size: clamp(1.5rem, 1.35rem + 0.5vw, 1.75rem);
+  }
+  .usluga__tekst {
+    color: var(--c-teget-blagi);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+  }
+  .usluga__strelica {
+    margin-top: auto;
+    padding-top: 0.75rem;
+    color: var(--c-plava);
+    transition: transform var(--t-srednje) var(--ease);
+  }
+  .usluga:hover .usluga__strelica {
+    transform: translateX(6px);
+  }
+
+  /* --- Proces --- */
+  .proces {
+    display: grid;
+    gap: 2.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: korak;
+  }
+  @media (min-width: 52em) {
+    .proces {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(2rem, 1rem + 3vw, 4rem);
+    }
+  }
+  .proces__korak {
+    position: relative;
+    display: grid;
+    gap: 0.75rem;
+    align-content: start;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--c-teget);
+  }
+  .proces__broj {
+    font-family: var(--font-naslov);
+    font-size: clamp(3.5rem, 3rem + 2vw, 5rem);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 0.9;
+    color: var(--c-kajsija-tamna);
+  }
+  .proces__korak p {
+    color: var(--c-teget-blagi);
+  }
+
+  /* --- Teme --- */
+  .teme {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: var(--r-sekcija-mala);
+    padding: clamp(1.75rem, 1.2rem + 2.5vw, 3.25rem);
+    border-radius: var(--z-veliki);
+    background: var(--c-teget);
+    color: var(--c-bez);
+  }
+  .teme__naslov {
+    color: var(--c-bez);
+    font-size: var(--fs-h3);
+  }
+  .teme__lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .teme__lista li {
+    padding: 0.5rem 1.1rem;
+    border: 1px solid rgb(248 240 233 / 0.35);
+    border-radius: var(--z-pilula);
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+  .teme__lista li:nth-child(4n + 1) {
+    background: var(--c-kajsija);
+    border-color: var(--c-kajsija);
+    color: var(--c-teget);
+  }
+
+  /* --- Zajedničko --- */
+  :global(.glava-sekcije--red) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1.25rem 2rem;
+    max-width: none;
+  }
+  .sekcija__vise {
+    margin-top: 2.5rem;
+  }
+</style>

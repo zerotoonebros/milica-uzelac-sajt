@@ -1,0 +1,38 @@
+{
+  "naziv": "Milica Uzelac",
+  "podnaslov": "Coach za lični napredak",
+  "kratak_opis": "Coaching za žene koje žele više samopouzdanja, jasnije granice i promenu u karijeri i životu — korak po korak.",
+  "email": "kontakt@tvojdomen.rs",
+  "telefon": "",
+  "lokacija": "Online i uživo · Srbija",
+  "drustvene_mreze": {
+    "instagram": "https://www.instagram.com/",
+    "linkedin": "https://www.linkedin.com/",
+    "tiktok": "https://www.tiktok.com/",
+    "facebook": ""
+  },
+  "zakazivanje": {
+    "tekst_dugmeta": "Zakaži uvodni razgovor",
+    "link": "/zakazivanje/",
+    "kalendar_url": ""
+  },
+  "futer": {
+    "poruka_naslov": "Piši mi",
+    "poruka_tekst": "Imaš pitanje ili nisi sigurna odakle da kreneš? Pošalji mi poruku — odgovaram lično, najčešće u roku od dva radna dana.",
+    "newsletter_naslov": "Pisma za tvoj napredak",
+    "newsletter_tekst": "Povremeno pismo sa praktičnim alatima za samopouzdanje, granice i karijeru. Bez spama — odjava jednim klikom.",
+    "cta_naslov": "Spremna za prvi korak?",
+    "cta_tekst": "Uvodni razgovor je prilika da se upoznamo, da čujem gde si sada i da zajedno vidimo kako mogu da ti pomognem."
+  },
+  "seo": {
+    "podrazumevani_naslov": "Milica Uzelac — Coach za lični napredak",
+    "podrazumevani_opis": "Coaching za žene: samopouzdanje, postavljanje granica, karijerna promena i balans između posla i privatnog života. Individualne sesije, radionice i online programi.",
+    "slika_za_deljenje": "",
+    "dozvoli_indeksiranje": false
+  },
+  "analitika": {
+    "gtm_id": "",
+    "google_verifikacija": "",
+    "prikazi_baner_za_kolacice": true
+  }
+}

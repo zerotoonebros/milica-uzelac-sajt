@@ -1,0 +1,421 @@
+---
+// Vodič kroz vizuelni identitet — pregled boja, fontova, dugmadi i ostalih elemenata.
+// Interna stranica (ne indeksira se). Adresa: /stil/
+import Osnovni from '../layouts/Osnovni.astro';
+import UvodStranice from '../components/UvodStranice.astro';
+import Ikona from '../components/Ikona.astro';
+import Oblik from '../components/Oblik.astro';
+import Fotografija from '../components/Fotografija.astro';
+
+const boje = [
+  { naziv: 'Primarna — tamno plava', hex: '#2B4A9B', promenljiva: '--c-plava', svetao: true, uloga: 'Dugmad, linkovi, naglasci' },
+  { naziv: 'Primarna — hover', hex: '#1F3778', promenljiva: '--c-plava-tamna', svetao: true, uloga: 'Dugmad kada se pređe mišem' },
+  { naziv: 'Sekundarna — svetlo plava', hex: '#C9D6EC', promenljiva: '--c-svetloplava', uloga: 'Dekorativni oblici' },
+  { naziv: 'Svetlo plava — blaga', hex: '#E6ECF6', promenljiva: '--c-svetloplava-blaga', uloga: 'Pozadine sekcija, oznake' },
+  { naziv: 'Akcenat — kajsija', hex: '#F4C39E', promenljiva: '--c-kajsija', uloga: 'Akcenti, dugmad na tamnoj pozadini' },
+  { naziv: 'Kajsija — blaga', hex: '#FBE5D3', promenljiva: '--c-kajsija-blaga', uloga: 'Pozadine sekcija' },
+  { naziv: 'Kajsija — tamna', hex: '#DD9A68', promenljiva: '--c-kajsija-tamna', uloga: 'Sitni detalji, brojevi, linije' },
+  { naziv: 'Pozadina — bež', hex: '#F8F0E9', promenljiva: '--c-bez', uloga: 'Osnovna pozadina sajta' },
+  { naziv: 'Bež — tamna', hex: '#F0E3D6', promenljiva: '--c-bez-tamna', uloga: 'Naglašene sekcije' },
+  { naziv: 'Papir', hex: '#FFFBF7', promenljiva: '--c-papir', uloga: 'Kartice, polja formi' },
+  { naziv: 'Tekst — teget', hex: '#1B2545', promenljiva: '--c-teget', svetao: true, uloga: 'Tekst, tamne sekcije' },
+  { naziv: 'Tekst — sporedni', hex: '#49526F', promenljiva: '--c-teget-blagi', svetao: true, uloga: 'Opisi, sporedni tekst' },
+  { naziv: 'Magla', hex: '#A9B4C4', promenljiva: '--c-magla', uloga: 'Dekoracija' },
+];
+
+const ikone = [
+  'strelica', 'kalendar', 'sat', 'mesto', 'mejl', 'telefon', 'osoba', 'osobe', 'knjiga', 'video',
+  'srce', 'kompas', 'iskra', 'list', 'navodnici', 'kvacica', 'preuzmi', 'instagram', 'linkedin', 'tiktok',
+] as const;
+
+const oblici = ['kamen', 'oblutak', 'polukrug', 'luk', 'list', 'prsten', 'sunce', 'talas'] as const;
+
+const logotipi = [
+  { naziv: 'Horizontalni — svetla pozadina', fajl: 'logo-horizontalni', tamna: false },
+  { naziv: 'Horizontalni — tamna pozadina', fajl: 'logo-horizontalni-tamna-pozadina', tamna: true },
+  { naziv: 'Vertikalni — svetla pozadina', fajl: 'logo-vertikalni', tamna: false },
+  { naziv: 'Vertikalni — tamna pozadina', fajl: 'logo-vertikalni-tamna-pozadina', tamna: true },
+  { naziv: 'Znak', fajl: 'znak', tamna: false },
+];
+---
+
+<Osnovni naslov="Vizuelni identitet" opis="Pregled boja, tipografije i elemenata sajta." bezIndeksa bezPoruke bezPoziva>
+  <UvodStranice
+    nadnaslov="Vodič"
+    naslov="Vizuelni *identitet*"
+    uvod="Sve boje, fontovi i elementi sajta na jednom mestu. Vrednosti se menjaju u fajlu src/styles/global.css."
+    putanja={[{ naziv: 'Vizuelni identitet' }]}
+  />
+
+  <div class="omot stil">
+    <section aria-labelledby="s-logo">
+      <h2 id="s-logo">Logo</h2>
+      <p class="stil__opis">
+        Sve verzije su u folderu <code>public/brend/</code>, u SVG i PNG formatu. Favicon (ikonica u kartici pregledača) koristi znak.
+      </p>
+      <div class="stil__logotipi">
+        {
+          logotipi.map((l) => (
+            <figure class:list={['stil__logo', { 'stil__logo--tamna': l.tamna }]}>
+              <img src={`/brend/${l.fajl}.svg`} alt={`Logo: ${l.naziv}`} loading="lazy" />
+              <figcaption>
+                {l.naziv}
+                <span>
+                  <a href={`/brend/${l.fajl}.svg`} download>SVG</a> · <a href={`/brend/${l.fajl}.png`} download>PNG</a>
+                </span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+
+    <section aria-labelledby="s-boje">
+      <h2 id="s-boje">Paleta boja</h2>
+      <ul class="stil__boje">
+        {
+          boje.map((b) => (
+            <li>
+              <span class:list={['stil__uzorak', { 'stil__uzorak--svetao': b.svetao }]} style={`background:${b.hex}`}>
+                {b.hex}
+              </span>
+              <strong>{b.naziv}</strong>
+              <small>{b.uloga}</small>
+              <code>{b.promenljiva}</code>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section aria-labelledby="s-tipografija">
+      <h2 id="s-tipografija">Tipografija</h2>
+      <div class="stil__fontovi">
+        <div>
+          <span class="nadnaslov">Naslovi</span>
+          <p class="stil__font stil__font--naslov">EB Garamond</p>
+          <p class="stil__opis">Debljina 400 za velike naslove, 500 za manje (H3); kurziv za naglašene reči.</p>
+        </div>
+        <div>
+          <span class="nadnaslov">Tekst, dugmad i navigacija</span>
+          <p class="stil__font stil__font--tekst">Jost</p>
+          <p class="stil__opis">Tekst 400 · navigacija 400 · dugmad i oznake 500, velika slova sa razmakom.</p>
+        </div>
+        <div>
+          <span class="nadnaslov">Rukopisni akcenat</span>
+          <p class="stil__font rukopis">Ms Madi — šđčćž</p>
+          <p class="stil__opis">Samo za kratke, lične poruke iznad naslova. Nikada za duži tekst.</p>
+        </div>
+      </div>
+
+      <div class="stil__skala">
+        <div><small>Display · 42–78px</small><p class="naslov-display" style="font-family:var(--font-naslov);font-weight:400">Tvoj <em style="color:var(--c-plava)">sledeći korak</em></p></div>
+        <div><small>H1 · 37–62px</small><p style="font-family:var(--font-naslov);font-weight:400;font-size:var(--fs-h1);line-height:1.08">Naslov stranice</p></div>
+        <div><small>H2 · 30–46px</small><p style="font-family:var(--font-naslov);font-weight:400;font-size:var(--fs-h2);line-height:1.08">Naslov sekcije</p></div>
+        <div><small>H3 · 23–30px</small><p style="font-family:var(--font-naslov);font-weight:400;font-size:var(--fs-h3);line-height:1.16">Naslov kartice</p></div>
+        <div><small>Uvodni tekst · 18–22px</small><p class="uvod">Uvodni pasus koji u dve rečenice objašnjava o čemu je stranica.</p></div>
+        <div><small>Tekst · 17–19px</small><p>Osnovni tekst sajta. Dovoljno velik i čitljiv na svim ekranima, sa proredom 1,65.</p></div>
+        <div><small>Nadnaslov · 13px</small><p><span class="nadnaslov">Nadnaslov sekcije</span></p></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="s-dugmad">
+      <h2 id="s-dugmad">Dugmad i linkovi</h2>
+      <p class="stil__opis">
+        Pređi mišem preko dugmeta da vidiš hover efekat: boja se produbljuje, dugme se blago podiže, a strelica klizi udesno.
+      </p>
+      <div class="stil__dugmad">
+        <a href="#s-dugmad" class="dugme">Glavno (CTA) <Ikona naziv="strelica" /></a>
+        <a href="#s-dugmad" class="dugme dugme--okvir">Sporedno</a>
+        <a href="#s-dugmad" class="dugme dugme--kajsija">Kajsija</a>
+        <a href="#s-dugmad" class="dugme dugme--malo">Malo</a>
+        <a href="#s-dugmad" class="link-strelica">Link sa strelicom <Ikona naziv="strelica" /></a>
+      </div>
+      <div class="stil__dugmad tamna stil__tamno">
+        <a href="#s-dugmad" class="dugme">Na tamnoj pozadini <Ikona naziv="strelica" /></a>
+        <a href="#s-dugmad" class="dugme dugme--okvir">Sporedno</a>
+        <a href="#s-dugmad" class="link-strelica">Link sa strelicom <Ikona naziv="strelica" /></a>
+      </div>
+      <p class="stil__oznake">
+        <span class="oznaka">Oznaka</span>
+        <span class="oznaka oznaka--kajsija">Prijave su otvorene</span>
+        <span class="oznaka oznaka--okvir">Uskoro</span>
+      </p>
+    </section>
+
+    <section aria-labelledby="s-oblici">
+      <h2 id="s-oblici">Oblici, ikonice i ilustracije</h2>
+      <p class="stil__opis">
+        Dekorativni oblici podsećaju na isečeni papir — organski, bez oštrih uglova. Ikonice su tanke linije (1,5 px) sa zaobljenim krajevima.
+      </p>
+      <ul class="stil__oblici">
+        {
+          oblici.map((o, i) => (
+            <li>
+              <span class="stil__oblik">
+                <Oblik vrsta={o} boja={['var(--c-plava)', 'var(--c-kajsija)', 'var(--c-magla)'][i % 3]} style="position:static;width:100%" />
+              </span>
+              <small>{o}</small>
+            </li>
+          ))
+        }
+      </ul>
+      <ul class="stil__ikone">
+        {ikone.map((i) => <li><Ikona naziv={i} velicina={26} /><small>{i}</small></li>)}
+      </ul>
+    </section>
+
+    <section aria-labelledby="s-fotografije">
+      <h2 id="s-fotografije">Fotografije i kartice</h2>
+      <p class="stil__opis">
+        Portreti su u obliku luka ili meke organske forme; ostale fotografije i kartice imaju zaobljenje od 24 px. Dok fotografije nisu dodate, prikazuju se ilustracije.
+      </p>
+      <div class="stil__foto">
+        <figure><Fotografija oblik="luk" odnos="4/5" sablon={1} napomena={false} /><figcaption>Luk — portreti</figcaption></figure>
+        <figure><Fotografija oblik="meko" odnos="1/1" sablon={2} napomena={false} /><figcaption>Meka forma</figcaption></figure>
+        <figure><Fotografija oblik="kartica" odnos="4/5" sablon={3} napomena={false} /><figcaption>Kartica — 24 px</figcaption></figure>
+        <figure><Fotografija oblik="krug" sablon={4} napomena={false} /><figcaption>Krug</figcaption></figure>
+      </div>
+    </section>
+
+    <section aria-labelledby="s-razmaci">
+      <h2 id="s-razmaci">Razmaci, zaobljenja i linije</h2>
+      <dl class="stil__tabela">
+        <div><dt>Razmak između sekcija</dt><dd>72–136 px (raste sa širinom ekrana)</dd></div>
+        <div><dt>Najveća širina sadržaja</dt><dd>1216 px · tekst 704 px</dd></div>
+        <div><dt>Zaobljenje kartica i fotografija</dt><dd>24 px · velike površine 40 px</dd></div>
+        <div><dt>Zaobljenje dugmadi</dt><dd>Potpuno zaobljena („pilula“)</dd></div>
+        <div><dt>Linije i okviri</dt><dd>1 px, teget sa 14% vidljivosti</dd></div>
+        <div><dt>Animacije</dt><dd>Diskretno pojavljivanje pri skrolovanju (0,7 s); isključuju se ako posetiteljka u sistemu ima uključeno „smanji pokret“</dd></div>
+      </dl>
+    </section>
+  </div>
+</Osnovni>
+
+<style>
+  .stil {
+    display: grid;
+    gap: var(--r-sekcija-mala);
+    padding-bottom: var(--r-sekcija);
+  }
+  .stil section {
+    display: grid;
+    gap: 1.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--c-teget);
+  }
+  .stil__opis {
+    max-width: 44rem;
+    color: var(--c-teget-blagi);
+  }
+  .stil code {
+    font-size: 0.8125rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 0.4rem;
+    background: var(--c-bez-tamna);
+  }
+  .stil small {
+    font-size: var(--fs-sitni);
+    color: var(--c-teget-blagi);
+  }
+
+  .stil__logotipi {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+  .stil__logo {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    border: 1px solid var(--c-linija);
+    border-radius: var(--z-kartica);
+    overflow: hidden;
+    background: var(--c-bez);
+  }
+  .stil__logo img {
+    width: 100%;
+    height: 11rem;
+    padding: 2rem;
+    object-fit: contain;
+  }
+  .stil__logo--tamna img {
+    background: var(--c-teget);
+  }
+  .stil__logo figcaption {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.8rem 1.1rem;
+    background: var(--c-papir);
+    border-top: 1px solid var(--c-linija);
+    font-size: var(--fs-mali);
+  }
+  .stil__logo a {
+    color: var(--c-plava);
+  }
+
+  .stil__boje {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .stil__boje li {
+    display: grid;
+    gap: 0.3rem;
+    justify-items: start;
+  }
+  .stil__uzorak {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    height: 6.5rem;
+    margin-bottom: 0.4rem;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--c-linija);
+    border-radius: var(--z-mali);
+    font-size: var(--fs-mali);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--c-teget);
+  }
+  .stil__uzorak--svetao {
+    color: var(--c-papir);
+  }
+  .stil__boje strong {
+    font-weight: 500;
+  }
+
+  .stil__fontovi {
+    display: grid;
+    gap: 2rem;
+  }
+  @media (min-width: 56em) {
+    .stil__fontovi {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .stil__fontovi > div {
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+    padding: 1.75rem;
+    border-radius: var(--z-kartica);
+    background: var(--c-papir);
+    border: 1px solid var(--c-linija);
+  }
+  .stil__font {
+    font-size: 2.4rem;
+    line-height: 1.1;
+  }
+  .stil__font--naslov {
+    font-family: var(--font-naslov);
+    font-weight: 500;
+  }
+  .stil__font--tekst {
+    font-weight: 400;
+  }
+  .stil__skala {
+    display: grid;
+  }
+  .stil__skala > div {
+    display: grid;
+    gap: 0.5rem;
+    padding-block: 1.25rem;
+    border-bottom: 1px solid var(--c-linija);
+  }
+  @media (min-width: 48em) {
+    .stil__skala > div {
+      grid-template-columns: 13rem 1fr;
+      align-items: baseline;
+    }
+  }
+
+  .stil__dugmad {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+  }
+  .stil__tamno {
+    padding: 2rem;
+    border-radius: var(--z-kartica);
+  }
+  .stil__oznake {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .stil__oblici,
+  .stil__ikone {
+    display: grid;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .stil__oblici {
+    grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+  }
+  .stil__oblici li,
+  .stil__ikone li {
+    display: grid;
+    gap: 0.5rem;
+    justify-items: center;
+    text-align: center;
+  }
+  .stil__oblik {
+    display: block;
+    width: 100%;
+  }
+  .stil__ikone {
+    grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+    padding: 1.5rem;
+    border-radius: var(--z-kartica);
+    background: var(--c-papir);
+    border: 1px solid var(--c-linija);
+  }
+  .stil__ikone li {
+    color: var(--c-plava);
+  }
+
+  .stil__foto {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    align-items: end;
+  }
+  .stil__foto figure {
+    display: grid;
+    gap: 0.75rem;
+    text-align: center;
+    font-size: var(--fs-mali);
+    color: var(--c-teget-blagi);
+  }
+
+  .stil__tabela {
+    margin: 0;
+    display: grid;
+  }
+  .stil__tabela > div {
+    display: grid;
+    gap: 0.25rem 2rem;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--c-linija);
+  }
+  @media (min-width: 48em) {
+    .stil__tabela > div {
+      grid-template-columns: 20rem 1fr;
+    }
+  }
+  .stil__tabela dt {
+    font-weight: 500;
+  }
+  .stil__tabela dd {
+    margin: 0;
+    color: var(--c-teget-blagi);
+  }
+</style>

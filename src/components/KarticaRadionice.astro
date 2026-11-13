@@ -1,0 +1,118 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Ikona from './Ikona.astro';
+import { danMesec, datumIVreme, nazivFormata, statusRadionice } from '../lib/sajt';
+
+interface Props {
+  radionica: CollectionEntry<'radionice'>;
+  nivoNaslova?: 'h2' | 'h3';
+}
+const { radionica, nivoNaslova: Naslov = 'h3' } = Astro.props;
+const r = radionica.data;
+const { dan, mesec } = danMesec(r.datum);
+const status = statusRadionice[r.status];
+---
+
+<article class="kartica kartica--link radionica">
+  <div class="radionica__datum" aria-hidden="true">
+    <span class="radionica__dan">{dan}</span>
+    <span class="radionica__mesec">{mesec}</span>
+  </div>
+  <div class="radionica__telo">
+    <p class="radionica__oznake">
+      <span class="oznaka">{nazivFormata[r.format]}</span>
+      <span class:list={['oznaka', status.otvoreno ? 'oznaka--kajsija' : 'oznaka--okvir']}>{status.tekst}</span>
+      {r.primer && <span class="oznaka oznaka--okvir">Primer</span>}
+    </p>
+    <Naslov class="radionica__naslov">
+      <a href={`/rad-sa-mnom/grupne-radionice/${radionica.id}/`} class="kartica__link">{r.naslov}</a>
+    </Naslov>
+    <p class="radionica__opis">{r.opis}</p>
+    <ul class="radionica__meta">
+      <li><Ikona naziv="kalendar" velicina={18} /><span>{datumIVreme(r.datum)}</span></li>
+      {r.trajanje && <li><Ikona naziv="sat" velicina={18} /><span>{r.trajanje}</span></li>}
+      {r.lokacija && <li><Ikona naziv="mesto" velicina={18} /><span>{r.lokacija}</span></li>}
+    </ul>
+    <span class="link-strelica radionica__vise" aria-hidden="true">
+      {status.otvoreno ? 'Detalji i prijava' : 'Detalji'}
+      <Ikona naziv="strelica" />
+    </span>
+  </div>
+</article>
+
+<style>
+  .radionica {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: clamp(1.1rem, 0.6rem + 2vw, 2rem);
+  }
+  .radionica__datum {
+    flex: none;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    width: clamp(4.25rem, 3.5rem + 3vw, 5.75rem);
+    aspect-ratio: 1;
+    border-radius: 46% 54% 52% 48% / 50% 46% 54% 50%;
+    background: var(--c-plava);
+    color: var(--c-papir);
+    line-height: 1;
+  }
+  .radionica__dan {
+    font-family: var(--font-naslov);
+    font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+    font-weight: 500;
+  }
+  .radionica__mesec {
+    margin-top: 0.15rem;
+    font-size: var(--fs-sitni);
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .radionica__telo {
+    display: grid;
+    gap: 0.85rem;
+    justify-items: start;
+    min-width: 0;
+  }
+  .radionica__oznake {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .radionica__naslov {
+    font-family: var(--font-naslov);
+    font-size: var(--fs-h3);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+  }
+  .radionica__opis {
+    color: var(--c-teget-blagi);
+  }
+  .radionica__meta {
+    display: grid;
+    gap: 0.35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--fs-mali);
+  }
+  .radionica__meta li {
+    display: flex;
+    gap: 0.55rem;
+    align-items: flex-start;
+  }
+  .radionica__meta :global(svg) {
+    flex: none;
+    margin-top: 0.2em;
+    color: var(--c-plava);
+  }
+  .radionica__meta span::first-letter {
+    text-transform: uppercase;
+  }
+  .radionica__vise {
+    margin-top: 0.25rem;
+  }
+</style>

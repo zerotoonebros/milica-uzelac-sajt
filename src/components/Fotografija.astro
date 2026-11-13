@@ -1,0 +1,155 @@
+---
+// Fotografija sa automatskom optimizacijom (AVIF/WebP, više veličina).
+// Dok prava fotografija nije dodata kroz CMS, prikazuje se ilustracija-mesto.
+import { Picture } from 'astro:assets';
+import { nadjiSliku } from '../lib/sajt';
+
+interface Props {
+  slika?: string | null;
+  alt?: string | null;
+  /** Oblik okvira */
+  oblik?: 'luk' | 'kartica' | 'krug' | 'meko';
+  /** Odnos stranica, npr. "4/5" */
+  odnos?: string;
+  /** Koliko prostora slika zauzima na ekranu (za izbor prave veličine) */
+  sizes?: string;
+  /** true za glavnu sliku na vrhu stranice (učitava se odmah) */
+  prioritet?: boolean;
+  /** Izgled ilustracije-mesta: 1 portret, 2 kolaž, 3 pejzaž, 4 lišće */
+  sablon?: 1 | 2 | 3 | 4;
+  napomena?: boolean;
+  class?: string;
+}
+
+const {
+  slika,
+  alt,
+  oblik = 'kartica',
+  odnos = '4/5',
+  sizes = '(min-width: 56em) 40vw, 92vw',
+  prioritet = false,
+  sablon = 2,
+  napomena = true,
+  class: klasa,
+} = Astro.props;
+
+const fajl = nadjiSliku(slika);
+const sirine = [360, 540, 720, 960, 1280, 1600].filter((s) => !fajl || s <= fajl.width);
+if (fajl && sirine.length === 0) sirine.push(fajl.width);
+---
+
+<figure class:list={['foto', `foto--${oblik}`, klasa]} style={`--odnos:${odnos}`}>
+  {
+    fajl ? (
+      <Picture
+        src={fajl}
+        alt={alt ?? ''}
+        formats={["avif", "webp"]}
+        fallbackFormat="jpg"
+        widths={sirine}
+        sizes={sizes}
+        priority={prioritet}
+        loading={prioritet ? 'eager' : 'lazy'}
+        decoding={prioritet ? 'sync' : 'async'}
+        class="foto__slika"
+      />
+    ) : (
+      <div class="foto__mesto" role="img" aria-label={alt || 'Ilustracija'}>
+        <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+          {sablon === 1 && (
+            <>
+              <rect width="400" height="500" fill="#FBE5D3" />
+              <circle cx="318" cy="96" r="58" fill="#F4C39E" />
+              <path d="M-20 392c40-26 96-34 150-18s96 14 150-12 110-20 140 6v152H-20Z" fill="#C9D6EC" />
+              <path d="M94 520V372c0-64 46-112 108-112s106 48 106 112v148Z" fill="#2B4A9B" />
+              <path d="M202 248c-38 0-66-30-64-70s30-68 68-66 64 34 60 72-28 64-64 64Z" fill="#DD9A68" />
+              <path d="M150 408c22-8 38-24 50-46" stroke="#F8F0E9" stroke-width="5" stroke-linecap="round" fill="none" opacity=".7" />
+            </>
+          )}
+          {sablon === 2 && (
+            <>
+              <rect width="400" height="500" fill="#E6ECF6" />
+              <path d="M40 150C70 70 170 40 250 80s110 140 70 220-150 110-230 70S10 230 40 150Z" fill="#FBE5D3" />
+              <path d="M120 330h200a100 100 0 0 1-200 0Z" fill="#2B4A9B" />
+              <circle cx="262" cy="196" r="62" fill="#F4C39E" />
+              <path d="M96 118c34 26 44 66 0 132-44-66-34-106 0-132Z" fill="#2B4A9B" />
+              <path d="M60 420c30-40 60-40 84-10s54 30 78-8 52-36 80-6" stroke="#1B2545" stroke-width="4" stroke-linecap="round" fill="none" opacity=".55" />
+            </>
+          )}
+          {sablon === 3 && (
+            <>
+              <rect width="400" height="500" fill="#F0E3D6" />
+              <circle cx="286" cy="150" r="78" fill="#F4C39E" />
+              <path d="M-20 330c60-70 130-90 200-50s130 40 240-30v270H-20Z" fill="#C9D6EC" />
+              <path d="M-20 400c70-50 150-60 220-24s130 30 220-20v164H-20Z" fill="#2B4A9B" />
+              <path d="M-20 458c80-30 160-30 230-6s120 20 210-10v78H-20Z" fill="#1B2545" />
+            </>
+          )}
+          {sablon === 4 && (
+            <>
+              <rect width="400" height="500" fill="#FBE5D3" />
+              <path d="M60 110c80-60 200-50 260 30s40 210-50 270-210 30-250-70-30-180 40-230Z" fill="#F8F0E9" />
+              <path d="M206 96c62 46 78 116 0 232-78-116-62-186 0-232Z" fill="#2B4A9B" />
+              <path d="M112 214c50 14 82 52 80 142-70-34-98-78-80-142Z" fill="#A9B4C4" />
+              <path d="M300 214c-50 14-82 52-80 142 70-34 98-78 80-142Z" fill="#F4C39E" />
+              <path d="M206 320v104" stroke="#1B2545" stroke-width="4" stroke-linecap="round" />
+            </>
+          )}
+        </svg>
+        {napomena && <span class="foto__napomena">Mesto za fotografiju</span>}
+      </div>
+    )
+  }
+  <slot />
+</figure>
+
+<style>
+  .foto {
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--odnos);
+    overflow: hidden;
+    background: var(--c-bez-tamna);
+    border-radius: var(--z-kartica);
+    isolation: isolate;
+  }
+  .foto--luk {
+    border-radius: var(--z-luk);
+  }
+  .foto--krug {
+    border-radius: 50%;
+    aspect-ratio: 1;
+  }
+  .foto--meko {
+    border-radius: 42% 58% 52% 48% / 46% 44% 56% 54%;
+  }
+  .foto :global(picture),
+  .foto :global(img),
+  .foto__mesto,
+  .foto__mesto svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .foto :global(img) {
+    object-fit: cover;
+  }
+  .foto__mesto {
+    position: relative;
+  }
+  .foto__napomena {
+    position: absolute;
+    left: 50%;
+    bottom: 1rem;
+    transform: translateX(-50%);
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--z-pilula);
+    background: rgb(255 251 247 / 0.88);
+    color: var(--c-teget);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+</style>

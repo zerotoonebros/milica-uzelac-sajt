@@ -1,0 +1,82 @@
+{
+  "seo": {
+    "naslov": "Individualne coaching sesije za žene — online i uživo",
+    "opis": "Individualni coaching jedan na jedan: samopouzdanje, granice, karijerna promena, stres i balans. Online ili uživo. Zakaži uvodni razgovor i saznaj kako radimo."
+  },
+  "uvod": {
+    "nadnaslov": "Individualne sesije",
+    "naslov": "Coaching jedan na jedan, *posvećen samo tebi*",
+    "tekst": "Prostor u kome stajemo, sagledavamo gde si i pravimo plan za ono što želiš da promeniš — u karijeri, odnosima ili odnosu prema sebi."
+  },
+  "za_koga": {
+    "nadnaslov": "Za koga je",
+    "naslov": "Individualni rad je za tebe ako…",
+    "stavke": [
+      "razmišljaš o promeni posla, kompanije ili karijere i želiš jasan plan",
+      "želiš da ojačaš samopouzdanje i utišaš unutrašnjeg kritičara",
+      "teško postavljaš granice na poslu, u porodici ili u vezi",
+      "osećaš iscrpljenost i želiš da vratiš balans između posla i privatnog života",
+      "stojiš pred važnom odlukom i treba ti prostor da je sagledaš",
+      "želiš da razumeš uverenja koja te koče i zameniš ih onima koja te podržavaju"
+    ],
+    "slika": "",
+    "slika_alt": "Coaching razgovor"
+  },
+  "kako": {
+    "nadnaslov": "Kako izgleda",
+    "naslov": "Tok saradnje",
+    "koraci": [
+      {
+        "naslov": "Uvodni razgovor",
+        "tekst": "Upoznajemo se, pričamo o tvojoj temi i proveravamo da li smo dobar tim. Nema obaveze da nastaviš."
+      },
+      {
+        "naslov": "Definisanje cilja",
+        "tekst": "Na prvoj sesiji pretvaramo „želim da mi bude bolje“ u jasan, merljiv cilj i biramo pravac."
+      },
+      {
+        "naslov": "Sesije i praksa",
+        "tekst": "Na sesijama istražujemo i gradimo nove uvide, a između njih probaš dogovorene korake u svakodnevici."
+      },
+      {
+        "naslov": "Pregled napretka",
+        "tekst": "Na kraju ciklusa sagledavamo šta se promenilo i šta ti je potrebno da nastaviš samostalno."
+      }
+    ]
+  },
+  "detalji": {
+    "naslov": "Praktične informacije",
+    "stavke": [
+      { "ikona": "sat", "naziv": "Trajanje sesije", "vrednost": "Upiši trajanje (npr. 60 minuta)" },
+      { "ikona": "mesto", "naziv": "Format", "vrednost": "Online (video poziv) ili uživo" },
+      { "ikona": "kalendar", "naziv": "Dinamika", "vrednost": "Upiši dinamiku (npr. na dve nedelje)" },
+      { "ikona": "srce", "naziv": "Cena", "vrednost": "Upiši cenu ili „po dogovoru na uvodnom razgovoru“" }
+    ]
+  },
+  "pitanja": {
+    "nadnaslov": "Česta pitanja",
+    "naslov": "Možda se pitaš",
+    "stavke": [
+      {
+        "pitanje": "Po čemu se coaching razlikuje od psihoterapije?",
+        "odgovor": "Coaching je usmeren na sadašnjost i budućnost: na ciljeve, odluke i korake ka promeni. Ne bavi se lečenjem i nije zamena za psihoterapiju. Ako procenim da bi ti više pomogla druga vrsta podrške, otvoreno ću ti to reći."
+      },
+      {
+        "pitanje": "Koliko sesija mi je potrebno?",
+        "odgovor": "Zavisi od teme i cilja. Nekome je dovoljno nekoliko susreta da razjasni odluku, dok rad na dubljim obrascima traje duže. Okvir dogovaramo zajedno posle uvodnog razgovora."
+      },
+      {
+        "pitanje": "Da li su sesije poverljive?",
+        "odgovor": "Da. Sve što podeliš ostaje između nas. Poverljivost je osnova mog rada."
+      },
+      {
+        "pitanje": "Kako izgleda online sesija?",
+        "odgovor": "Radimo preko video poziva. Potrebni su ti stabilna internet veza i mesto na kome možeš slobodno da govoriš. Online rad je jednako delotvoran kao rad uživo."
+      },
+      {
+        "pitanje": "Šta ako moram da otkažem termin?",
+        "odgovor": "Termin možeš da pomeriš ili otkažeš uz blagovremenu najavu. Tačne uslove dobijaš pre početka saradnje."
+      }
+    ]
+  }
+}

@@ -1,0 +1,180 @@
+---
+import Osnovni from '../layouts/Osnovni.astro';
+import UvodStranice from '../components/UvodStranice.astro';
+import KontaktForma from '../components/KontaktForma.astro';
+import Mreze from '../components/Mreze.astro';
+import Ikona from '../components/Ikona.astro';
+import { sajt, apsolutni } from '../lib/sajt';
+import ostale from '../content/stranice/ostale.json';
+
+const s = ostale.kontakt;
+const shema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: s.seo_naslov,
+  url: apsolutni('/kontakt/', Astro.site),
+};
+---
+
+<Osnovni naslov={s.seo_naslov} opis={s.seo_opis} shema={shema} bezPoruke>
+  <UvodStranice nadnaslov={s.nadnaslov} naslov={s.naslov} uvod={s.tekst} putanja={[{ naziv: 'Kontakt' }]} />
+
+  <section class="sekcija sekcija--bez-vrha" aria-label="Kontakt">
+    <div class="omot kontakt">
+      <div class="kontakt__forma" data-otkrij>
+        <h2>{s.forma_naslov}</h2>
+        <KontaktForma id="kontakt" mesto="kontakt-stranica" />
+      </div>
+
+      <aside class="kontakt__strana" data-otkrij style="--kasnjenje:1">
+        <h2>{s.strana_naslov}</h2>
+        <ul class="kontakt__lista">
+          {
+            sajt.email && (
+              <li>
+                <span class="kontakt__ikona"><Ikona naziv="mejl" velicina={22} /></span>
+                <div>
+                  <span class="kontakt__naziv">E-mail</span>
+                  <a href={`mailto:${sajt.email}`}>{sajt.email}</a>
+                </div>
+              </li>
+            )
+          }
+          {
+            sajt.telefon && (
+              <li>
+                <span class="kontakt__ikona"><Ikona naziv="telefon" velicina={22} /></span>
+                <div>
+                  <span class="kontakt__naziv">Telefon</span>
+                  <a href={`tel:${sajt.telefon.replace(/[^+\d]/g, '')}`}>{sajt.telefon}</a>
+                </div>
+              </li>
+            )
+          }
+          {
+            sajt.lokacija && (
+              <li>
+                <span class="kontakt__ikona"><Ikona naziv="mesto" velicina={22} /></span>
+                <div>
+                  <span class="kontakt__naziv">Gde radim</span>
+                  <span>{sajt.lokacija}</span>
+                </div>
+              </li>
+            )
+          }
+          <li>
+            <span class="kontakt__ikona"><Ikona naziv="sat" velicina={22} /></span>
+            <div>
+              <span class="kontakt__naziv">Odgovor</span>
+              <span>{s.vreme_odgovora}</span>
+            </div>
+          </li>
+        </ul>
+
+        <div class="kontakt__mreze">
+          <span class="kontakt__naziv">Društvene mreže</span>
+          <Mreze />
+        </div>
+
+        <div class="kontakt__cta">
+          <p>Želiš odmah da razgovaramo?</p>
+          <a href={sajt.zakazivanje.link} class="dugme" data-prati="booking_click" data-mesto="kontakt">
+            {sajt.zakazivanje.tekst_dugmeta}
+            <Ikona naziv="strelica" />
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Osnovni>
+
+<style>
+  .kontakt {
+    display: grid;
+    gap: clamp(2.5rem, 1.5rem + 4vw, 5rem);
+    align-items: start;
+  }
+  @media (min-width: 60em) {
+    .kontakt {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    }
+  }
+  .kontakt h2 {
+    margin-bottom: 1.75rem;
+    font-size: var(--fs-h3);
+  }
+  .kontakt__forma {
+    padding: clamp(1.5rem, 1rem + 2.5vw, 3rem);
+    border-radius: var(--z-veliki);
+    background: var(--c-papir);
+    border: 1px solid var(--c-linija);
+    box-shadow: var(--senka-1);
+  }
+  .kontakt__strana {
+    display: grid;
+    gap: 2rem;
+  }
+  .kontakt__strana h2 {
+    margin-bottom: 0;
+  }
+  .kontakt__lista {
+    display: grid;
+    gap: 1.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .kontakt__lista li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: center;
+  }
+  .kontakt__lista li div {
+    display: grid;
+    gap: 0.1rem;
+  }
+  .kontakt__ikona {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 46% 54% 52% 48% / 50% 46% 54% 50%;
+    background: var(--c-kajsija);
+  }
+  .kontakt__naziv {
+    font-size: var(--fs-sitni);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--c-plava);
+  }
+  .kontakt__lista a {
+    font-size: 1.125rem;
+    text-decoration-color: rgb(27 37 69 / 0.3);
+    overflow-wrap: anywhere;
+  }
+  .kontakt__lista a:hover {
+    color: var(--c-plava);
+  }
+  .kontakt__mreze {
+    display: grid;
+    gap: 0.9rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--c-linija);
+  }
+  .kontakt__cta {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+    padding: 1.75rem;
+    border-radius: var(--z-kartica);
+    background: var(--c-svetloplava-blaga);
+  }
+  .kontakt__cta p {
+    font-family: var(--font-naslov);
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+</style>

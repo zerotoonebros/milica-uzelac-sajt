@@ -1,0 +1,273 @@
+# 2. Going live — step by step
+
+This guide takes the site from your computer to the internet and gives the client a login to edit it. Do the steps in order. Total time: about 1–2 hours, plus waiting for the domain.
+
+Menu names in GitHub and Netlify change now and then; if a label differs slightly from what is written here, look for the closest match.
+
+**What you get at the end**
+
+- The site live on a private preview address (`something.netlify.app`) you can send to the client right away.
+- The client logs in at `/admin/` and edits content.
+- Later: the real domain with HTTPS.
+
+---
+
+## Step 0 — Decide who owns the accounts (5 min)
+
+The brief (section 10) says the client must own everything. The clean way:
+
+| Account | Created with | Your access |
+| --- | --- | --- |
+| GitHub (stores the site) | Client's e-mail | Client adds you as collaborator on the repository |
+| Netlify (hosting) | Client's e-mail, or "Sign up with GitHub" using the client's GitHub | You set it up together on a call, or the client shares the login during setup and changes the password after |
+| Domain registrar | Client's e-mail | Client changes DNS records once (Step 6), or gives temporary access |
+| Google (Analytics, Tag Manager, Search Console) | Client's Google account | Client adds your Google account as admin/editor — see [03-analytics.md](03-analytics.md) |
+
+If you start under your own accounts to move faster, that is fine for the preview phase. Do Steps 1–5 with your own GitHub and Netlify accounts, send the client the preview link, and follow **[Handing over to the client](#handing-over-to-the-client)** near the end of this guide when they are ready. Starting under the client's accounts saves that later step.
+
+---
+
+## Step 1 — Put the code on GitHub (10 min)
+
+1. Sign in to [github.com](https://github.com) (client's account, per Step 0).
+2. Click **+** (top right) → **New repository**.
+   - Name: `milica-uzelac-sajt`
+   - Visibility: **Private**
+   - Do **not** add a README, .gitignore or license (the project already has them).
+   - Click **Create repository**.
+3. On your computer, open a terminal in the project folder. Git is already initialized there; nothing is committed yet. Run:
+
+```bash
+git add .
+```
+
+```bash
+git commit -m "Prva verzija sajta"
+```
+
+```bash
+git remote add origin https://github.com/VLASNIK/milica-uzelac-sajt.git
+```
+
+```bash
+git push -u origin main
+```
+
+Replace `VLASNIK` with the GitHub username that owns the repository. The first push asks you to sign in to GitHub in the browser.
+
+4. If the repository is under the client's account: repository **Settings → Collaborators → Add people** → your GitHub username.
+
+---
+
+## Step 2 — Tell the CMS which repository to use (2 min)
+
+Open [`public/admin/config.yml`](../public/admin/config.yml) and change one line near the top:
+
+```yaml
+  repo: VLASNIK/milica-uzelac-sajt
+```
+
+You will set `site_url` and `display_url` in Step 6 when the domain is known. Commit and push:
+
+```bash
+git commit -am "CMS: naziv repozitorijuma"
+```
+
+```bash
+git push
+```
+
+---
+
+## Step 3 — Deploy on Netlify (15 min)
+
+1. Go to [app.netlify.com](https://app.netlify.com) and sign up (client's account, per Step 0).
+2. **Add new project → Import an existing project → GitHub**. Authorize Netlify and choose the `milica-uzelac-sajt` repository.
+3. Build settings are read from [`netlify.toml`](../netlify.toml) automatically. You should see:
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+4. Click **Deploy**. After about a minute you get an address like `https://random-name-123.netlify.app`.
+5. Rename it: **Project configuration → General → Project details → Change project name** → e.g. `milica-uzelac` → the address becomes `https://milica-uzelac.netlify.app`.
+
+**This address is the preview you share with the client.** It is not findable on Google: indexing is switched off in the site settings and `robots.txt` blocks search engines until you turn it on.
+
+### About Netlify's free plan (read this once)
+
+Netlify's Free plan includes **300 credits per month**, and each production deploy costs **15 credits** — so about **20 publishes per month**. Bandwidth and requests also use credits, though a small site uses very little. Form submissions are free and unlimited. If the credits run out on the Free plan, the site is **paused until the next month**.
+
+That is why the CMS is set up so that saving does *not* publish each time: the client clicks **Save** as often as they like and publishes several changes at once (see Step 5). For a client who publishes often, the **Personal plan** (1,000 credits, about $9/month at the time of writing) removes the worry. Check current numbers at netlify.com/pricing before deciding.
+
+---
+
+## Step 4 — Give the client a login to the CMS (20 min)
+
+The CMS signs people in with their GitHub account. Netlify acts as the go-between, so you register one "OAuth app" on GitHub and paste its two keys into Netlify.
+
+### 4a. Register the OAuth app on GitHub
+
+1. On GitHub: profile picture → **Settings → Developer settings → OAuth Apps → New OAuth App**.
+2. Fill in:
+   - **Application name:** `Milica Uzelac CMS`
+   - **Homepage URL:** `https://milica-uzelac.netlify.app` (the real domain later)
+   - **Authorization callback URL:** `https://api.netlify.com/auth/done` ← must be exactly this
+3. Click **Register application**.
+4. Copy the **Client ID**. Click **Generate a new client secret** and copy it too — it is shown only once.
+
+### 4b. Add the keys to Netlify
+
+1. Netlify → your project → **Project configuration → Access & security → OAuth**. (This is *not* the "Identity" section.)
+2. **Authentication providers → Install provider → GitHub**.
+3. Paste the Client ID and Client secret → **Install**.
+
+### 4c. Test the login
+
+1. Open `https://milica-uzelac.netlify.app/admin/`.
+2. Click **Sign In with GitHub** and approve.
+3. You should see the collections: Blog, Radionice, Programi, Utisci klijenata, Stranice, Pravne stranice, Podešavanja.
+
+### 4d. Who can log in
+
+Anyone whose GitHub account has **write access to the repository**. If the client owns the repository, they already can. To add another editor: repository **Settings → Collaborators → Add people**.
+
+> **Simpler alternative without OAuth:** on the login screen, **Sign In with Token** accepts a GitHub personal access token (GitHub → Settings → Developer settings → Fine-grained tokens → repository access: only this repository → Permissions: *Contents: Read and write*). Useful for a quick test, but tokens expire and are harder for a non-technical client, so use 4a–4c for the real setup.
+
+---
+
+## Step 5 — Set up publishing from the CMS (5 min)
+
+In `config.yml` the option `skip_ci: true` means:
+
+- **Save** stores the change in GitHub but does **not** rebuild the site (no Netlify credits used).
+- **Save and Publish** (the arrow next to Save) stores the change **and** rebuilds the site.
+
+For the **Publish Changes** button in the CMS header to work on Netlify, give it a build hook:
+
+1. Netlify → **Project configuration → Build & deploy → Build hooks → Add build hook**. Name: `CMS`, branch: `main` → **Save**. Copy the URL.
+2. In the CMS: account menu (top right) → **Settings → Developer** → paste the URL into the deploy hook field.
+
+The hook URL is stored only in that browser, so repeat the second part on the client's computer. If you skip this step, **Save and Publish** still works.
+
+If you would rather have every Save publish immediately (simpler for the client, but uses a deploy each time), change `skip_ci: true` to `skip_ci: false` in `config.yml`.
+
+---
+
+## Step 6 — Connect the real domain (15 min + waiting)
+
+1. If the client has no domain yet: `.rs` domains are registered through an accredited Serbian registrar (list at rnids.rs); `.com` through any registrar. **Register it in the client's name and e-mail.**
+2. Netlify → **Domain management → Add a domain** → type the domain (e.g. `milicauzelac.rs`) → **Verify → Add domain**.
+3. Netlify shows the DNS records to create. At the registrar's DNS panel add:
+   - For `www`: a **CNAME** record → `milica-uzelac.netlify.app`
+   - For the bare domain: the **A / ALIAS** record Netlify shows on that screen (copy the value from Netlify — do not use an IP address from an old tutorial).
+   - Alternative: switch the domain's nameservers to Netlify DNS, which the same screen offers; then Netlify manages all records.
+4. Wait for DNS to update (minutes to a few hours). Netlify then issues the **HTTPS certificate automatically** (Let's Encrypt) and renews it by itself.
+5. In **Domain management**, set the primary domain (with or without `www`) — Netlify redirects the other one to it.
+6. Update the site to the final address:
+   - [`public/admin/config.yml`](../public/admin/config.yml): `site_url` and `display_url`
+   - GitHub OAuth app (Step 4a): Homepage URL
+   - Commit and push.
+
+Canonical links, the sitemap and `robots.txt` pick up the primary domain on their own — Netlify passes it to the build.
+
+---
+
+## Step 7 — Turn on form notifications (5 min)
+
+Forms are detected automatically on the first deploy. See [04-forms-newsletter-booking.md](04-forms-newsletter-booking.md) for e-mail notifications, spam protection, confirmation e-mails and the newsletter.
+
+---
+
+## Step 8 — Launch
+
+When the content is final, follow [05-launch-checklist.md](05-launch-checklist.md). The last switch is in the CMS:
+
+**Podešavanja → Opšta podešavanja → SEO (Google) → "Dozvoli Google-u da prikazuje sajt" → on → Save and Publish.**
+
+---
+
+## How the client makes changes (so you can explain it)
+
+1. The client opens `https://DOMAIN/admin/` and signs in with GitHub.
+2. They pick a section (e.g. **Blog → New Tekst**, or **Stranice → Početna**), edit the fields and upload photos.
+3. **Save** stores the change. **Save and Publish** puts it live in about a minute.
+4. Behind the scenes, each save is a *commit* in the GitHub repository — a dated, named record of exactly what changed. Nothing is ever lost: any earlier version of any text can be restored from the repository history (**Commits** on GitHub).
+5. Netlify sees the new commit, rebuilds the site and swaps it in. If a build fails, the old version simply stays online.
+
+The client's own handbook, in Serbian, is [UPUTSTVO-ZA-UREDJIVANJE.md](UPUTSTVO-ZA-UREDJIVANJE.md).
+
+### Getting the client's changes onto your computer
+
+When the client edits through the CMS, GitHub has newer content than your local folder. Before you work on the site, always run:
+
+```bash
+git pull
+```
+
+### Making your own changes
+
+Edit files, check at `http://localhost:4321`, then:
+
+```bash
+git add .
+```
+
+```bash
+git commit -m "Opis izmene"
+```
+
+```bash
+git push
+```
+
+Netlify publishes it automatically.
+
+---
+
+## Handing over to the client
+
+Use this if you ran the preview under your own accounts. Plan about an hour on a call with the client. The site stays online on your Netlify project until the last step, so there is no downtime.
+
+**Before the call — the client creates** (with their own e-mail): a GitHub account and a Netlify account. Ask them to turn on two-factor authentication on GitHub.
+
+1. **Transfer the repository.** On GitHub, in your repository: **Settings → Danger Zone → Transfer ownership** → type the client's GitHub username. The client gets an e-mail and must accept it. The whole history moves with the repository, and GitHub redirects the old address to the new one.
+2. **Get your access back.** After the transfer the repository is theirs and you are no longer in it. The client opens **Settings → Collaborators → Add people** and adds your username.
+3. **Point your computer at the new address:**
+
+```bash
+git remote set-url origin https://github.com/KLIJENT/milica-uzelac-sajt.git
+```
+
+4. **Update the CMS config.** In [`public/admin/config.yml`](../public/admin/config.yml) change `repo:` to `KLIJENT/milica-uzelac-sajt`, then commit and push.
+5. **Create the Netlify project in the client's account.** Signed in as the client, repeat **Step 3** (import the repository), **Step 4** (a new GitHub OAuth app under the *client's* GitHub, installed in the *client's* Netlify), **Step 5** (build hook) and **Step 7** (form notifications). If you set up Brevo, add the environment variables again too — they do not move between accounts.
+6. **Move the address.** A `netlify.app` name can belong to only one project. Either give the client's project a different name, or rename/delete yours first so the name is free. If a custom domain is already connected, remove it from your project and add it to theirs (Step 6); DNS records stay the same when the `netlify.app` name stays the same.
+7. **Check, then delete yours.** Open the client's site, log in to `/admin/` as the client, publish one small change, send one test form. Then delete your Netlify project and your GitHub OAuth app.
+
+**What does not move:** form submissions stored in your Netlify project. Export them first (**Forms → the form → Download CSV**) if there are real ones.
+
+Netlify also has a setting for transferring a project to another team. I have not verified its current conditions, so the steps above use a fresh import, which always works and takes about ten minutes.
+
+**A note on the preview phase:** while the site is under your accounts, form messages and any e-mail notifications go where *you* set them. Tell the client the preview's forms are for testing, and do not collect real visitors' data there — the privacy policy names the client, not you, as the one handling it.
+
+---
+
+## Backups, security, maintenance (brief section 8)
+
+| Topic | How it is covered |
+| --- | --- |
+| HTTPS / SSL | Automatic on Netlify, renewed automatically |
+| Backup | The whole site and every past version are in the GitHub repository. Your local folder is a second copy. Form submissions are stored in Netlify (export as CSV from the Forms tab). |
+| Admin protection | Login only through GitHub. Turn on **two-factor authentication** on the client's GitHub account (GitHub → Settings → Password and authentication). |
+| Updates | There is no server software or plugin to update. Dependencies only matter when you rebuild; run `npm update` a couple of times a year and check the site still builds. |
+| Spam protection | Honeypot field + Netlify's spam filter — see guide 4 |
+| Security headers | Set in [`netlify.toml`](../netlify.toml) |
+| Maintenance agreement | Agree with the client who handles: domain renewal (yearly), Netlify plan, content edits, and a yearly dependency update. Put it in writing. |
+
+## If something goes wrong
+
+| Symptom | Likely cause and fix |
+| --- | --- |
+| Netlify deploy fails | Open the deploy log. Usually a content field has an invalid value (e.g. an empty required date). Fix it in the CMS or revert the commit on GitHub. The live site is unaffected. |
+| CMS login window closes with an error | The callback URL in the GitHub OAuth app is not exactly `https://api.netlify.com/auth/done`, or the provider is not installed in Netlify. |
+| CMS shows "repository not found" | `repo:` in `config.yml` is wrong, or the GitHub account has no write access to the repository. |
+| Change saved but not visible | It was saved with **Save** only. Use **Save and Publish**, then wait a minute and hard-refresh (Ctrl+F5). |
+| Photo does not appear | The file must be uploaded through the CMS (it lands in `src/assets/uploads/`). Very large files (over 10 MB) are rejected. |
+| Site says "Site not available" | Netlify Free credits ran out for the month. Upgrade the plan or wait for the monthly reset. |

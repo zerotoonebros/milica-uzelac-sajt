@@ -1,0 +1,121 @@
+---
+import { getCollection } from 'astro:content';
+import Osnovni from '../../../layouts/Osnovni.astro';
+import UvodStranice from '../../../components/UvodStranice.astro';
+import KarticaRadionice from '../../../components/KarticaRadionice.astro';
+import Ikona from '../../../components/Ikona.astro';
+import { mdRed } from '../../../lib/sajt';
+import s from '../../../content/stranice/grupne-radionice.json';
+
+const sve = await getCollection('radionice');
+const naredne = sve
+  .filter((r) => r.data.status !== 'zavrseno')
+  .sort((a, b) => a.data.datum.valueOf() - b.data.datum.valueOf());
+const prosle = sve
+  .filter((r) => r.data.status === 'zavrseno')
+  .sort((a, b) => b.data.datum.valueOf() - a.data.datum.valueOf());
+---
+
+<Osnovni naslov={s.seo.naslov} opis={s.seo.opis}>
+  <UvodStranice
+    nadnaslov={s.uvod.nadnaslov}
+    naslov={s.uvod.naslov}
+    uvod={s.uvod.tekst}
+    putanja={[{ naziv: 'Rad sa mnom', link: '/rad-sa-mnom/' }, { naziv: 'Grupne radionice' }]}
+  />
+
+  <section class="sekcija sekcija--bez-vrha" aria-labelledby="naredne-naslov">
+    <div class="omot">
+      <h2 id="naredne-naslov" class="podnaslov-liste" data-otkrij>{s.naredne.naslov}</h2>
+      {
+        naredne.length > 0 ? (
+          <div class="mreza mreza--2">
+            {naredne.map((r, i) => (
+              <div data-otkrij style={`--kasnjenje:${i % 2}`}>
+                <KarticaRadionice radionica={r} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p class="prazno" data-otkrij>
+            {s.naredne.prazno}
+          </p>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="sekcija sekcija--papir" aria-labelledby="prednosti-naslov">
+    <div class="omot">
+      <div class="glava-sekcije" data-otkrij>
+        <span class="nadnaslov">{s.prednosti.nadnaslov}</span>
+        <h2 id="prednosti-naslov" set:html={mdRed(s.prednosti.naslov)} />
+      </div>
+      <div class="mreza mreza--3">
+        {
+          s.prednosti.stavke.map((p, i) => (
+            <article class="prednost" data-otkrij style={`--kasnjenje:${i}`}>
+              <span class="prednost__ikona">
+                <Ikona naziv={p.ikona as any} velicina={26} />
+              </span>
+              <h3>{p.naslov}</h3>
+              <p>{p.tekst}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    prosle.length > 0 && (
+      <section class="sekcija" aria-labelledby="prosle-naslov">
+        <div class="omot">
+          <h2 id="prosle-naslov" class="podnaslov-liste" data-otkrij>
+            {s.prosle.naslov}
+          </h2>
+          <div class="mreza mreza--2">
+            {prosle.map((r) => (
+              <div data-otkrij>
+                <KarticaRadionice radionica={r} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</Osnovni>
+
+<style>
+  .podnaslov-liste {
+    margin-bottom: 2rem;
+    font-size: var(--fs-h3);
+  }
+  .prazno {
+    max-width: 40rem;
+    padding: 2rem;
+    border: 1px dashed var(--c-kajsija-tamna);
+    border-radius: var(--z-kartica);
+    font-size: var(--fs-uvod);
+    color: var(--c-teget-blagi);
+  }
+  .prednost {
+    display: grid;
+    gap: 0.75rem;
+    align-content: start;
+  }
+  .prednost__ikona {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 46% 54% 52% 48% / 50% 46% 54% 50%;
+    background: var(--c-kajsija);
+    color: var(--c-teget);
+  }
+  .prednost p {
+    color: var(--c-teget-blagi);
+  }
+</style>

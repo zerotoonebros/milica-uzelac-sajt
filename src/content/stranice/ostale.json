@@ -1,0 +1,50 @@
+{
+  "utisci": {
+    "seo_naslov": "Utisci klijenata — iskustva žena sa coachingom",
+    "seo_opis": "Pročitaj utiske žena koje su kroz individualne sesije i grupne radionice ojačale samopouzdanje, postavile granice i napravile promenu.",
+    "nadnaslov": "Utisci klijenata",
+    "naslov": "Reči žena koje su *krenule svojim putem*",
+    "tekst": "Svaka priča je drugačija, ali im je jedno zajedničko: prvi korak bio je razgovor."
+  },
+  "kontakt": {
+    "seo_naslov": "Kontakt — piši mi",
+    "seo_opis": "Imaš pitanje o coachingu, radionicama ili programima? Pošalji poruku Milici Uzelac — odgovaram lično, najčešće u roku od dva radna dana.",
+    "nadnaslov": "Kontakt",
+    "naslov": "Tu sam za *tvoja pitanja*",
+    "tekst": "Piši mi ako imaš pitanje o načinu rada, radionicama ili programima — ili ako samo nisi sigurna odakle da kreneš.",
+    "forma_naslov": "Pošalji poruku",
+    "strana_naslov": "Drugi načini da se čujemo",
+    "vreme_odgovora": "Odgovaram lično, najčešće u roku od dva radna dana."
+  },
+  "zakazivanje": {
+    "seo_naslov": "Zakaži uvodni razgovor",
+    "seo_opis": "Zakaži uvodni razgovor sa Milicom Uzelac. Upoznajemo se, pričamo o tvojoj temi i zajedno vidimo kako coaching može da ti pomogne.",
+    "nadnaslov": "Uvodni razgovor",
+    "naslov": "Hajde da se *upoznamo*",
+    "tekst": "Uvodni razgovor je prvi korak. Ispričaćeš mi gde si sada i šta želiš da promeniš, a ja ću ti objasniti kako radim. Bez obaveze da nastaviš.",
+    "sta_ocekivati_naslov": "Šta možeš da očekuješ",
+    "sta_ocekivati": [
+      "Razgovor u opuštenoj atmosferi, online ili telefonom",
+      "Prostor da kažeš šta te muči, bez osuđivanja",
+      "Iskren odgovor na pitanje da li i kako mogu da ti pomognem",
+      "Predlog sledećih koraka — odluka je uvek tvoja"
+    ],
+    "detalji": [
+      { "ikona": "sat", "naziv": "Trajanje", "vrednost": "Upiši trajanje (npr. 30 minuta)" },
+      { "ikona": "mesto", "naziv": "Gde", "vrednost": "Online (video poziv)" },
+      { "ikona": "srce", "naziv": "Cena", "vrednost": "Upiši (npr. besplatno)" }
+    ],
+    "kalendar_naslov": "Izaberi termin",
+    "kalendar_tekst": "Kalendar se otvara u prozoru ispod. Izaberi dan i vreme koji ti odgovaraju — potvrda stiže na e-mail.",
+    "forma_naslov": "Zatraži termin",
+    "forma_tekst": "Ostavi podatke i termine koji ti odgovaraju. Javiću ti se sa potvrdom."
+  },
+  "hvala": {
+    "naslov": "Hvala, poruka je *stigla*!",
+    "tekst": "Javiću ti se lično u najkraćem roku. U međuvremenu, možda ti se dopadne neki tekst sa bloga."
+  },
+  "nije_pronadjeno": {
+    "naslov": "Ova stranica je krenula *svojim putem*",
+    "tekst": "Stranica koju tražiš ne postoji ili je premeštena. Hajde da te vratimo na pravi put."
+  }
+}

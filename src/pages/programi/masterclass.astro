@@ -1,0 +1,20 @@
+---
+import Osnovni from '../../layouts/Osnovni.astro';
+import UvodStranice from '../../components/UvodStranice.astro';
+import ListaPrograma from '../../components/ListaPrograma.astro';
+import s from '../../content/stranice/programi.json';
+---
+
+<Osnovni naslov={s.masterclass.seo_naslov} opis={s.masterclass.seo_opis}>
+  <UvodStranice
+    nadnaslov={s.masterclass.nadnaslov}
+    naslov={s.masterclass.naslov}
+    uvod={s.masterclass.tekst}
+    putanja={[{ naziv: 'Programi', link: '/programi/' }, { naziv: 'Online Masterclass programi' }]}
+  />
+  <section class="sekcija sekcija--bez-vrha" aria-label="Online Masterclass programi">
+    <div class="omot">
+      <ListaPrograma vrsta="masterclass" prazno={s.masterclass.prazno} />
+    </div>
+  </section>
+</Osnovni>

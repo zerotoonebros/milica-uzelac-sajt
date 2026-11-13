@@ -1,0 +1,154 @@
+---
+import { getCollection } from 'astro:content';
+import Osnovni from '../../layouts/Osnovni.astro';
+import UvodStranice from '../../components/UvodStranice.astro';
+import Fotografija from '../../components/Fotografija.astro';
+import Forma from '../../components/Forma.astro';
+import Ikona from '../../components/Ikona.astro';
+import { nazivVrste, jeSpoljni, mdClanak } from '../../lib/sajt';
+
+export async function getStaticPaths() {
+  const programi = await getCollection('programi');
+  return programi.map((program) => ({ params: { id: program.id }, props: { program } }));
+}
+
+const { program } = Astro.props;
+const p = program.data;
+const sadrzaj = await mdClanak(program.body);
+const vrsta = nazivVrste[p.vrsta];
+const dostupno = p.status === 'dostupno' && !!p.link_za_kupovinu;
+---
+
+<Osnovni naslov={p.seo_naslov || p.naslov} opis={p.seo_opis || p.opis} slika={p.slika}>
+  <UvodStranice
+    nadnaslov={vrsta.jednina}
+    naslov={p.naslov}
+    uvod={p.opis}
+    putanja={[{ naziv: 'Programi', link: '/programi/' }, { naziv: vrsta.mnozina, link: vrsta.link }, { naziv: p.naslov }]}
+  >
+    <p class="oznake">
+      <span class:list={['oznaka', p.status === 'dostupno' ? 'oznaka--kajsija' : 'oznaka--okvir']}>
+        {p.status === 'dostupno' ? 'Dostupno' : 'Uskoro'}
+      </span>
+      {p.primer && <span class="oznaka oznaka--okvir">Primer programa — zameniti pravim podacima</span>}
+    </p>
+  </UvodStranice>
+
+  <section class="sekcija sekcija--bez-vrha">
+    <div class="omot detalj">
+      <div class="detalj__sadrzaj">
+        <Fotografija
+          slika={p.slika}
+          alt={p.slika_alt ?? ''}
+          odnos="16/10"
+          sablon={p.vrsta === 'e-book' ? 4 : 3}
+          prioritet
+          sizes="(min-width: 60em) 55vw, 92vw"
+        />
+        <div class="tekst" set:html={sadrzaj} />
+        {
+          p.sta_sadrzi.length > 0 && (
+            <div class="detalj__blok">
+              <h2>Šta program sadrži</h2>
+              <ul class="kvacice">
+                {p.sta_sadrzi.map((stavka) => (
+                  <li>{stavka}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      </div>
+
+      <aside class="detalj__strana" aria-label="Detalji programa">
+        <div class="detalj__kartica">
+          <dl class="cinjenice">
+            <div>
+              <dt><Ikona naziv={p.vrsta === 'e-book' ? 'knjiga' : 'video'} velicina={20} />Vrsta</dt>
+              <dd class="cinjenice__veliko">{vrsta.jednina}</dd>
+            </div>
+            {
+              p.obim && (
+                <div>
+                  <dt><Ikona naziv="list" velicina={20} />Obim</dt>
+                  <dd>{p.obim}</dd>
+                </div>
+              )
+            }
+            {
+              p.cena && (
+                <div>
+                  <dt><Ikona naziv="srce" velicina={20} />Cena</dt>
+                  <dd>{p.cena}</dd>
+                </div>
+              )
+            }
+          </dl>
+
+          {
+            dostupno ? (
+              <div class="detalj__zatvoreno">
+                <a
+                  href={p.link_za_kupovinu}
+                  class="dugme"
+                  target={jeSpoljni(p.link_za_kupovinu!) ? '_blank' : undefined}
+                  rel={jeSpoljni(p.link_za_kupovinu!) ? 'noopener' : undefined}
+                  data-prati="program_click"
+                  data-mesto={p.naslov}
+                >
+                  Želim ovaj program <Ikona naziv="strelica" />
+                </a>
+              </div>
+            ) : (
+              <div class="detalj__forma" id="upit">
+                <h2 class="detalj__forma-naslov">{p.status === 'uskoro' ? 'Javi mi kada bude dostupno' : 'Pošalji upit'}</h2>
+                <Forma
+                  naziv="upit-program"
+                  id="upit"
+                  dugme={p.status === 'uskoro' ? 'Obavesti me' : 'Pošalji upit'}
+                  dogadjaj="generate_lead"
+                  predmet={`Interesovanje za program: ${p.naslov}`}
+                  uspehNaslov="Zabeleženo!"
+                  uspehTekst="Hvala na interesovanju. Javiću ti se na e-mail sa svim informacijama."
+                >
+                  <input type="hidden" name="program" value={p.naslov} />
+                  <div class="polje">
+                    <label for="upit-ime">Ime</label>
+                    <input id="upit-ime" name="ime" type="text" autocomplete="given-name" required />
+                  </div>
+                  <div class="polje">
+                    <label for="upit-email">E-mail adresa</label>
+                    <input id="upit-email" name="email" type="email" autocomplete="email" inputmode="email" required />
+                  </div>
+                  <div class="potvrda-omot">
+                    <label class="potvrda">
+                      <input type="checkbox" name="saglasnost" value="da" id="upit-saglasnost" required />
+                      <span>
+                        Prihvatam da me kontaktiraš u vezi sa ovim programom, u skladu sa
+                        <a href="/politika-privatnosti/">Politikom privatnosti</a>.
+                      </span>
+                    </label>
+                  </div>
+                  <div class="potvrda-omot">
+                    <label class="potvrda">
+                      <input type="checkbox" name="newsletter" value="da" id="upit-newsletter" />
+                      <span>Želim da dobijam i newsletter (nije obavezno).</span>
+                    </label>
+                  </div>
+                </Forma>
+              </div>
+            )
+          }
+        </div>
+      </aside>
+    </div>
+  </section>
+</Osnovni>
+
+<style>
+  .oznake {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>

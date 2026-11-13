@@ -1,0 +1,147 @@
+---
+// Zaglavlje unutrašnjih stranica: putanja (breadcrumbs), naslov H1 i uvodni tekst.
+import Oblik from './Oblik.astro';
+import { mdRed, apsolutni } from '../lib/sajt';
+
+interface Props {
+  nadnaslov?: string | null;
+  rukopis?: string | null;
+  naslov: string;
+  uvod?: string | null;
+  /** Putanja do stranice, bez početne: [{ naziv, link }] */
+  putanja?: { naziv: string; link?: string }[];
+  centrirano?: boolean;
+  oblici?: boolean;
+  /** Uža kolona — poravnata sa tekstom članka */
+  uzak?: boolean;
+}
+const { nadnaslov, rukopis, naslov, uvod, putanja = [], centrirano = false, oblici = true, uzak = false } = Astro.props;
+
+const shema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [{ naziv: 'Početna', link: '/' }, ...putanja].map((stavka, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: stavka.naziv,
+    item: apsolutni(stavka.link ?? Astro.url.pathname, Astro.site),
+  })),
+};
+---
+
+<section class:list={['uvod-stranice', { 'uvod-stranice--centar': centrirano }]}>
+  {
+    oblici && (
+      <>
+        <Oblik vrsta="sunce" boja="var(--c-kajsija)" class="uvod-stranice__oblik uvod-stranice__oblik--1" />
+        <Oblik vrsta="list" boja="var(--c-svetloplava)" class="uvod-stranice__oblik uvod-stranice__oblik--2" />
+      </>
+    )
+  }
+  <div class:list={["omot uvod-stranice__unutra", { "omot--tekst": uzak }]}>
+    {
+      putanja.length > 0 && (
+        <nav aria-label="Putanja" class="putanja">
+          <ol>
+            <li>
+              <a href="/">Početna</a>
+            </li>
+            {putanja.map((stavka, i) => (
+              <li>
+                {stavka.link && i < putanja.length - 1 ? (
+                  <a href={stavka.link}>{stavka.naziv}</a>
+                ) : (
+                  <span aria-current="page">{stavka.naziv}</span>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+    {nadnaslov && <span class:list={['nadnaslov', { 'nadnaslov--centar': centrirano }]}>{nadnaslov}</span>}
+    {rukopis && <span class="rukopis uvod-stranice__rukopis">{rukopis}</span>}
+    <h1 set:html={mdRed(naslov)} />
+    {uvod && <p class="uvod">{uvod}</p>}
+    <slot />
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(shema)} />
+</section>
+
+<style>
+  .uvod-stranice {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(2rem, 1.2rem + 3.5vw, 4.5rem) clamp(3rem, 2rem + 4vw, 5.5rem);
+  }
+  .uvod-stranice__unutra {
+    position: relative;
+    display: grid;
+    gap: 1.25rem;
+    justify-items: start;
+  }
+  .uvod-stranice h1 {
+    max-width: 20ch;
+  }
+  .uvod-stranice .uvod {
+    max-width: 40rem;
+  }
+  .uvod-stranice__rukopis {
+    margin-bottom: -1rem;
+  }
+  .uvod-stranice--centar .uvod-stranice__unutra {
+    justify-items: center;
+    text-align: center;
+  }
+  .uvod-stranice--centar h1 {
+    max-width: 22ch;
+  }
+  .uvod-stranice :global(.uvod-stranice__oblik--1) {
+    width: clamp(10rem, 22vw, 20rem);
+    right: -4rem;
+    top: -5rem;
+    opacity: 0.75;
+  }
+  .uvod-stranice :global(.uvod-stranice__oblik--2) {
+    width: clamp(6rem, 12vw, 11rem);
+    right: clamp(4rem, 14vw, 14rem);
+    bottom: -3.5rem;
+    transform: rotate(32deg);
+  }
+  @media (max-width: 52em) {
+    .uvod-stranice :global(.uvod-stranice__oblik--1) {
+      opacity: 0.45;
+    }
+    .uvod-stranice :global(.uvod-stranice__oblik--2) {
+      display: none;
+    }
+  }
+
+  .putanja ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.6rem;
+    list-style: none;
+    margin: 0 0 0.75rem;
+    padding: 0;
+    font-size: var(--fs-mali);
+    color: var(--c-teget-blagi);
+  }
+  .putanja li + li::before {
+    content: '/';
+    margin-right: 0.6rem;
+    opacity: 0.5;
+  }
+  .putanja a {
+    display: inline-block;
+    padding-block: 0.25rem;
+    text-decoration: none;
+  }
+  .putanja a:hover {
+    color: var(--c-plava);
+    text-decoration: underline;
+  }
+  .putanja span {
+    color: var(--c-teget);
+  }
+</style>

@@ -1,0 +1,20 @@
+---
+import Osnovni from '../../layouts/Osnovni.astro';
+import UvodStranice from '../../components/UvodStranice.astro';
+import ListaPrograma from '../../components/ListaPrograma.astro';
+import s from '../../content/stranice/programi.json';
+---
+
+<Osnovni naslov={s.ebook.seo_naslov} opis={s.ebook.seo_opis}>
+  <UvodStranice
+    nadnaslov={s.ebook.nadnaslov}
+    naslov={s.ebook.naslov}
+    uvod={s.ebook.tekst}
+    putanja={[{ naziv: 'Programi', link: '/programi/' }, { naziv: 'E-book programi' }]}
+  />
+  <section class="sekcija sekcija--bez-vrha" aria-label="E-book programi">
+    <div class="omot">
+      <ListaPrograma vrsta="e-book" prazno={s.ebook.prazno} />
+    </div>
+  </section>
+</Osnovni>

@@ -1,0 +1,118 @@
+{
+  "seo": {
+    "naslov": "Milica Uzelac — Coach za lični napredak | Coaching za žene",
+    "opis": "Coaching za žene koje žele više samopouzdanja, jasne granice i promenu u karijeri. Individualne sesije, grupne radionice i online programi. Zakaži uvodni razgovor."
+  },
+  "hero": {
+    "rukopis": "Zdravo, ja sam Milica",
+    "naslov": "Coaching za žene koje su spremne za *svoj sledeći korak*",
+    "tekst": "Pomažem ti da ojačaš samopouzdanje, postaviš granice i napraviš promenu koju dugo odlažeš — u karijeri i u životu. Bez pritiska, uz jasan plan i podršku na svakom koraku.",
+    "dugme_tekst": "Upoznaj me",
+    "dugme_link": "/o-meni/",
+    "slika": "",
+    "slika_alt": "Milica Uzelac, coach za lični napredak",
+    "istaknuto": ["Individualne sesije", "Grupne radionice", "Online programi"]
+  },
+  "prepoznavanje": {
+    "rukopis": "Možda i ti…",
+    "naslov": "Daješ sve od sebe, a i dalje imaš osećaj da *stojiš u mestu*?",
+    "stavke": [
+      "Znaš da ti treba promena u karijeri, ali ne znaš odakle da kreneš — ili da li smeš.",
+      "Teško ti je da kažeš „ne“, pa tvoje potrebe uvek dođu na red poslednje.",
+      "Balansiraš između posla, porodice i sebe, i sve češće osećaš iscrpljenost.",
+      "Spolja deluje da je sve u redu, ali iznutra znaš da možeš i želiš više."
+    ],
+    "zakljucak": "Nisi sama i ništa sa tobom nije „pogrešno“. Potrebni su ti prostor, jasnoća i neko ko će ići uz tebe."
+  },
+  "o_meni": {
+    "nadnaslov": "O meni",
+    "naslov": "Verujem da svaka žena već nosi *snagu koja joj je potrebna*",
+    "tekst": "Ja sam Milica Uzelac, coach za lični napredak. Kroz coaching razgovore i NLP alate pomažem ženama da razumeju šta ih koči, prepoznaju svoje vrednosti i krenu ka ciljevima koji su zaista njihovi.\n\nMoj pristup je topao, praktičan i bez osuđivanja. Radimo tvojim tempom — ali uvek korak napred.",
+    "dugme_tekst": "Moja priča",
+    "dugme_link": "/o-meni/",
+    "slika": "",
+    "slika_alt": "Milica Uzelac tokom coaching razgovora"
+  },
+  "usluge": {
+    "nadnaslov": "Rad sa mnom",
+    "naslov": "Izaberi način rada koji *tebi* odgovara",
+    "tekst": "Bilo da želiš posvećen rad jedan na jedan, podršku grupe ili program koji prolaziš svojim tempom — postoji put koji se uklapa u tvoj život.",
+    "stavke": [
+      {
+        "ikona": "osoba",
+        "naslov": "Individualne sesije",
+        "tekst": "Rad jedan na jedan, potpuno posvećen tebi i temi koja ti je sada najvažnija.",
+        "link": "/rad-sa-mnom/individualne-sesije/"
+      },
+      {
+        "ikona": "osobe",
+        "naslov": "Grupne radionice",
+        "tekst": "Mala grupa, konkretne vežbe i podrška žena koje prolaze kroz slično.",
+        "link": "/rad-sa-mnom/grupne-radionice/"
+      },
+      {
+        "ikona": "knjiga",
+        "naslov": "E-book programi",
+        "tekst": "Vodiči sa vežbama koje prolaziš svojim tempom, kad god tebi odgovara.",
+        "link": "/programi/e-book/"
+      },
+      {
+        "ikona": "video",
+        "naslov": "Online Masterclass",
+        "tekst": "Video programi sa radnim materijalima za dublji rad na jednoj temi.",
+        "link": "/programi/masterclass/"
+      }
+    ]
+  },
+  "teme": {
+    "nadnaslov": "Teme na kojima radimo",
+    "naslov": "Sa čim ti mogu pomoći",
+    "stavke": [
+      "Samopouzdanje",
+      "Postavljanje granica",
+      "Karijerna promena",
+      "Napredak u karijeri",
+      "Ograničavajuća uverenja",
+      "Postavljanje ciljeva",
+      "Stres i burnout",
+      "Balans posla i privatnog života",
+      "Komunikacija",
+      "Lične vrednosti",
+      "Emocije i unutrašnja snaga",
+      "Organizacija",
+      "Porodični coaching"
+    ]
+  },
+  "proces": {
+    "nadnaslov": "Kako izgleda saradnja",
+    "naslov": "Tri koraka do *jasnijeg pravca*",
+    "koraci": [
+      {
+        "naslov": "Uvodni razgovor",
+        "tekst": "Upoznajemo se i pričamo o tome gde si sada i šta želiš da promeniš. Bez obaveze da nastaviš."
+      },
+      {
+        "naslov": "Jasan plan",
+        "tekst": "Zajedno određujemo cilj i način rada koji odgovara tvom životu, obavezama i tempu."
+      },
+      {
+        "naslov": "Promena, korak po korak",
+        "tekst": "Kroz razgovore i praktične alate gradiš nove navike, uverenja i odluke — i vidiš pomak."
+      }
+    ]
+  },
+  "utisci": {
+    "nadnaslov": "Utisci klijenata",
+    "naslov": "Šta kažu žene sa kojima sam radila",
+    "dugme_tekst": "Svi utisci"
+  },
+  "radionica": {
+    "nadnaslov": "Naredna radionica",
+    "dugme_tekst": "Sve radionice"
+  },
+  "blog": {
+    "nadnaslov": "Blog",
+    "naslov": "Tekstovi za tvoj *lični razvoj*",
+    "dugme_tekst": "Svi tekstovi"
+  }
+}

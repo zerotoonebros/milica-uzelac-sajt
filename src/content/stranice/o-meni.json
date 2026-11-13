@@ -1,0 +1,59 @@
+{
+  "seo": {
+    "naslov": "O meni — Milica Uzelac, coach za lični napredak",
+    "opis": "Upoznaj Milicu Uzelac, coacha za lični napredak. Saznaj kako radim, u šta verujem i zašto podržavam žene na putu ličnog i profesionalnog razvoja."
+  },
+  "uvod": {
+    "rukopis": "Drago mi je što si tu",
+    "naslov": "Ja sam Milica — i verujem u *male korake koji menjaju pravac*",
+    "tekst": "Coach sam za lični napredak. Radim sa ženama koje žele više jasnoće, samopouzdanja i hrabrosti da žive i rade onako kako im zaista odgovara."
+  },
+  "prica": {
+    "nadnaslov": "Moja priča",
+    "naslov": "Zašto radim ovaj posao",
+    "tekst": "Znam kako izgleda kada spolja sve deluje u redu, a iznutra osećaš da to nije život koji želiš. Znam i koliko je teško napraviti prvi korak kada ne znaš kuda on vodi.\n\nUpravo zato sam izabrala coaching. Na svom putu naučila sam da promena retko dolazi iz velikih odluka donetih preko noći — dolazi iz iskrenih pitanja, malih koraka i podrške u pravom trenutku.\n\nDanas tu podršku pružam ženama koje žele da promene posao, postave granice, povrate energiju ili jednostavno ponovo čuju sopstveni glas.",
+    "slika": "",
+    "slika_alt": "Portret Milice Uzelac"
+  },
+  "pristup": {
+    "nadnaslov": "Kako radim",
+    "naslov": "Moj pristup",
+    "stavke": [
+      {
+        "ikona": "srce",
+        "naslov": "Toplo i bez osuđivanja",
+        "tekst": "Prostor u kome možeš da kažeš sve što misliš — i ono što još nikome nisi rekla."
+      },
+      {
+        "ikona": "kompas",
+        "naslov": "Praktično i usmereno",
+        "tekst": "Svaki razgovor završavamo jasnim sledećim korakom. Uvid je važan, ali promena se dešava u praksi."
+      },
+      {
+        "ikona": "iskra",
+        "naslov": "Uz proverene alate",
+        "tekst": "Kombinujem coaching razgovor sa NLP tehnikama i vežbama koje možeš da koristiš i kada naša saradnja završi."
+      },
+      {
+        "ikona": "list",
+        "naslov": "Tvojim tempom",
+        "tekst": "Ne postoji univerzalni plan. Polazimo od tvog života, tvojih obaveza i onoga što je tebi sada moguće."
+      }
+    ]
+  },
+  "obrazovanje": {
+    "nadnaslov": "Obrazovanje i iskustvo",
+    "naslov": "Znanje na koje se oslanjam",
+    "stavke": [
+      "Ovde upiši sertifikat ili edukaciju (naziv, škola, godina)",
+      "Ovde upiši drugu edukaciju ili oblast stručnosti",
+      "Ovde upiši relevantno profesionalno iskustvo"
+    ]
+  },
+  "licno": {
+    "naslov": "Kada ne radim…",
+    "tekst": "…najčešće sam sa porodicom, na putovanju ili sa dobrom knjigom i kafom. Verujem da je briga o sebi osnova svake promene — i trudim se da živim ono o čemu govorim.",
+    "slika": "",
+    "slika_alt": "Milica Uzelac u slobodno vreme"
+  }
+}

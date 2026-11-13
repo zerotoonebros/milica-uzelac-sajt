@@ -1,0 +1,53 @@
+---
+// Forma za poruku: ime i prezime, e-mail, poruka + saglasnosti.
+import Forma from './Forma.astro';
+
+interface Props {
+  id?: string;
+  mesto?: string;
+  dugmeKlasa?: string;
+}
+const { id = 'kontakt', mesto = 'kontakt-stranica', dugmeKlasa } = Astro.props;
+---
+
+<Forma
+  naziv="kontakt"
+  id={id}
+  dugme="Pošalji poruku"
+  dogadjaj="generate_lead"
+  predmet="Nova poruka sa sajta"
+  uspehNaslov="Hvala, poruka je stigla!"
+  uspehTekst="Odgovoriću ti lično, najčešće u roku od dva radna dana. Proveri i folder za neželjenu poštu."
+  dugmeKlasa={dugmeKlasa}
+>
+  <input type="hidden" name="mesto" value={mesto} />
+  <div class="forma__red forma__red--2">
+    <div class="polje">
+      <label for={`${id}-ime`}>Ime i prezime</label>
+      <input id={`${id}-ime`} name="ime" type="text" autocomplete="name" required />
+    </div>
+    <div class="polje">
+      <label for={`${id}-email`}>E-mail adresa</label>
+      <input id={`${id}-email`} name="email" type="email" autocomplete="email" inputmode="email" required />
+    </div>
+  </div>
+  <div class="polje">
+    <label for={`${id}-poruka`}>Poruka</label>
+    <textarea id={`${id}-poruka`} name="poruka" rows="5" required></textarea>
+  </div>
+  <div class="potvrda-omot">
+    <label class="potvrda">
+      <input type="checkbox" name="saglasnost" value="da" id={`${id}-saglasnost`} required />
+      <span>
+        Prihvatam da se moji podaci koriste za odgovor na ovu poruku, u skladu sa
+        <a href="/politika-privatnosti/">Politikom privatnosti</a>.
+      </span>
+    </label>
+  </div>
+  <div class="potvrda-omot">
+    <label class="potvrda">
+      <input type="checkbox" name="newsletter" value="da" id={`${id}-newsletter`} />
+      <span>Želim da povremeno dobijam i newsletter (nije obavezno).</span>
+    </label>
+  </div>
+</Forma>

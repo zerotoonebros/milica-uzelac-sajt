@@ -1,0 +1,18 @@
+---
+// Stranica zahvalnosti — prikazuje se posle slanja forme kada je JavaScript isključen.
+import Osnovni from '../layouts/Osnovni.astro';
+import UvodStranice from '../components/UvodStranice.astro';
+import Ikona from '../components/Ikona.astro';
+import ostale from '../content/stranice/ostale.json';
+
+const s = ostale.hvala;
+---
+
+<Osnovni naslov="Hvala" opis={s.tekst} bezIndeksa bezPoruke bezPoziva>
+  <UvodStranice rukopis="Hvala!" naslov={s.naslov} uvod={s.tekst} centrirano>
+    <div class="dugmad">
+      <a href="/blog/" class="dugme">Idi na blog <Ikona naziv="strelica" /></a>
+      <a href="/" class="dugme dugme--okvir">Početna stranica</a>
+    </div>
+  </UvodStranice>
+</Osnovni>

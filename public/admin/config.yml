@@ -1,0 +1,814 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+#
+# Podešavanja panela za uređivanje sajta (Sveltia CMS) — adresa panela: /admin/
+#
+# VAŽNO: polja ovde moraju da prate strukturu fajlova u src/content/.
+# Ako dodaješ novo polje, dodaj ga i u odgovarajući šablon stranice (src/pages/…),
+# a za blog/radionice/programe/utiske i u src/content.config.ts.
+
+backend:
+  name: github
+  # ↓ ZAMENI pravim nazivom repozitorijuma na GitHub-u (vlasnik/naziv), vidi docs/02-go-live.md
+  repo: VLASNIK/NAZIV-REPOZITORIJUMA
+  branch: main
+  # „Save“ samo čuva izmenu. Sajt se ponovo objavljuje kada se izabere „Save and Publish“
+  # (strelica pored dugmeta Save) ili klikne „Publish Changes“. Tako se više izmena objavi odjednom.
+  skip_ci: true
+  commit_messages:
+    create: 'Sadržaj: dodato „{{slug}}“ ({{collection}})'
+    update: 'Sadržaj: izmenjeno „{{slug}}“ ({{collection}})'
+    delete: 'Sadržaj: obrisano „{{slug}}“ ({{collection}})'
+    uploadMedia: 'Fotografija: dodato {{path}}'
+    deleteMedia: 'Fotografija: obrisano {{path}}'
+
+# ↓ ZAMENI adresom sajta kada bude poznata
+site_url: https://tvojdomen.rs
+display_url: https://tvojdomen.rs
+
+# Fotografije se čuvaju u src/assets/uploads — sajt ih pri objavi sam smanjuje i optimizuje.
+media_folder: /src/assets/uploads
+public_folder: /src/assets/uploads
+
+media_libraries:
+  default:
+    config:
+      max_file_size: 10240000
+      slugify_filename: true
+      transformations:
+        raster_image:
+          format: webp
+          quality: 88
+          width: 2400
+          height: 2400
+
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: '-'
+
+collections:
+  # ====================================================================
+  # BLOG
+  # ====================================================================
+  - name: blog
+    label: Blog
+    label_singular: Tekst
+    description: Tekstovi na blogu. Novi tekst se pojavljuje na sajtu posle objave („Save and Publish“).
+    folder: src/content/blog
+    create: true
+    extension: md
+    format: frontmatter
+    slug: '{{naslov}}'
+    identifier_field: naslov
+    summary: '{{naslov}} — {{datum}}'
+    sortable_fields: [datum, naslov]
+    preview_path: 'blog/{{slug}}/'
+    fields:
+      - { label: Naslov, name: naslov, widget: string }
+      - { label: Kratak opis, name: opis, widget: text, hint: 'Jedna do dve rečenice. Prikazuje se na listi tekstova i ispod naslova.' }
+      - { label: Datum objave, name: datum, widget: datetime, format: 'YYYY-MM-DD', date_format: 'DD.MM.YYYY.', time_format: false }
+      - label: Kategorija
+        name: kategorija
+        widget: select
+        default: Lični razvoj
+        options: [Lični razvoj, Samopouzdanje, Postavljanje granica, Karijera, Stres i balans, Komunikacija, Porodica, Putovanja sa bebom, Organizacija]
+      - { label: Naslovna fotografija, name: slika, widget: image, required: false }
+      - { label: Opis fotografije (alt tekst), name: slika_alt, widget: string, required: false, hint: 'Opiši šta je na fotografiji — za pretraživače i osobe koje koriste čitače ekrana.' }
+      - { label: Nacrt (ne prikazuj na sajtu), name: nacrt, widget: boolean, default: false }
+      - { label: Tekst, name: body, widget: markdown }
+      - label: SEO naslov
+        name: seo_naslov
+        widget: string
+        required: false
+        hint: 'Naslov koji se vidi u Google rezultatima. Preporuka: do 60 karaktera, sa ključnom rečju. Ako je prazno, koristi se naslov.'
+      - label: SEO opis
+        name: seo_opis
+        widget: text
+        required: false
+        hint: 'Kratak opis za Google (meta description). Preporuka: 120–155 karaktera. Ako je prazno, koristi se kratak opis.'
+
+  # ====================================================================
+  # RADIONICE
+  # ====================================================================
+  - name: radionice
+    label: Radionice
+    label_singular: Radionica
+    description: Grupne radionice (online i uživo). Svaka radionica dobija svoju stranicu sa formom za prijavu.
+    folder: src/content/radionice
+    create: true
+    extension: md
+    format: frontmatter
+    slug: '{{naslov}}'
+    identifier_field: naslov
+    summary: '{{naslov}} — {{datum}} ({{status}})'
+    sortable_fields: [datum, naslov]
+    preview_path: 'rad-sa-mnom/grupne-radionice/{{slug}}/'
+    fields:
+      - { label: Naziv radionice, name: naslov, widget: string }
+      - { label: Kratak opis, name: opis, widget: text }
+      - { label: Datum i vreme, name: datum, widget: datetime, format: 'YYYY-MM-DDTHH:mm', date_format: 'DD.MM.YYYY.', time_format: 'HH:mm', picker_utc: false }
+      - { label: Trajanje, name: trajanje, widget: string, required: false, hint: 'Npr. „3 sata“' }
+      - label: Format
+        name: format
+        widget: select
+        default: online
+        options:
+          - { label: Online, value: online }
+          - { label: Uživo, value: uzivo }
+      - { label: Mesto, name: lokacija, widget: string, required: false, hint: 'Npr. „Zoom“ ili „Beograd, adresa…“' }
+      - { label: Cena, name: cena, widget: string, required: false, hint: 'Npr. „4.500 RSD“. Ako je prazno, cena se ne prikazuje.' }
+      - { label: Veličina grupe, name: broj_mesta, widget: string, required: false, hint: 'Npr. „do 12 učesnica“' }
+      - label: Status
+        name: status
+        widget: select
+        default: prijave-otvorene
+        hint: 'Forma za prijavu se prikazuje samo kada su prijave otvorene ili su ostala poslednja mesta.'
+        options:
+          - { label: Prijave su otvorene, value: prijave-otvorene }
+          - { label: Poslednja mesta, value: poslednja-mesta }
+          - { label: Uskoro (prijave još nisu otvorene), value: uskoro }
+          - { label: Popunjeno, value: popunjeno }
+          - { label: Završeno (održana), value: zavrseno }
+      - { label: Fotografija, name: slika, widget: image, required: false }
+      - { label: Opis fotografije (alt tekst), name: slika_alt, widget: string, required: false }
+      - label: Za koga je radionica
+        name: za_koga
+        widget: list
+        required: false
+        field: { label: Stavka, name: stavka, widget: string }
+      - label: Šta učesnica dobija
+        name: sta_dobijas
+        widget: list
+        required: false
+        field: { label: Stavka, name: stavka, widget: string }
+      - { label: 'Ovo je primer (prikaži oznaku „Primer“)', name: primer, widget: boolean, default: false }
+      - { label: Opis radionice, name: body, widget: markdown }
+      - label: SEO naslov
+        name: seo_naslov
+        widget: string
+        required: false
+        hint: 'Naslov u Google rezultatima. Preporuka: do 60 karaktera.'
+      - label: SEO opis
+        name: seo_opis
+        widget: text
+        required: false
+        hint: 'Opis u Google rezultatima. Preporuka: 120–155 karaktera.'
+
+  # ====================================================================
+  # PROGRAMI
+  # ====================================================================
+  - name: programi
+    label: Programi
+    label_singular: Program
+    description: E-book programi i Online Masterclass programi.
+    folder: src/content/programi
+    create: true
+    extension: md
+    format: frontmatter
+    slug: '{{naslov}}'
+    identifier_field: naslov
+    summary: '{{naslov}} ({{vrsta}}, {{status}})'
+    sortable_fields: [redosled, naslov]
+    preview_path: 'programi/{{slug}}/'
+    fields:
+      - { label: Naziv programa, name: naslov, widget: string }
+      - label: Vrsta
+        name: vrsta
+        widget: select
+        options:
+          - { label: E-book program, value: e-book }
+          - { label: Online Masterclass, value: masterclass }
+      - { label: Kratak opis, name: opis, widget: text }
+      - { label: Obim / format, name: obim, widget: string, required: false, hint: 'Npr. „PDF vodič, 40 strana“ ili „6 video lekcija + radna sveska“' }
+      - { label: Cena, name: cena, widget: string, required: false }
+      - label: Status
+        name: status
+        widget: select
+        default: uskoro
+        options:
+          - { label: Dostupno, value: dostupno }
+          - { label: Uskoro, value: uskoro }
+      - { label: Link za kupovinu / pristup, name: link_za_kupovinu, widget: string, required: false, hint: 'Pun link (https://…). Dok je prazno, na stranici se prikazuje forma „Javi mi kada bude dostupno“.' }
+      - { label: Naslovna fotografija, name: slika, widget: image, required: false }
+      - { label: Opis fotografije (alt tekst), name: slika_alt, widget: string, required: false }
+      - label: Šta program sadrži
+        name: sta_sadrzi
+        widget: list
+        required: false
+        field: { label: Stavka, name: stavka, widget: string }
+      - { label: Redosled prikaza, name: redosled, widget: number, value_type: int, default: 10, hint: 'Manji broj = ranije u listi.' }
+      - { label: 'Ovo je primer (prikaži oznaku „Primer“)', name: primer, widget: boolean, default: false }
+      - { label: Opis programa, name: body, widget: markdown }
+      - label: SEO naslov
+        name: seo_naslov
+        widget: string
+        required: false
+        hint: 'Naslov u Google rezultatima. Preporuka: do 60 karaktera.'
+      - label: SEO opis
+        name: seo_opis
+        widget: text
+        required: false
+        hint: 'Opis u Google rezultatima. Preporuka: 120–155 karaktera.'
+
+  # ====================================================================
+  # UTISCI
+  # ====================================================================
+  - name: utisci
+    label: Utisci klijenata
+    label_singular: Utisak
+    description: Utisci se prikazuju na stranici „Utisci klijenata“; istaknuti i na početnoj. Objavljuj samo uz saglasnost klijentkinje.
+    folder: src/content/utisci
+    create: true
+    extension: md
+    format: frontmatter
+    slug: '{{ime}}-{{redosled}}'
+    identifier_field: ime
+    summary: '{{ime}} — {{usluga}}'
+    sortable_fields: [redosled, ime]
+    editor: { preview: false }
+    fields:
+      - { label: Ime (ili inicijali), name: ime, widget: string, hint: 'Npr. „Jelena M.“' }
+      - { label: Opis osobe, name: opis_osobe, widget: string, required: false, hint: 'Npr. „klijentkinja, individualne sesije“' }
+      - label: Usluga
+        name: usluga
+        widget: select
+        required: false
+        options: [Individualne sesije, Grupne radionice, E-book program, Online Masterclass]
+      - { label: Utisak, name: body, widget: text }
+      - { label: Prikaži na početnoj stranici, name: istaknuto, widget: boolean, default: false }
+      - { label: Redosled prikaza, name: redosled, widget: number, value_type: int, default: 10 }
+      - { label: 'Ovo je primer (prikaži oznaku „Primer“)', name: primer, widget: boolean, default: false }
+
+  # ====================================================================
+  # STRANICE
+  # ====================================================================
+  - name: stranice
+    label: Stranice
+    description: Tekstovi i fotografije na stranicama sajta. U naslovima, reč između *zvezdica* postaje naglašena (plavi kurziv).
+    editor: { preview: false }
+    files:
+      # ---------------- Početna ----------------
+      - name: pocetna
+        label: Početna
+        file: src/content/stranice/pocetna.json
+        fields:
+          - &seo_stranice
+            label: SEO (Google)
+            name: seo
+            widget: object
+            collapsed: true
+            fields:
+              - { label: SEO naslov, name: naslov, widget: string, hint: 'Naslov u Google rezultatima. Preporuka: do 60 karaktera.' }
+              - { label: SEO opis, name: opis, widget: text, hint: 'Opis u Google rezultatima. Preporuka: 120–155 karaktera.' }
+          - label: Vrh stranice (hero)
+            name: hero
+            widget: object
+            fields:
+              - { label: Rukopisni pozdrav, name: rukopis, widget: string }
+              - { label: Glavni naslov (H1), name: naslov, widget: string, hint: 'Reč između *zvezdica* biće naglašena.' }
+              - { label: Tekst, name: tekst, widget: text }
+              - { label: Drugo dugme — tekst, name: dugme_tekst, widget: string, required: false }
+              - { label: Drugo dugme — link, name: dugme_link, widget: string, required: false }
+              - { label: Fotografija, name: slika, widget: image, required: false, hint: 'Portret, uspravan format (4:5).' }
+              - { label: Opis fotografije (alt tekst), name: slika_alt, widget: string }
+              - { label: Istaknute stavke, name: istaknuto, widget: list, field: { label: Stavka, name: stavka, widget: string } }
+          - label: Sekcija „Možda i ti…“
+            name: prepoznavanje
+            widget: object
+            fields:
+              - { label: Rukopisni tekst, name: rukopis, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Stavke, name: stavke, widget: list, field: { label: Stavka, name: stavka, widget: text } }
+              - { label: Zaključak, name: zakljucak, widget: text }
+          - label: Sekcija „O meni“
+            name: o_meni
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Tekst, name: tekst, widget: text, hint: 'Prazan red pravi novi pasus.' }
+              - { label: Tekst linka, name: dugme_tekst, widget: string }
+              - { label: Link, name: dugme_link, widget: string }
+              - { label: Fotografija, name: slika, widget: image, required: false, hint: 'Kvadratni format.' }
+              - { label: Opis fotografije (alt tekst), name: slika_alt, widget: string }
+          - label: Sekcija „Rad sa mnom“
+            name: usluge
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Tekst, name: tekst, widget: text }
+              - label: Kartice
+                name: stavke
+                widget: list
+                summary: '{{naslov}}'
+                fields:
+                  - &ikona
+                    label: Ikonica
+                    name: ikona
+                    widget: select
+                    options:
+                      - { label: Osoba, value: osoba }
+                      - { label: Grupa, value: osobe }
+                      - { label: Knjiga, value: knjiga }
+                      - { label: Video, value: video }
+                      - { label: Srce, value: srce }
+                      - { label: Kompas, value: kompas }
+                      - { label: Iskra, value: iskra }
+                      - { label: List, value: list }
+                      - { label: Sat, value: sat }
+                      - { label: Kalendar, value: kalendar }
+                      - { label: Mesto, value: mesto }
+                      - { label: Koverta, value: mejl }
+                      - { label: Telefon, value: telefon }
+                  - { label: Naslov, name: naslov, widget: string }
+                  - { label: Tekst, name: tekst, widget: text }
+                  - { label: Link, name: link, widget: string }
+          - label: Sekcija „Teme“
+            name: teme
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Teme, name: stavke, widget: list, field: { label: Tema, name: tema, widget: string } }
+          - label: Sekcija „Kako izgleda saradnja“
+            name: proces
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - label: Koraci
+                name: koraci
+                widget: list
+                summary: '{{naslov}}'
+                fields:
+                  - { label: Naslov, name: naslov, widget: string }
+                  - { label: Tekst, name: tekst, widget: text }
+          - label: Sekcija „Utisci“
+            name: utisci
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Tekst linka, name: dugme_tekst, widget: string }
+          - label: Sekcija „Radionice“
+            name: radionica
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Tekst linka, name: dugme_tekst, widget: string }
+          - label: Sekcija „Blog“
+            name: blog
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Tekst linka, name: dugme_tekst, widget: string }
+
+      # ---------------- O meni ----------------
+      - name: o-meni
+        label: O meni
+        file: src/content/stranice/o-meni.json
+        fields:
+          - *seo_stranice
+          - label: Vrh stranice
+            name: uvod
+            widget: object
+            fields:
+              - { label: Rukopisni tekst, name: rukopis, widget: string }
+              - { label: Naslov (H1), name: naslov, widget: string }
+              - { label: Uvodni tekst, name: tekst, widget: text }
+          - label: Moja priča
+            name: prica
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Tekst, name: tekst, widget: text, hint: 'Prazan red pravi novi pasus.' }
+              - { label: Fotografija, name: slika, widget: image, required: false, hint: 'Portret, uspravan format (4:5).' }
+              - { label: Opis fotografije (alt tekst), name: slika_alt, widget: string }
+          - label: Moj pristup
+            name: pristup
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - label: Stavke
+                name: stavke
+                widget: list
+                summary: '{{naslov}}'
+                fields:
+                  - *ikona
+                  - { label: Naslov, name: naslov, widget: string }
+                  - { label: Tekst, name: tekst, widget: text }
+          - label: Obrazovanje i iskustvo
+            name: obrazovanje
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Stavke, name: stavke, widget: list, field: { label: Stavka, name: stavka, widget: string } }
+          - label: Lični deo
+            name: licno
+            widget: object
+            fields:
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Tekst, name: tekst, widget: text }
+              - { label: Fotografija, name: slika, widget: image, required: false, hint: 'Položen format (3:2).' }
+              - { label: Opis fotografije (alt tekst), name: slika_alt, widget: string }
+
+      # ---------------- Moja misija ----------------
+      - name: moja-misija
+        label: Moja misija
+        file: src/content/stranice/moja-misija.json
+        fields:
+          - *seo_stranice
+          - label: Vrh stranice
+            name: uvod
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov (H1), name: naslov, widget: string }
+              - { label: Uvodni tekst, name: tekst, widget: text }
+          - label: Izjava o misiji
+            name: izjava
+            widget: object
+            fields:
+              - { label: Tekst, name: tekst, widget: text }
+              - { label: Potpis, name: potpis, widget: string }
+          - label: Vrednosti
+            name: vrednosti
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - label: Stavke
+                name: stavke
+                widget: list
+                summary: '{{naslov}}'
+                fields:
+                  - { label: Naslov, name: naslov, widget: string }
+                  - { label: Tekst, name: tekst, widget: text }
+          - label: Vizija
+            name: vizija
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Tekst, name: tekst, widget: text, hint: 'Prazan red pravi novi pasus.' }
+              - { label: Fotografija, name: slika, widget: image, required: false, hint: 'Kvadratni format.' }
+              - { label: Opis fotografije (alt tekst), name: slika_alt, widget: string }
+
+      # ---------------- Rad sa mnom ----------------
+      - name: rad-sa-mnom
+        label: Rad sa mnom (pregled)
+        file: src/content/stranice/rad-sa-mnom.json
+        fields:
+          - *seo_stranice
+          - label: Vrh stranice
+            name: uvod
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov (H1), name: naslov, widget: string }
+              - { label: Uvodni tekst, name: tekst, widget: text }
+          - label: Načini rada
+            name: opcije
+            widget: list
+            summary: '{{naslov}}'
+            fields:
+              - *ikona
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Tekst, name: tekst, widget: text }
+              - { label: Stavke, name: stavke, widget: list, field: { label: Stavka, name: stavka, widget: string } }
+              - { label: Tekst linka, name: dugme_tekst, widget: string }
+              - { label: Link, name: link, widget: string }
+          - label: Sekcija „Nisi sigurna?“
+            name: nedoumica
+            widget: object
+            fields:
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Tekst, name: tekst, widget: text }
+
+      # ---------------- Individualne sesije ----------------
+      - name: individualne-sesije
+        label: Individualne sesije
+        file: src/content/stranice/individualne-sesije.json
+        fields:
+          - *seo_stranice
+          - label: Vrh stranice
+            name: uvod
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov (H1), name: naslov, widget: string }
+              - { label: Uvodni tekst, name: tekst, widget: text }
+          - label: Za koga je
+            name: za_koga
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Stavke, name: stavke, widget: list, field: { label: Stavka, name: stavka, widget: string } }
+              - { label: Fotografija, name: slika, widget: image, required: false, hint: 'Uspravan format (4:5).' }
+              - { label: Opis fotografije (alt tekst), name: slika_alt, widget: string }
+          - label: Tok saradnje
+            name: kako
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - label: Koraci
+                name: koraci
+                widget: list
+                summary: '{{naslov}}'
+                fields:
+                  - { label: Naslov, name: naslov, widget: string }
+                  - { label: Tekst, name: tekst, widget: text }
+          - label: Praktične informacije
+            name: detalji
+            widget: object
+            fields:
+              - { label: Naslov, name: naslov, widget: string }
+              - label: Stavke
+                name: stavke
+                widget: list
+                summary: '{{naziv}}: {{vrednost}}'
+                fields:
+                  - *ikona
+                  - { label: Naziv, name: naziv, widget: string }
+                  - { label: Vrednost, name: vrednost, widget: string }
+          - label: Česta pitanja
+            name: pitanja
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - label: Pitanja
+                name: stavke
+                widget: list
+                summary: '{{pitanje}}'
+                fields:
+                  - { label: Pitanje, name: pitanje, widget: string }
+                  - { label: Odgovor, name: odgovor, widget: text }
+
+      # ---------------- Grupne radionice ----------------
+      - name: grupne-radionice
+        label: Grupne radionice (pregled)
+        file: src/content/stranice/grupne-radionice.json
+        fields:
+          - *seo_stranice
+          - label: Vrh stranice
+            name: uvod
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov (H1), name: naslov, widget: string }
+              - { label: Uvodni tekst, name: tekst, widget: text }
+          - label: Naredne radionice
+            name: naredne
+            widget: object
+            fields:
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Tekst kada nema zakazanih radionica, name: prazno, widget: text }
+          - label: Održane radionice
+            name: prosle
+            widget: object
+            fields:
+              - { label: Naslov, name: naslov, widget: string }
+          - label: Šta dobijaš na radionici
+            name: prednosti
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - label: Stavke
+                name: stavke
+                widget: list
+                summary: '{{naslov}}'
+                fields:
+                  - *ikona
+                  - { label: Naslov, name: naslov, widget: string }
+                  - { label: Tekst, name: tekst, widget: text }
+
+      # ---------------- Programi ----------------
+      - name: programi
+        label: Programi (pregled)
+        file: src/content/stranice/programi.json
+        fields:
+          - *seo_stranice
+          - label: Vrh stranice
+            name: uvod
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov (H1), name: naslov, widget: string }
+              - { label: Uvodni tekst, name: tekst, widget: text }
+          - label: E-book programi
+            name: ebook
+            widget: object
+            fields: &polja_vrste_programa
+              - { label: SEO naslov, name: seo_naslov, widget: string }
+              - { label: SEO opis, name: seo_opis, widget: text }
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Tekst, name: tekst, widget: text }
+              - { label: Tekst kada nema programa, name: prazno, widget: text }
+          - label: Online Masterclass programi
+            name: masterclass
+            widget: object
+            fields: *polja_vrste_programa
+
+      # ---------------- Blog ----------------
+      - name: blog
+        label: Blog (pregled)
+        file: src/content/stranice/blog.json
+        fields:
+          - *seo_stranice
+          - label: Vrh stranice
+            name: uvod
+            widget: object
+            fields:
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov (H1), name: naslov, widget: string }
+              - { label: Uvodni tekst, name: tekst, widget: text }
+          - label: O autorki (ispod svakog teksta)
+            name: autor
+            widget: object
+            fields:
+              - { label: Tekst, name: tekst, widget: text }
+
+      # ---------------- Ostale stranice ----------------
+      - name: ostale
+        label: Utisci, Kontakt, Zakazivanje i ostalo
+        file: src/content/stranice/ostale.json
+        fields:
+          - label: Stranica „Utisci klijenata“
+            name: utisci
+            widget: object
+            collapsed: true
+            fields: &polja_jednostavne_stranice
+              - { label: SEO naslov, name: seo_naslov, widget: string }
+              - { label: SEO opis, name: seo_opis, widget: text }
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov (H1), name: naslov, widget: string }
+              - { label: Uvodni tekst, name: tekst, widget: text }
+          - label: Stranica „Kontakt“
+            name: kontakt
+            widget: object
+            collapsed: true
+            fields:
+              - { label: SEO naslov, name: seo_naslov, widget: string }
+              - { label: SEO opis, name: seo_opis, widget: text }
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov (H1), name: naslov, widget: string }
+              - { label: Uvodni tekst, name: tekst, widget: text }
+              - { label: Naslov forme, name: forma_naslov, widget: string }
+              - { label: Naslov sa strane, name: strana_naslov, widget: string }
+              - { label: Vreme odgovora, name: vreme_odgovora, widget: string }
+          - label: Stranica „Zakazivanje“
+            name: zakazivanje
+            widget: object
+            collapsed: true
+            fields:
+              - { label: SEO naslov, name: seo_naslov, widget: string }
+              - { label: SEO opis, name: seo_opis, widget: text }
+              - { label: Nadnaslov, name: nadnaslov, widget: string }
+              - { label: Naslov (H1), name: naslov, widget: string }
+              - { label: Uvodni tekst, name: tekst, widget: text }
+              - { label: 'Naslov liste „Šta možeš da očekuješ“', name: sta_ocekivati_naslov, widget: string }
+              - { label: Šta možeš da očekuješ, name: sta_ocekivati, widget: list, field: { label: Stavka, name: stavka, widget: string } }
+              - label: Detalji razgovora
+                name: detalji
+                widget: list
+                summary: '{{naziv}}: {{vrednost}}'
+                fields:
+                  - *ikona
+                  - { label: Naziv, name: naziv, widget: string }
+                  - { label: Vrednost, name: vrednost, widget: string }
+              - { label: Naslov iznad kalendara, name: kalendar_naslov, widget: string }
+              - { label: Tekst iznad kalendara, name: kalendar_tekst, widget: text }
+              - { label: Naslov forme (kada kalendar nije povezan), name: forma_naslov, widget: string }
+              - { label: Tekst forme, name: forma_tekst, widget: text }
+          - label: Stranica zahvalnosti (posle slanja forme)
+            name: hvala
+            widget: object
+            collapsed: true
+            fields:
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Tekst, name: tekst, widget: text }
+          - label: Stranica „Nije pronađeno“ (404)
+            name: nije_pronadjeno
+            widget: object
+            collapsed: true
+            fields:
+              - { label: Naslov, name: naslov, widget: string }
+              - { label: Tekst, name: tekst, widget: text }
+
+  # ====================================================================
+  # PRAVNE STRANICE
+  # ====================================================================
+  - name: pravno
+    label: Pravne stranice
+    label_singular: Pravna stranica
+    description: Politika privatnosti i Politika kolačića. Pre objave sajta tekst treba da pregleda pravnik.
+    folder: src/content/pravno
+    create: false
+    delete: false
+    extension: md
+    format: frontmatter
+    identifier_field: naslov
+    fields:
+      - { label: Naslov, name: naslov, widget: string }
+      - { label: Datum poslednje izmene, name: azurirano, widget: datetime, format: 'YYYY-MM-DD', date_format: 'DD.MM.YYYY.', time_format: false }
+      - { label: Tekst, name: body, widget: markdown }
+      - { label: SEO naslov, name: seo_naslov, widget: string, required: false }
+      - { label: SEO opis, name: seo_opis, widget: text, required: false }
+
+  # ====================================================================
+  # PODEŠAVANJA
+  # ====================================================================
+  - name: podesavanja
+    label: Podešavanja
+    description: Opšti podaci, navigacija, dugme za zakazivanje, SEO i analitika.
+    editor: { preview: false }
+    files:
+      - name: sajt
+        label: Opšta podešavanja
+        file: src/content/podesavanja/sajt.json
+        fields:
+          - { label: Naziv (ime i prezime), name: naziv, widget: string }
+          - { label: Podnaslov, name: podnaslov, widget: string }
+          - { label: Kratak opis, name: kratak_opis, widget: text }
+          - { label: E-mail adresa, name: email, widget: string, hint: 'Prikazuje se na stranici Kontakt i u podnožju.' }
+          - { label: Telefon, name: telefon, widget: string, required: false, hint: 'Ako je prazno, telefon se ne prikazuje.' }
+          - { label: Gde radim, name: lokacija, widget: string, required: false }
+          - label: Društvene mreže
+            name: drustvene_mreze
+            widget: object
+            hint: 'Pun link do profila (https://…). Mreža bez linka se ne prikazuje.'
+            fields:
+              - { label: Instagram, name: instagram, widget: string, required: false }
+              - { label: LinkedIn, name: linkedin, widget: string, required: false }
+              - { label: TikTok, name: tiktok, widget: string, required: false }
+              - { label: Facebook, name: facebook, widget: string, required: false }
+          - label: Zakazivanje uvodnog razgovora (CTA dugme)
+            name: zakazivanje
+            widget: object
+            fields:
+              - { label: Tekst dugmeta, name: tekst_dugmeta, widget: string }
+              - { label: Link dugmeta, name: link, widget: string, hint: 'Podrazumevano /zakazivanje/ — stranica sajta sa kalendarom ili formom.' }
+              - { label: Link kalendara (Cal.com ili Calendly), name: kalendar_url, widget: string, required: false, hint: 'Npr. https://cal.com/ime/uvodni-razgovor. Dok je prazno, na stranici Zakazivanje stoji forma „Zatraži termin“.' }
+          - label: Podnožje (dno svake stranice)
+            name: futer
+            widget: object
+            collapsed: true
+            fields:
+              - { label: Box za poruku — naslov, name: poruka_naslov, widget: string }
+              - { label: Box za poruku — tekst, name: poruka_tekst, widget: text }
+              - { label: Newsletter — naslov, name: newsletter_naslov, widget: string }
+              - { label: Newsletter — tekst, name: newsletter_tekst, widget: text }
+              - { label: Poziv na zakazivanje — naslov, name: cta_naslov, widget: string }
+              - { label: Poziv na zakazivanje — tekst, name: cta_tekst, widget: text }
+          - label: SEO (Google)
+            name: seo
+            widget: object
+            collapsed: true
+            fields:
+              - { label: Podrazumevani SEO naslov, name: podrazumevani_naslov, widget: string }
+              - { label: Podrazumevani SEO opis, name: podrazumevani_opis, widget: text }
+              - { label: Slika za deljenje na mrežama, name: slika_za_deljenje, widget: image, required: false, hint: 'Položena slika 1200×630. Ako je prazno, koristi se automatska slika sa logom.' }
+              - label: Dozvoli Google-u da prikazuje sajt
+                name: dozvoli_indeksiranje
+                widget: boolean
+                default: false
+                hint: 'UKLJUČI tek kada je sadržaj spreman za javnost. Dok je isključeno, sajt se ne pojavljuje u pretrazi.'
+          - label: Analitika i kolačići
+            name: analitika
+            widget: object
+            collapsed: true
+            fields:
+              - { label: Google Tag Manager ID, name: gtm_id, widget: string, required: false, hint: 'Oblik GTM-XXXXXXX. Učitava se samo uz saglasnost posetiteljke.' }
+              - { label: Google Search Console — kod za verifikaciju, name: google_verifikacija, widget: string, required: false, hint: 'Samo vrednost iz „content“ dela meta taga.' }
+              - { label: Prikaži baner za kolačiće, name: prikazi_baner_za_kolacice, widget: boolean, default: true }
+
+      - name: navigacija
+        label: Navigacija (meni)
+        file: src/content/podesavanja/navigacija.json
+        fields:
+          - label: Stavke menija
+            name: stavke
+            widget: list
+            summary: '{{naziv}} → {{link}}'
+            fields:
+              - { label: Naziv, name: naziv, widget: string }
+              - { label: Link, name: link, widget: string, hint: 'Npr. /o-meni/ (počinje i završava se kosom crtom).' }
+              - label: Podmeni
+                name: podmeni
+                widget: list
+                required: false
+                summary: '{{naziv}} → {{link}}'
+                fields:
+                  - { label: Naziv, name: naziv, widget: string }
+                  - { label: Link, name: link, widget: string }
+                  - { label: Kratak opis, name: opis, widget: string, required: false }

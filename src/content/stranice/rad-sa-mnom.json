@@ -1,0 +1,41 @@
+{
+  "seo": {
+    "naslov": "Rad sa mnom — individualne sesije i grupne radionice",
+    "opis": "Coaching za žene, jedan na jedan ili u maloj grupi. Pogledaj kako izgledaju individualne sesije i grupne radionice i izaberi način rada koji ti odgovara."
+  },
+  "uvod": {
+    "nadnaslov": "Rad sa mnom",
+    "naslov": "Dva načina da *radimo zajedno*",
+    "tekst": "Nekome najviše prija posvećen razgovor jedan na jedan, a nekome energija i podrška grupe. Oba puta vode ka istom — jasnijoj slici o sebi i konkretnim koracima."
+  },
+  "opcije": [
+    {
+      "ikona": "osoba",
+      "naslov": "Individualne sesije",
+      "tekst": "Coaching jedan na jedan, online ili uživo. Ceo razgovor posvećen je tebi, tvojoj temi i tvom tempu.",
+      "stavke": [
+        "Rad na cilju koji ti je sada najvažniji",
+        "Plan i vežbe između sesija",
+        "Potpuna diskrecija"
+      ],
+      "dugme_tekst": "Više o sesijama",
+      "link": "/rad-sa-mnom/individualne-sesije/"
+    },
+    {
+      "ikona": "osobe",
+      "naslov": "Grupne radionice",
+      "tekst": "Tematske radionice u maloj grupi, online i uživo. Učiš kroz vežbe, razmenu i primere drugih žena.",
+      "stavke": [
+        "Jedna tema, konkretni alati",
+        "Mala grupa i sigurna atmosfera",
+        "Radni materijali koje nosiš sa sobom"
+      ],
+      "dugme_tekst": "Pogledaj radionice",
+      "link": "/rad-sa-mnom/grupne-radionice/"
+    }
+  ],
+  "nedoumica": {
+    "naslov": "Nisi sigurna šta je za tebe?",
+    "tekst": "Zakaži uvodni razgovor. Ispričaćeš mi gde si sada, a ja ću ti iskreno reći koji način rada ima najviše smisla — pa i ako to nije rad sa mnom."
+  }
+}

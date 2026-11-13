@@ -1,0 +1,27 @@
+{
+  "seo": {
+    "naslov": "Programi — E-book i Online Masterclass programi za lični razvoj",
+    "opis": "E-book vodiči i Online Masterclass programi za žene: samopouzdanje, granice, karijerna promena. Uči svojim tempom, kad god tebi odgovara."
+  },
+  "uvod": {
+    "nadnaslov": "Programi",
+    "naslov": "Programi koje prolaziš *svojim tempom*",
+    "tekst": "Za trenutke kada želiš da radiš na sebi samostalno — uz jasnu strukturu, vežbe i materijale kojima uvek možeš da se vratiš."
+  },
+  "ebook": {
+    "seo_naslov": "E-book programi — vodiči sa vežbama za lični razvoj žena",
+    "seo_opis": "E-book programi sa praktičnim vežbama: postavljanje granica, samopouzdanje i lični razvoj. Preuzmi i prolazi ih svojim tempom.",
+    "nadnaslov": "E-book programi",
+    "naslov": "Vodiči sa vežbama, *uvek pri ruci*",
+    "tekst": "E-book programi su praktični vodiči sa pitanjima, vežbama i radnim listovima. Čitaš ih i radiš kada tebi odgovara — u pauzi, uveče ili vikendom.",
+    "prazno": "E-book programi su u pripremi. Prijavi se na newsletter i javiću ti čim budu dostupni."
+  },
+  "masterclass": {
+    "seo_naslov": "Online Masterclass programi — video programi za lični i karijerni razvoj",
+    "seo_opis": "Online Masterclass programi za žene: video lekcije i radni materijali za dublji rad na karijeri, samopouzdanju i ličnom razvoju.",
+    "nadnaslov": "Online Masterclass programi",
+    "naslov": "Dublji rad na jednoj temi, *uz video lekcije*",
+    "tekst": "Masterclass programi kombinuju video lekcije i radne materijale. Vode te korak po korak kroz jednu temu — od razumevanja do konkretnog plana.",
+    "prazno": "Masterclass programi su u pripremi. Prijavi se na newsletter i javiću ti čim budu dostupni."
+  }
+}

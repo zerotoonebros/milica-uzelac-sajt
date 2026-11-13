@@ -1,0 +1,400 @@
+---
+import Logo from './Logo.astro';
+import Ikona from './Ikona.astro';
+import { sajt, navigacija } from '../lib/sajt';
+
+const putanja = Astro.url.pathname;
+const jeAktivna = (link: string) => (link === '/' ? putanja === '/' : putanja.startsWith(link));
+---
+
+<header class="zaglavlje" data-zaglavlje>
+  <div class="omot zaglavlje__unutra">
+    <a href="/" class="zaglavlje__logo">
+      <Logo />
+    </a>
+
+    <nav class="nav" aria-label="Glavna navigacija">
+      <ul class="nav__lista">
+        {
+          navigacija.map((stavka) => (
+            <li class:list={['nav__stavka', { 'nav__stavka--podmeni': stavka.podmeni.length > 0 }]}>
+              <a
+                href={stavka.link}
+                class="nav__link"
+                aria-current={
+                  putanja === stavka.link ? 'page' : jeAktivna(stavka.link) && stavka.link !== '/' ? 'true' : undefined
+                }
+              >
+                {stavka.naziv}
+                {stavka.podmeni.length > 0 && <Ikona naziv="dole" velicina={16} class="nav__strelica" />}
+              </a>
+              {stavka.podmeni.length > 0 && (
+                <div class="nav__padajuci">
+                  <ul>
+                    {stavka.podmeni.map((pod) => (
+                      <li>
+                        <a href={pod.link} aria-current={putanja === pod.link ? 'page' : undefined}>
+                          <span class="nav__pod-naziv">{pod.naziv}</span>
+                          {pod.opis && <span class="nav__pod-opis">{pod.opis}</span>}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="zaglavlje__akcije">
+      <a
+        href={sajt.zakazivanje.link}
+        class="dugme dugme--malo zaglavlje__cta"
+        data-prati="booking_click"
+        data-mesto="zaglavlje"
+      >
+        {sajt.zakazivanje.tekst_dugmeta}
+      </a>
+      <button
+        type="button"
+        class="zaglavlje__meni"
+        aria-expanded="false"
+        aria-controls="mobilni-meni"
+        data-meni-dugme
+      >
+        <span class="zaglavlje__meni-otvori"><Ikona naziv="meni" /></span>
+        <span class="zaglavlje__meni-zatvori"><Ikona naziv="zatvori" /></span>
+        <span class="sr-only" data-meni-tekst>Otvori meni</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobilni" id="mobilni-meni" data-mobilni hidden>
+    <nav class="omot mobilni__unutra" aria-label="Mobilna navigacija">
+      <ul class="mobilni__lista">
+        {
+          navigacija.map((stavka) => (
+            <li>
+              <a href={stavka.link} class="mobilni__link" aria-current={putanja === stavka.link ? 'page' : undefined}>
+                {stavka.naziv}
+              </a>
+              {stavka.podmeni.length > 0 && (
+                <ul class="mobilni__podlista">
+                  {stavka.podmeni.map((pod) => (
+                    <li>
+                      <a href={pod.link} aria-current={putanja === pod.link ? 'page' : undefined}>
+                        {pod.naziv}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+      <a href={sajt.zakazivanje.link} class="dugme mobilni__cta" data-prati="booking_click" data-mesto="mobilni-meni">
+        {sajt.zakazivanje.tekst_dugmeta}
+        <Ikona naziv="strelica" />
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const zaglavlje = document.querySelector<HTMLElement>('[data-zaglavlje]');
+  const dugme = document.querySelector<HTMLButtonElement>('[data-meni-dugme]');
+  const panel = document.querySelector<HTMLElement>('[data-mobilni]');
+  const tekst = document.querySelector<HTMLElement>('[data-meni-tekst]');
+
+  if (zaglavlje && dugme && panel) {
+    const postavi = (otvoren: boolean) => {
+      dugme.setAttribute('aria-expanded', String(otvoren));
+      panel.hidden = !otvoren;
+      document.documentElement.classList.toggle('meni-otvoren', otvoren);
+      if (tekst) tekst.textContent = otvoren ? 'Zatvori meni' : 'Otvori meni';
+    };
+
+    dugme.addEventListener('click', () => postavi(dugme.getAttribute('aria-expanded') !== 'true'));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      if (dugme.getAttribute('aria-expanded') === 'true') {
+        postavi(false);
+        dugme.focus();
+      }
+      // Zatvara padajući meni na desktopu
+      const aktivan = document.activeElement as HTMLElement | null;
+      if (aktivan?.closest('.nav__stavka--podmeni')) aktivan.blur();
+    });
+
+    panel.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) postavi(false);
+    });
+
+    // Na širokom ekranu mobilni meni se sam zatvara
+    const siroko = window.matchMedia('(min-width: 84em)');
+    siroko.addEventListener('change', (e) => e.matches && postavi(false));
+
+    // Tanka senka kada se stranica skroluje
+    const skrol = () => zaglavlje.classList.toggle('zaglavlje--skrol', window.scrollY > 8);
+    skrol();
+    window.addEventListener('scroll', skrol, { passive: true });
+  }
+</script>
+
+<style>
+  .zaglavlje {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgb(248 240 233 / 0.9);
+    backdrop-filter: saturate(1.4) blur(14px);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    border-bottom: 1px solid transparent;
+    transition:
+      border-color var(--t-srednje),
+      box-shadow var(--t-srednje);
+  }
+  .zaglavlje--skrol {
+    border-bottom-color: var(--c-linija);
+    box-shadow: 0 10px 30px -22px rgb(27 37 69 / 0.5);
+  }
+  .zaglavlje__unutra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    min-height: var(--visina-zaglavlja);
+  }
+  .zaglavlje__logo {
+    display: inline-flex;
+    text-decoration: none;
+    flex: none;
+  }
+  .zaglavlje__akcije {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .zaglavlje__cta {
+    display: none;
+    white-space: nowrap;
+  }
+  @media (min-width: 40em) {
+    .zaglavlje__cta {
+      display: inline-flex;
+    }
+  }
+  .zaglavlje__meni {
+    display: inline-grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid var(--c-linija);
+    border-radius: 50%;
+    background: var(--c-papir);
+    color: var(--c-teget);
+    transition:
+      background-color var(--t-brzo),
+      color var(--t-brzo);
+  }
+  .zaglavlje__meni:hover {
+    background: var(--c-teget);
+    color: var(--c-bez);
+  }
+  .zaglavlje__meni-zatvori,
+  .zaglavlje__meni[aria-expanded='true'] .zaglavlje__meni-otvori {
+    display: none;
+  }
+  .zaglavlje__meni[aria-expanded='true'] .zaglavlje__meni-zatvori {
+    display: block;
+  }
+
+  /* --- Desktop navigacija --- */
+  .nav {
+    display: none;
+  }
+  .nav__lista {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.15rem, -2.6rem + 3.4vw, 0.9rem);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav__stavka {
+    position: relative;
+  }
+  .nav__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.7rem 0.6rem;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    white-space: nowrap;
+    color: var(--c-teget);
+  }
+  .nav__link::after {
+    content: '';
+    position: absolute;
+    left: 0.6rem;
+    right: 0.6rem;
+    bottom: 0.35rem;
+    height: 1.5px;
+    background: var(--c-plava);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--t-srednje) var(--ease);
+  }
+  .nav__link:hover::after,
+  .nav__link[aria-current]::after,
+  .nav__stavka:focus-within > .nav__link::after {
+    transform: scaleX(1);
+  }
+  .nav__link[aria-current] {
+    color: var(--c-plava);
+    font-weight: 500;
+  }
+  .nav__link :global(.nav__strelica) {
+    transition: transform var(--t-brzo) var(--ease);
+  }
+  .nav__stavka--podmeni:hover :global(.nav__strelica),
+  .nav__stavka--podmeni:focus-within :global(.nav__strelica) {
+    transform: rotate(180deg);
+  }
+
+  .nav__padajuci {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: max-content;
+    min-width: 17rem;
+    padding-top: 0.6rem;
+    transform: translate(-50%, 0.5rem);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--t-brzo) var(--ease),
+      transform var(--t-brzo) var(--ease),
+      visibility var(--t-brzo);
+  }
+  .nav__stavka--podmeni:hover .nav__padajuci,
+  .nav__stavka--podmeni:focus-within .nav__padajuci {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+  }
+  .nav__padajuci ul {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem;
+    background: var(--c-papir);
+    border: 1px solid var(--c-linija);
+    border-radius: var(--z-kartica);
+    box-shadow: var(--senka-2);
+  }
+  .nav__padajuci a {
+    display: grid;
+    gap: 0.15rem;
+    padding: 0.8rem 1rem;
+    border-radius: 1rem;
+    text-decoration: none;
+    transition: background-color var(--t-brzo);
+  }
+  .nav__padajuci a:hover,
+  .nav__padajuci a:focus-visible,
+  .nav__padajuci a[aria-current] {
+    background: var(--c-svetloplava-blaga);
+  }
+  .nav__pod-naziv {
+    font-weight: 500;
+    font-size: 1rem;
+  }
+  .nav__pod-opis {
+    font-size: var(--fs-sitni);
+    color: var(--c-teget-blagi);
+  }
+
+  @media (min-width: 84em) {
+    .nav {
+      display: block;
+    }
+    .zaglavlje__meni {
+      display: none;
+    }
+  }
+
+  /* --- Mobilni meni --- */
+  .mobilni {
+    /* Zaglavlje koristi backdrop-filter, pa se panel pozicionira u odnosu na njega */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: calc(100vh - var(--visina-zaglavlja));
+    height: calc(100dvh - var(--visina-zaglavlja));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--c-bez);
+    border-top: 1px solid var(--c-linija);
+    animation: mobilni-ulaz var(--t-srednje) var(--ease);
+  }
+  @keyframes mobilni-ulaz {
+    from {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+  }
+  .mobilni__unutra {
+    display: grid;
+    gap: 2rem;
+    padding-block: 1.5rem 3rem;
+  }
+  .mobilni__lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .mobilni__lista > li {
+    border-bottom: 1px solid var(--c-linija);
+  }
+  .mobilni__link {
+    display: block;
+    padding: 0.95rem 0;
+    font-family: var(--font-naslov);
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.15;
+    text-decoration: none;
+  }
+  .mobilni__link[aria-current],
+  .mobilni__podlista a[aria-current] {
+    color: var(--c-plava);
+  }
+  .mobilni__podlista {
+    list-style: none;
+    margin: -0.35rem 0 0.9rem;
+    padding: 0 0 0 1rem;
+    border-left: 1px solid var(--c-kajsija-tamna);
+  }
+  .mobilni__podlista a {
+    display: block;
+    padding: 0.55rem 0;
+    font-size: 1.0625rem;
+    text-decoration: none;
+    color: var(--c-teget-blagi);
+  }
+  .mobilni__cta {
+    width: 100%;
+  }
+  :global(html.meni-otvoren) {
+    overflow: hidden;
+  }
+</style>

@@ -1,0 +1,100 @@
+---
+// Česta pitanja — harmonika bez JavaScript-a (<details>), sa strukturisanim podacima za Google.
+import { md, cistTekst } from '../lib/sajt';
+
+interface Props {
+  pitanja: { pitanje: string; odgovor: string }[];
+}
+const { pitanja } = Astro.props;
+
+const shema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: pitanja.map((p) => ({
+    '@type': 'Question',
+    name: p.pitanje,
+    acceptedAnswer: { '@type': 'Answer', text: cistTekst(p.odgovor) },
+  })),
+};
+---
+
+<div class="pitanja">
+  {
+    pitanja.map((p) => (
+      <details class="pitanje">
+        <summary>
+          <span>{p.pitanje}</span>
+          <span class="pitanje__znak" aria-hidden="true" />
+        </summary>
+        <div class="pitanje__odgovor tekst" set:html={md(p.odgovor)} />
+      </details>
+    ))
+  }
+</div>
+<script type="application/ld+json" set:html={JSON.stringify(shema)} />
+
+<style>
+  .pitanja {
+    border-top: 1px solid var(--c-teget);
+  }
+  .pitanje {
+    border-bottom: 1px solid var(--c-linija);
+  }
+  .pitanje summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.35rem 0;
+    font-family: var(--font-naslov);
+    font-size: clamp(1.3rem, 1.2rem + 0.5vw, 1.6rem);
+    font-weight: 500;
+    line-height: 1.25;
+    cursor: pointer;
+    list-style: none;
+  }
+  .pitanje summary::-webkit-details-marker {
+    display: none;
+  }
+  .pitanje summary:hover {
+    color: var(--c-plava);
+  }
+  .pitanje__znak {
+    position: relative;
+    flex: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--c-linija);
+    border-radius: 50%;
+    transition:
+      background-color var(--t-brzo),
+      transform var(--t-srednje) var(--ease);
+  }
+  .pitanje__znak::before,
+  .pitanje__znak::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0.8rem;
+    height: 1.5px;
+    background: currentColor;
+    transform: translate(-50%, -50%);
+    transition: transform var(--t-srednje) var(--ease);
+  }
+  .pitanje__znak::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+  .pitanje[open] .pitanje__znak {
+    background: var(--c-kajsija);
+    border-color: var(--c-kajsija);
+  }
+  .pitanje[open] .pitanje__znak::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  .pitanje__odgovor {
+    max-width: 44rem;
+    padding: 0 0 1.6rem;
+    color: var(--c-teget-blagi);
+  }
+</style>

@@ -1,0 +1,54 @@
+---
+import Osnovni from '../../layouts/Osnovni.astro';
+import UvodStranice from '../../components/UvodStranice.astro';
+import ListaPrograma from '../../components/ListaPrograma.astro';
+import Ikona from '../../components/Ikona.astro';
+import { mdRed } from '../../lib/sajt';
+import s from '../../content/stranice/programi.json';
+---
+
+<Osnovni naslov={s.seo.naslov} opis={s.seo.opis}>
+  <UvodStranice
+    nadnaslov={s.uvod.nadnaslov}
+    naslov={s.uvod.naslov}
+    uvod={s.uvod.tekst}
+    putanja={[{ naziv: 'Programi' }]}
+  />
+
+  <section class="sekcija sekcija--bez-vrha" aria-labelledby="ebook-naslov">
+    <div class="omot">
+      <div class="glava-sekcije glava-sekcije--red" data-otkrij>
+        <div class="stog stog--mali">
+          <span class="nadnaslov">{s.ebook.nadnaslov}</span>
+          <h2 id="ebook-naslov" set:html={mdRed(s.ebook.naslov)} />
+        </div>
+        <a href="/programi/e-book/" class="link-strelica">Svi e-book programi <Ikona naziv="strelica" /></a>
+      </div>
+      <ListaPrograma vrsta="e-book" prazno={s.ebook.prazno} nivoNaslova="h3" />
+    </div>
+  </section>
+
+  <section class="sekcija sekcija--nebo" aria-labelledby="masterclass-naslov">
+    <div class="omot">
+      <div class="glava-sekcije glava-sekcije--red" data-otkrij>
+        <div class="stog stog--mali">
+          <span class="nadnaslov">{s.masterclass.nadnaslov}</span>
+          <h2 id="masterclass-naslov" set:html={mdRed(s.masterclass.naslov)} />
+        </div>
+        <a href="/programi/masterclass/" class="link-strelica">Svi Masterclass programi <Ikona naziv="strelica" /></a>
+      </div>
+      <ListaPrograma vrsta="masterclass" prazno={s.masterclass.prazno} nivoNaslova="h3" />
+    </div>
+  </section>
+</Osnovni>
+
+<style>
+  :global(.glava-sekcije--red) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1.25rem 2rem;
+    max-width: none;
+  }
+</style>

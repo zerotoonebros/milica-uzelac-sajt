@@ -1,0 +1,118 @@
+---
+import Osnovni from '../layouts/Osnovni.astro';
+import UvodStranice from '../components/UvodStranice.astro';
+import Fotografija from '../components/Fotografija.astro';
+import Ikona from '../components/Ikona.astro';
+import { md, mdRed } from '../lib/sajt';
+import s from '../content/stranice/moja-misija.json';
+---
+
+<Osnovni naslov={s.seo.naslov} opis={s.seo.opis}>
+  <UvodStranice
+    nadnaslov={s.uvod.nadnaslov}
+    naslov={s.uvod.naslov}
+    uvod={s.uvod.tekst}
+    putanja={[{ naziv: 'Moja misija' }]}
+  />
+
+  <section class="sekcija sekcija--mala tamna izjava" aria-label="Izjava o misiji">
+    <div class="omot omot--tekst" data-otkrij>
+      <span class="izjava__znak"><Ikona naziv="navodnici" velicina={44} /></span>
+      <p class="izjava__tekst">{s.izjava.tekst}</p>
+      <span class="rukopis izjava__potpis">{s.izjava.potpis}</span>
+    </div>
+  </section>
+
+  <section class="sekcija" aria-labelledby="vrednosti-naslov">
+    <div class="omot">
+      <div class="glava-sekcije" data-otkrij>
+        <span class="nadnaslov">{s.vrednosti.nadnaslov}</span>
+        <h2 id="vrednosti-naslov" set:html={mdRed(s.vrednosti.naslov)} />
+      </div>
+      <ol class="vrednosti">
+        {
+          s.vrednosti.stavke.map((v, i) => (
+            <li data-otkrij style={`--kasnjenje:${i}`}>
+              <span class="vrednosti__broj" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h3>{v.naslov}</h3>
+              <p>{v.tekst}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="sekcija sekcija--nebo" aria-labelledby="vizija-naslov">
+    <div class="omot dvodelno dvodelno--obrnuto">
+      <div data-otkrij>
+        <Fotografija slika={s.vizija.slika} alt={s.vizija.slika_alt} oblik="meko" odnos="1/1" sablon={4} />
+      </div>
+      <div class="stog" data-otkrij style="--kasnjenje:1">
+        <span class="nadnaslov">{s.vizija.nadnaslov}</span>
+        <h2 id="vizija-naslov" set:html={mdRed(s.vizija.naslov)} />
+        <div class="tekst" set:html={md(s.vizija.tekst)} />
+      </div>
+    </div>
+  </section>
+</Osnovni>
+
+<style>
+  .izjava {
+    text-align: center;
+  }
+  .izjava .omot {
+    display: grid;
+    justify-items: center;
+    gap: 1.25rem;
+  }
+  .izjava__znak {
+    color: var(--c-kajsija);
+  }
+  .izjava__tekst {
+    font-family: var(--font-naslov);
+    font-size: clamp(1.6rem, 1.25rem + 1.8vw, 2.6rem);
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.28;
+    text-wrap: balance;
+  }
+  .izjava__potpis {
+    margin-top: 0.25rem;
+  }
+  .vrednosti {
+    display: grid;
+    gap: 2.25rem clamp(1.5rem, 1rem + 2.5vw, 3rem);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  @media (min-width: 40em) {
+    .vrednosti {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 64em) {
+    .vrednosti {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .vrednosti li {
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--c-teget);
+  }
+  .vrednosti__broj {
+    font-family: var(--font-naslov);
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--c-kajsija-tamna);
+  }
+  .vrednosti p {
+    color: var(--c-teget-blagi);
+  }
+</style>

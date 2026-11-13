@@ -1,0 +1,65 @@
+---
+// Pravne stranice: /politika-privatnosti/ i /politika-kolacica/ (sadržaj u src/content/pravno).
+import { getCollection } from 'astro:content';
+import Osnovni from '../layouts/Osnovni.astro';
+import UvodStranice from '../components/UvodStranice.astro';
+import { datum, mdClanak } from '../lib/sajt';
+
+export async function getStaticPaths() {
+  const dokumenti = await getCollection('pravno');
+  return dokumenti.map((dokument) => ({ params: { pravno: dokument.id }, props: { dokument } }));
+}
+
+const { dokument } = Astro.props;
+const sadrzaj = await mdClanak(dokument.body);
+const jeKolacici = dokument.id.includes('kolacic');
+---
+
+<Osnovni naslov={dokument.data.seo_naslov || dokument.data.naslov} opis={dokument.data.seo_opis} bezPoziva>
+  <UvodStranice naslov={dokument.data.naslov} putanja={[{ naziv: dokument.data.naslov }]} oblici={false} uzak>
+    <p class="azurirano">Poslednja izmena: {datum(dokument.data.azurirano)}</p>
+  </UvodStranice>
+
+  <section class="sekcija sekcija--bez-vrha">
+    <div class="omot omot--tekst">
+      {
+        jeKolacici && (
+          <p class="podesavanja">
+            <button type="button" class="dugme dugme--okvir dugme--malo" data-kolacici-otvori>
+              Promeni podešavanja kolačića
+            </button>
+          </p>
+        )
+      }
+      <div class="tekst" set:html={sadrzaj} />
+    </div>
+  </section>
+</Osnovni>
+
+<style>
+  .azurirano {
+    font-size: var(--fs-mali);
+    color: var(--c-teget-blagi);
+  }
+  .podesavanja {
+    margin-bottom: 2rem;
+  }
+  .tekst :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-mali);
+    display: block;
+    overflow-x: auto;
+  }
+  .tekst :global(th),
+  .tekst :global(td) {
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--c-linija);
+    text-align: left;
+    vertical-align: top;
+  }
+  .tekst :global(th) {
+    background: var(--c-svetloplava-blaga);
+    font-weight: 500;
+  }
+</style>

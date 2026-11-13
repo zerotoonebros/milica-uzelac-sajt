@@ -1,0 +1,74 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Ikona from './Ikona.astro';
+
+interface Props {
+  utisak: CollectionEntry<'utisci'>;
+  veliki?: boolean;
+}
+const { utisak, veliki = false } = Astro.props;
+const u = utisak.data;
+const tekst = (utisak.body ?? '').trim();
+---
+
+<figure class:list={['utisak', { 'utisak--veliki': veliki }]}>
+  <span class="utisak__znak"><Ikona naziv="navodnici" velicina={veliki ? 40 : 30} /></span>
+  <blockquote class="utisak__tekst">
+    {tekst.split(/\n{2,}/).map((pasus) => <p>{pasus}</p>)}
+  </blockquote>
+  <figcaption class="utisak__potpis">
+    <span class="utisak__ime">{u.ime}</span>
+    {u.opis_osobe && <span class="utisak__opis">{u.opis_osobe}</span>}
+    {u.primer && <span class="oznaka oznaka--okvir utisak__primer">Primer teksta — zameniti pravim utiskom</span>}
+  </figcaption>
+</figure>
+
+<style>
+  .utisak {
+    display: grid;
+    gap: 1.1rem;
+    align-content: start;
+    height: 100%;
+    padding: clamp(1.6rem, 1.2rem + 1.6vw, 2.5rem);
+    background: var(--c-papir);
+    border: 1px solid var(--c-linija);
+    border-radius: var(--z-kartica);
+  }
+  .utisak__znak {
+    color: var(--c-kajsija-tamna);
+  }
+  .utisak__tekst {
+    display: grid;
+    gap: 0.8em;
+    font-family: var(--font-naslov);
+    font-size: clamp(1.3rem, 1.2rem + 0.45vw, 1.55rem);
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.38;
+    color: var(--c-teget);
+  }
+  .utisak--veliki .utisak__tekst {
+    font-size: clamp(1.5rem, 1.25rem + 1.2vw, 2.1rem);
+    line-height: 1.3;
+  }
+  .utisak__potpis {
+    display: grid;
+    gap: 0.15rem;
+    justify-items: start;
+    margin-top: auto;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--c-linija);
+  }
+  .utisak__ime {
+    font-weight: 500;
+  }
+  .utisak__opis {
+    font-size: var(--fs-mali);
+    color: var(--c-teget-blagi);
+  }
+  .utisak__primer {
+    margin-top: 0.6rem;
+    text-transform: none;
+    letter-spacing: 0.01em;
+  }
+</style>
