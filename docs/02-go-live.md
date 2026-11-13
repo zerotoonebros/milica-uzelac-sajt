@@ -14,34 +14,35 @@ Menu names in GitHub and Netlify change now and then; if a label differs slightl
 
 ## Current state (13 Nov 2026)
 
-A preview is already live, set up the quick way under the developer's own Netlify team:
+A preview is live, set up under the developer's own accounts for now:
 
 | | |
 | --- | --- |
 | Preview address | **https://milica-uzelac.netlify.app** |
-| Netlify project | `milica-uzelac`, in the developer's team (Free plan, credits shared with the developer's other project) |
 | Code | Private GitHub repository **zerotoonebros/milica-uzelac-sajt** (developer's account; to be transferred to the client later) |
-| How it was deployed | Uploaded from this computer with Netlify's command-line tool. **Netlify is not linked to the GitHub repository yet**, so pushing to GitHub does not publish anything. |
+| Netlify project | `milica-uzelac`, in the developer's team (Free plan, credits shared with the developer's other project) |
+| Publishing | **Linked to GitHub.** Every push to `main` rebuilds and publishes the site automatically (15 credits each). |
 | Forms | Detection enabled; all five forms are registered. No e-mail notifications set yet (Step 7). |
-| Editing panel (`/admin/`) | Opens, but **login does not work yet** — it needs the login setup in Step 4. The panel already points at the repository (`config.yml`), but that change goes live with the next deploy. |
+| Editing panel (`/admin/`) | Points at the repository, but **login does not work yet** — it needs Step 4. |
 | Google | Hidden: indexing is switched off in the site settings. |
 
-**To publish a change while it is set up this way**, run in the project folder (each run uses 15 Netlify credits):
+**Steps 1, 2 and 3 below are done.** Still to do:
+
+1. **Step 4** — client login for the editing panel.
+2. **Step 5** — the publish button.
+3. **Step 7** — form e-mail notifications.
+
+**Mind the credits.** Each push to `main` costs 15 of the team's 300 monthly credits, shared with the developer's own site. To push something that does not need to go live (for example a change to these guides), put `[skip ci]` in the commit message and Netlify skips the build:
 
 ```bash
-npx netlify-cli deploy --prod
+git commit -am "[skip ci] Opis izmene"
 ```
 
-Two things that came up during this first deploy and will come up again on any new project in this team:
+Things that came up during this first setup and will come up again on any new project in this team:
 
 - **Login wall.** The team's default is "team login required" for new projects, so a fresh project shows visitors a Netlify login page. It was switched off for this project only (in the dashboard: **Project configuration → General → Visitor access**). The team default was left as it was.
 - **"Powered by Netlify" badge.** Netlify's Free plan shows a small badge in the bottom-right corner of the site. Its setting is under **Project configuration → General → Powered by Netlify badge**.
-
-**Steps 1 and 2 below are done.** To finish the proper setup (automatic publishing and client editing):
-
-1. **Link the repository** — in the existing Netlify project: **Project configuration → Developer settings → Continuous deployment → Repository → Link repository** → GitHub → `milica-uzelac-sajt`. Netlify asks to be authorized on GitHub; allow it for this one repository. From then on every push to `main` publishes the site (15 credits each), and the first link triggers one deploy.
-2. **Step 4** — client login for the editing panel.
-3. **Step 5** — the publish button.
+- **Repository not in the list when linking.** The Netlify app on GitHub only sees repositories it was given. Add the new one at github.com/settings/installations → Netlify → Configure → Repository access.
 
 ---
 
