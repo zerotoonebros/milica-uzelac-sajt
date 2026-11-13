@@ -138,10 +138,6 @@ grep -rniE "upiši|upisati|tvojdomen|primer: true" src/content
 
 ## Housekeeping
 
-- **Netlify command-line tool is still signed in on this computer** (it was authorized on 13 Nov to do the first deploy). It is no longer needed now that pushes publish automatically. To sign it out:
-
-```bash
-npx netlify-cli@27.17.0 logout
-```
+- [ ] **Revoke the Netlify command-line tool's access.** It was authorized on 13 Nov to do the first deploy and is no longer needed. It is signed out on this computer and its stored key has been deleted, but the authorization itself still exists on Netlify's side until you revoke it: Netlify → your avatar → **User settings → Applications** → find **Netlify CLI** among the authorized applications → revoke.
 
 - **Commits are authored as "Murmix"** with your e-mail, set for this project only. The client will see that in the history after the transfer.
