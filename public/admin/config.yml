@@ -9,7 +9,7 @@
 backend:
   name: github
   # ↓ ZAMENI pravim nazivom repozitorijuma na GitHub-u (vlasnik/naziv), vidi docs/02-go-live.md
-  repo: VLASNIK/NAZIV-REPOZITORIJUMA
+  repo: zerotoonebros/milica-uzelac-sajt
   branch: main
   # „Save“ samo čuva izmenu. Sajt se ponovo objavljuje kada se izabere „Save and Publish“
   # (strelica pored dugmeta Save) ili klikne „Publish Changes“. Tako se više izmena objavi odjednom.
@@ -22,8 +22,8 @@ backend:
     deleteMedia: 'Fotografija: obrisano {{path}}'
 
 # ↓ ZAMENI adresom sajta kada bude poznata
-site_url: https://tvojdomen.rs
-display_url: https://tvojdomen.rs
+site_url: https://milica-uzelac.netlify.app
+display_url: https://milica-uzelac.netlify.app
 
 # Fotografije se čuvaju u src/assets/uploads — sajt ih pri objavi sam smanjuje i optimizuje.
 media_folder: /src/assets/uploads
