@@ -12,6 +12,34 @@ Menu names in GitHub and Netlify change now and then; if a label differs slightl
 
 ---
 
+## Current state (13 Nov 2026)
+
+A preview is already live, set up the quick way under the developer's own Netlify team:
+
+| | |
+| --- | --- |
+| Preview address | **https://milica-uzelac.netlify.app** |
+| Netlify project | `milica-uzelac`, in the developer's team (Free plan, credits shared with the developer's other project) |
+| How it was deployed | Uploaded from this computer with Netlify's command-line tool. **Not connected to GitHub yet.** |
+| Forms | Detection enabled; all five forms are registered. No e-mail notifications set yet (Step 7). |
+| Editing panel (`/admin/`) | Opens, but **login does not work yet** — it needs the GitHub repository (Steps 1, 2 and 4). |
+| Google | Hidden: indexing is switched off in the site settings. |
+
+**To publish a change while it is set up this way**, run in the project folder (each run uses 15 Netlify credits):
+
+```bash
+npx netlify-cli deploy --prod
+```
+
+Two things that came up during this first deploy and will come up again on any new project in this team:
+
+- **Login wall.** The team's default is "team login required" for new projects, so a fresh project shows visitors a Netlify login page. It was switched off for this project only (Project configuration → Access & security → Visitor access). The team default was left as it was.
+- **"Powered by Netlify" badge.** Netlify's Free plan shows a small badge in the bottom-right corner of the site. It disappears on a paid plan; check the project's settings for whether it can be turned off on Free.
+
+To finish the proper setup (automatic publishing and client editing), continue with Steps 1, 2, 4 and 5 below. In Step 3, instead of importing a new project, open the existing one and link the repository: **Project configuration → Build & deploy → Continuous deployment → Link repository**.
+
+---
+
 ## Step 0 — Decide who owns the accounts (5 min)
 
 The brief (section 10) says the client must own everything. The clean way:
