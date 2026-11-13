@@ -33,7 +33,7 @@ npx netlify-cli deploy --prod
 
 Two things that came up during this first deploy and will come up again on any new project in this team:
 
-- **Login wall.** The team's default is "team login required" for new projects, so a fresh project shows visitors a Netlify login page. It was switched off for this project only (Project configuration → Access & security → Visitor access). The team default was left as it was.
+- **Login wall.** The team's default is "team login required" for new projects, so a fresh project shows visitors a Netlify login page. It was switched off for this project only, through Netlify's API; in the dashboard the same switch is in the project's access and security settings (the exact label was not checked). The team default was left as it was.
 - **"Powered by Netlify" badge.** Netlify's Free plan shows a small badge in the bottom-right corner of the site. It disappears on a paid plan; check the project's settings for whether it can be turned off on Free.
 
 To finish the proper setup (automatic publishing and client editing), continue with Steps 1, 2, 4 and 5 below. In Step 3, instead of importing a new project, open the existing one and link the repository: **Project configuration → Build & deploy → Continuous deployment → Link repository**.
