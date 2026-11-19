@@ -3,9 +3,12 @@ import type { ImageMetadata } from 'astro';
 import { marked } from 'marked';
 import sajtPodaci from '../content/podesavanja/sajt.json';
 import navigacijaPodaci from '../content/podesavanja/navigacija.json';
+import obavestenjePodaci from '../content/podesavanja/obavestenje.json';
 
 export const sajt = sajtPodaci;
 export const navigacija = navigacijaPodaci.stavke;
+/** Obaveštenje (baner) ispod zaglavlja — uključuje se i isključuje u CMS-u. */
+export const obavestenje = obavestenjePodaci;
 
 /* ---------- Fotografije ----------
    Sve fotografije koje se dodaju kroz CMS završavaju u src/assets/uploads.

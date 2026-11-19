@@ -910,6 +910,7 @@ h3 em {
 
 @media print {
   .zaglavlje,
+  .obavestenje,
   .podnozje,
   .kolacici {
     display: none !important;

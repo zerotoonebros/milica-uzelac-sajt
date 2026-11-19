@@ -66,6 +66,26 @@ All three fonts are open source (SIL Open Font License), downloaded at build tim
 
 The booking CTA ("Zakaži uvodni razgovor") is the only filled blue button in the header and hero, so it stands apart from everything else, as the brief asks. Minimum height is 52 px (44 px for the small variant), which is comfortable for thumbs.
 
+## Header and menu
+
+| Screen width | What the header shows |
+| --- | --- |
+| 1280 px and wider | Logo with subtitle, full menu, booking button |
+| 1152 – 1279 px (small laptops, tablets held sideways) | Same, slightly tighter: logo without the subtitle, smaller gaps |
+| Under 1152 px (phones, upright tablets) | Logo, booking button (from 640 px), round menu button that opens the full-screen menu |
+
+Widths are measured in the browser's own units, so a visitor who zooms the page in gets the layout of a narrower screen. If the menu ever grows too long for one row (items are editable in the CMS), a small script switches the header to the menu button instead of letting it overflow. All of this lives in [`src/components/Zaglavlje.astro`](../src/components/Zaglavlje.astro).
+
+## Announcement bar
+
+A slim strip in the same Persian blue as the booking button, directly under the header on every page. It is for one current thing: a workshop, a new program, something new on the site. It has an optional apricot tag ("Novo"), one sentence, an optional link and a close button. It scrolls away with the page (the header stays).
+
+- Switched on and off in the CMS: **Podešavanja → Obaveštenje na vrhu sajta (baner)**. Content file: `src/content/podesavanja/obavestenje.json`.
+- **Prikazuj do** (optional date): after that day the bar disappears by itself, even if nobody switches it off.
+- A visitor who closes it does not see it again until the text or link changes.
+- It is not shown on the page it links to.
+- Component: [`src/components/Obavestenje.astro`](../src/components/Obavestenje.astro).
+
 ## Icons and illustrations
 
 - **Icons:** thin line (1.5 px), rounded ends, 24 px grid. Defined in [`src/components/Ikona.astro`](../src/components/Ikona.astro).

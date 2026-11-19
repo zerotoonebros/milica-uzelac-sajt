@@ -792,6 +792,21 @@ collections:
               - { label: Google Search Console — kod za verifikaciju, name: google_verifikacija, widget: string, required: false, hint: 'Samo vrednost iz „content“ dela meta taga.' }
               - { label: Prikaži baner za kolačiće, name: prikazi_baner_za_kolacice, widget: boolean, default: true }
 
+      - name: obavestenje
+        label: Obaveštenje na vrhu sajta (baner)
+        file: src/content/podesavanja/obavestenje.json
+        fields:
+          - label: Prikaži obaveštenje
+            name: prikazi
+            widget: boolean
+            default: false
+            hint: 'Uključi kada imaš šta da najaviš, isključi kada prođe. Dok je isključeno, trake nema na sajtu.'
+          - { label: Oznaka, name: oznaka, widget: string, required: false, hint: 'Jedna reč u malom okviru ispred teksta, npr. „Novo“ ili „Radionica“. Može i prazno.' }
+          - { label: Tekst, name: tekst, widget: string, hint: 'Jedna kratka rečenica, do oko 90 karaktera, da na telefonu stane u dva reda.' }
+          - { label: Tekst linka, name: tekst_linka, widget: string, required: false, hint: 'Npr. „Saznaj više“ ili „Prijavi se“.' }
+          - { label: Link, name: link, widget: string, required: false, hint: 'Stranica na koju obaveštenje vodi, npr. /rad-sa-mnom/grupne-radionice/. Ako je prazno, prikazuje se samo tekst.' }
+          - { label: Prikazuj do (datum), name: prikazuj_do, widget: datetime, format: 'YYYY-MM-DD', date_format: 'DD.MM.YYYY.', time_format: false, required: false, default: '', hint: 'Nije obavezno. Posle ovog dana obaveštenje nestaje samo, npr. na dan radionice.' }
+
       - name: navigacija
         label: Navigacija (meni)
         file: src/content/podesavanja/navigacija.json

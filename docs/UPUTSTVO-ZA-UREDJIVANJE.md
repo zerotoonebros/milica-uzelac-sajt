@@ -18,7 +18,7 @@ Panel je na engleskom, ali su sva polja koja popunjavaš nazvana na srpskom.
 | **Utisci klijenata** | Utisci na stranici „Utisci klijenata“ i na početnoj |
 | **Stranice** | Tekstovi i fotografije na svim stranicama |
 | **Pravne stranice** | Politika privatnosti i Politika kolačića |
-| **Podešavanja** | Kontakt podaci, društvene mreže, meni, dugme za zakazivanje, SEO, analitika |
+| **Podešavanja** | Kontakt podaci, društvene mreže, meni, obaveštenje na vrhu sajta, dugme za zakazivanje, SEO, analitika |
 
 ## 2. Čuvanje i objavljivanje — najvažnije pravilo
 
@@ -129,7 +129,26 @@ Fotografija se sama iseca da stane u okvir, pa je važno da je lice blizu sredin
 - **SEO → Dozvoli Google-u da prikazuje sajt** — uključuje se **jednom**, kada je sajt spreman za javnost.
 - **Analitika i kolačići** — ovo popunjava programer.
 
-**Podešavanja → Navigacija (meni)** — menjaš nazive stavki, redosled (prevlačenjem) i podmeni. Link počinje i završava se kosom crtom, npr. `/o-meni/`.
+**Podešavanja → Navigacija (meni)** — menjaš nazive stavki, redosled (prevlačenjem) i podmeni. Link počinje i završava se kosom crtom, npr. `/o-meni/`. Na računaru se vidi ceo meni; na telefonu se otvara dugmetom sa tri crte. Ako dodaš mnogo stavki ili su nazivi dugi, meni i na užim ekranima računara prelazi na to dugme — zato neka nazivi budu kratki.
+
+### Obaveštenje na vrhu sajta (baner)
+
+Plava traka odmah ispod menija, na svim stranicama. Služi da najaviš jednu aktuelnu stvar: novu radionicu, novi program ili novost na sajtu.
+
+**Podešavanja → Obaveštenje na vrhu sajta (baner)**
+
+| Polje | Šta upisuješ |
+| --- | --- |
+| **Prikaži obaveštenje** | Uključeno = traka je na sajtu. Isključeno = trake nema. |
+| **Oznaka** | Jedna reč u malom okviru ispred teksta, npr. „Novo“ ili „Radionica“. Može i prazno. |
+| **Tekst** | Jedna kratka rečenica (do oko 90 karaktera), npr. „Online radionica Granice bez griže savesti — 23. januar. Prijave su otvorene.“ |
+| **Tekst linka** i **Link** | Npr. „Prijavi se“ i adresa stranice radionice (`/rad-sa-mnom/grupne-radionice/…/`). Ako link ostaviš prazan, prikazuje se samo tekst. |
+| **Prikazuj do** | Nije obavezno. Posle tog dana traka nestaje sama — zgodno je da upišeš datum radionice. |
+
+- Posle izmene klikni **Save and Publish**, kao i za sve ostalo.
+- Posetiteljka može da zatvori traku krstićem. Ponovo će je videti tek kada promeniš tekst ili link.
+- Na stranici na koju obaveštenje vodi traka se ne prikazuje.
+- Kada nemaš šta da najaviš, isključi **Prikaži obaveštenje**. Tekst ostaje sačuvan za sledeći put.
 
 ## 10. Gde stižu poruke
 

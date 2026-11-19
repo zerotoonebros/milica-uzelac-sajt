@@ -23,13 +23,13 @@ A preview is live, set up under the developer's own accounts for now:
 | Netlify project | `milica-uzelac`, in the developer's team (Free plan, credits shared with the developer's other project) |
 | Publishing | **Linked to GitHub.** Every push to `main` rebuilds and publishes the site automatically (15 credits each). |
 | Forms | Detection enabled; all five forms are registered. No e-mail notifications set yet (Step 7). |
-| Editing panel (`/admin/`) | Points at the repository, but **login does not work yet** — it needs Step 4. |
+| Editing panel (`/admin/`) | **Working since 19 Nov 2026.** Sign-in through GitHub (OAuth app "Milica Uzelac CMS" under `zerotoonebros`), and **Save and Publish** puts a change live. |
 | Google | Hidden: indexing is switched off in the site settings. |
 
 **Steps 1, 2 and 3 below are done.** Still to do:
 
-1. **Step 4** — client login for the editing panel.
-2. **Step 5** — the publish button.
+1. **Step 4d** — give the client access: they create a GitHub account and are added as a collaborator on the repository.
+2. **Step 5** — the publish button (optional; **Save and Publish** works without it).
 3. **Step 7** — form e-mail notifications.
 
 **Mind the credits.** Each push to `main` costs 15 of the team's 300 monthly credits, shared with the developer's own site. To push something that does not need to go live (for example a change to these guides), put `[skip ci]` in the commit message and Netlify skips the build:
@@ -143,7 +143,9 @@ The CMS signs people in with their GitHub account. Netlify acts as the go-betwee
 2. Fill in:
    - **Application name:** `Milica Uzelac CMS`
    - **Homepage URL:** `https://milica-uzelac.netlify.app` (the real domain later)
-   - **Authorization callback URL:** `https://api.netlify.com/auth/done` ← must be exactly this
+   - **Redirect URI** (older GitHub screens call it "Authorization callback URL"): `https://api.netlify.com/auth/done` ← must be exactly this
+   - Leave **Allow wildcard matching** and **Enable Device Flow** unticked.
+   - Untick **Expire user access tokens**. The panel gets a classic, non-expiring sign-in through Netlify; with expiring tokens the client would likely be signed out every few hours.
 3. Click **Register application**.
 4. Copy the **Client ID**. Click **Generate a new client secret** and copy it too — it is shown only once.
 

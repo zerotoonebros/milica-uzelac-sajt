@@ -135,8 +135,25 @@ const jeAktivna = (link: string) => (link === '/' ? putanja === '/' : putanja.st
     });
 
     // Na širokom ekranu mobilni meni se sam zatvara
-    const siroko = window.matchMedia('(min-width: 84em)');
+    const siroko = window.matchMedia('(min-width: 72em)');
     siroko.addEventListener('change', (e) => e.matches && postavi(false));
+
+    // Rezerva za širok ekran: ako logo, meni i dugme ne stanu u jedan red
+    // (npr. kada se u CMS-u doda još stavki), prikazuje se dugme sa tri crte.
+    const red = zaglavlje.querySelector<HTMLElement>('.zaglavlje__unutra');
+    const akcije = zaglavlje.querySelector<HTMLElement>('.zaglavlje__akcije');
+    const proveriSirinu = () => {
+      if (!red || !akcije) return;
+      zaglavlje.classList.remove('zaglavlje--zbijeno');
+      if (!siroko.matches) return;
+      const desnaIvica = red.getBoundingClientRect().right - parseFloat(getComputedStyle(red).paddingRight);
+      const neStaje = akcije.getBoundingClientRect().right > desnaIvica + 0.5;
+      zaglavlje.classList.toggle('zaglavlje--zbijeno', neStaje);
+      if (!neStaje && dugme.getAttribute('aria-expanded') === 'true') postavi(false);
+    };
+    proveriSirinu();
+    window.addEventListener('resize', proveriSirinu, { passive: true });
+    document.fonts?.ready.then(proveriSirinu);
 
     // Tanka senka kada se stranica skroluje
     const skrol = () => zaglavlje.classList.toggle('zaglavlje--skrol', window.scrollY > 8);
@@ -218,9 +235,12 @@ const jeAktivna = (link: string) => (link === '/' ? putanja === '/' : putanja.st
     display: none;
   }
   .nav__lista {
+    /* Razmaci rastu sa širinom ekrana; vrednosti su odmerene tako da logo, meni
+       i dugme za zakazivanje uvek stanu u jedan red (vidi @media niže). */
+    --nav-razmak: clamp(0.3rem, 1.25vw - 0.6rem, 0.45rem);
     display: flex;
     align-items: center;
-    gap: clamp(0.15rem, -2.6rem + 3.4vw, 0.9rem);
+    gap: clamp(0.15rem, -2.6rem + 3.4vw, 0.4rem);
     list-style: none;
     margin: 0;
     padding: 0;
@@ -233,7 +253,7 @@ const jeAktivna = (link: string) => (link === '/' ? putanja === '/' : putanja.st
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
-    padding: 0.7rem 0.6rem;
+    padding: 0.7rem var(--nav-razmak);
     font-size: 0.9375rem;
     font-weight: 400;
     letter-spacing: 0.01em;
@@ -244,8 +264,8 @@ const jeAktivna = (link: string) => (link === '/' ? putanja === '/' : putanja.st
   .nav__link::after {
     content: '';
     position: absolute;
-    left: 0.6rem;
-    right: 0.6rem;
+    left: var(--nav-razmak);
+    right: var(--nav-razmak);
     bottom: 0.35rem;
     height: 1.5px;
     background: var(--c-plava);
@@ -263,6 +283,7 @@ const jeAktivna = (link: string) => (link === '/' ? putanja === '/' : putanja.st
     font-weight: 500;
   }
   .nav__link :global(.nav__strelica) {
+    flex: none;
     transition: transform var(--t-brzo) var(--ease);
   }
   .nav__stavka--podmeni:hover :global(.nav__strelica),
@@ -322,12 +343,48 @@ const jeAktivna = (link: string) => (link === '/' ? putanja === '/' : putanja.st
     color: var(--c-teget-blagi);
   }
 
-  @media (min-width: 84em) {
+  /* Ceo meni se vidi na računarima i položenim tabletima (od 1152px naviše).
+     Na telefonima i uspravnim tabletima ostaje dugme sa tri crte.
+     Između 1152px i 1280px zaglavlje je zbijenije da bi sve stalo u jedan red:
+     logo je bez podnaslova, a razmaci u meniju su manji. */
+  @media (min-width: 72em) {
     .nav {
       display: block;
     }
     .zaglavlje__meni {
       display: none;
+    }
+    .zaglavlje__unutra {
+      gap: 0.625rem;
+    }
+    .zaglavlje__cta {
+      padding-inline: 0.9rem;
+    }
+    .zaglavlje__logo :global(.logo__podnaslov) {
+      display: none;
+    }
+    .nav__link {
+      font-size: clamp(0.90625rem, 0.625vw + 0.45625rem, 0.9375rem);
+    }
+
+    /* Rezerva: ako meni ipak ne stane u red (npr. posle dodavanja stavki u CMS-u),
+       skripta ispod dodaje ovu klasu i vraća dugme sa tri crte. */
+    .zaglavlje--zbijeno .nav {
+      display: none;
+    }
+    .zaglavlje--zbijeno .zaglavlje__meni {
+      display: inline-grid;
+    }
+  }
+  @media (min-width: 80em) {
+    .zaglavlje__unutra {
+      gap: 1.25rem;
+    }
+    .zaglavlje__cta {
+      padding-inline: 1.25rem;
+    }
+    .zaglavlje__logo :global(.logo__podnaslov) {
+      display: block;
     }
   }
 

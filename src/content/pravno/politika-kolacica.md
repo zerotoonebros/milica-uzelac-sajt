@@ -1,6 +1,6 @@
 ---
 naslov: Politika kolačića
-azurirano: "2026-11-13"
+azurirano: "2026-11-19"
 seo_naslov: Politika kolačića
 seo_opis: Koje kolačiće i slične tehnologije koristi ovaj sajt, čemu služe i kako da u svakom trenutku promeniš svoj izbor.
 ---
@@ -26,6 +26,7 @@ Omogućavaju osnovno funkcionisanje sajta. Ne mogu se isključiti i za njih nije
 | Naziv | Ko ga postavlja | Svrha | Trajanje |
 | --- | --- | --- | --- |
 | `mu-kolacici` (lokalno skladište) | ovaj sajt | pamti tvoj izbor kolačića | 12 meseci |
+| `mu-obavestenje` (lokalno skladište) | ovaj sajt | pamti da si zatvorila obaveštenje na vrhu sajta, da se ne bi ponovo prikazivalo | dok ga ne obrišeš |
 
 ### Analitički
 

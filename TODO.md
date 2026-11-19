@@ -1,8 +1,27 @@
 # What is left to do
 
-Status as of **13 Nov 2026, end of day one**. Tick items off as they are done. Details for every item are in the guide named next to it.
+Status as of **19 Nov 2026**. Tick items off as they are done. Details for every item are in the guide named next to it.
 
 **Where things stand:** the site is built, live as a preview at **https://milica-uzelac.netlify.app**, stored in the private GitHub repository `zerotoonebros/milica-uzelac-sajt`, and publishes automatically on every push. It is hidden from Google. All content is draft.
+
+## Where we left off (19 Nov) — for the call with the client
+
+Done on 19 Nov and published:
+
+- **Menu:** the full menu shows on every screen from 1152 px wide; phones and upright tablets keep the round menu button.
+- **Announcement bar:** blue strip under the header, managed in the panel under Podešavanja → Obaveštenje na vrhu sajta (baner).
+- **Editing panel:** sign-in works, and a change made with **Save and Publish** went live.
+
+On the call, in this order:
+
+1. **Client creates a GitHub account** at https://github.com/signup with their own e-mail, turns on two-factor authentication and tells you the username.
+2. **You invite them:** https://github.com/zerotoonebros/milica-uzelac-sajt/settings/access → **Add people** → their username. They accept the invitation from GitHub's e-mail.
+3. **Client signs in** at https://milica-uzelac.netlify.app/admin/ with **Sign In with GitHub** and approves the "Milica Uzelac CMS" screen (the Authorize button takes a few seconds to become clickable).
+4. **Client tries one edit:** Stranice → Početna, change a word, **Save**. Check that the site does *not* rebuild (this is the one panel behaviour still unconfirmed). Then try uploading one photo, and finish with **Save and Publish** — one publish, 15 credits.
+5. **Show the announcement bar** and where to switch it on and off. It is on now with an **example text** that points to the invented "Granice bez griže savesti" workshop: agree the real text, or switch it off.
+6. **Collect design feedback** on the menu and the bar, and anything else from section 2 below.
+
+Hand the client [docs/UPUTSTVO-ZA-UREDJIVANJE.md](docs/UPUTSTVO-ZA-UREDJIVANJE.md) — it has a new part about the bar.
 
 ## Picking up tomorrow
 
@@ -16,7 +35,7 @@ Then open http://localhost:4321. If the client (or you, through the editing pane
 git pull
 ```
 
-Remember: **every `git push` publishes the site and costs 15 Netlify credits** from the 300 a month you share with your own site (about 165 used this month by my estimate). Put `[skip ci]` in a commit message to push without publishing.
+Remember: **every `git push` publishes the site and costs 15 Netlify credits** from the 300 a month you share with your own site (about 195 used this month by my estimate on 19 Nov, so roughly 105 left; the exact number is in Netlify under the team's Usage & billing). Put `[skip ci]` in a commit message to push without publishing.
 
 ---
 
@@ -24,13 +43,13 @@ Remember: **every `git push` publishes the site and costs 15 Netlify credits** f
 
 Guide: [docs/02-go-live.md](docs/02-go-live.md)
 
-- [ ] **Client login for the editing panel** — Step 4. Register a GitHub OAuth app (callback URL exactly `https://api.netlify.com/auth/done`), then paste its Client ID and secret into Netlify: Project configuration → Security → OAuth → Install Provider → GitHub. Until this is done `/admin/` opens but nobody can sign in.
-- [ ] **Test the editing panel end to end** — log in at https://milica-uzelac.netlify.app/admin/, change one word on the home page, use **Save and Publish**, confirm it appears on the site. This has never been tried on the live site.
-- [ ] **Publish button for the panel** — Step 5. Create a build hook (Project configuration → Developer settings → Continuous deployment → Build hooks) and paste its URL into the panel's Settings → Developer. Needed once per browser.
+- [x] **Client login for the editing panel** — done 19 Nov. GitHub OAuth app "Milica Uzelac CMS" registered under `zerotoonebros`, keys installed in Netlify.
+- [x] **Test the editing panel end to end** — done 19 Nov. Signed in at `/admin/`, changed one word on the home page with **Save and Publish**, and it appeared on the live site.
+- [ ] **Publish button for the panel (optional, skipped)** — Step 5. Only powers the separate "Publish Changes" button and has to be set up in every browser. **Save and Publish** works without it, and that is what the client handbook teaches.
 - [ ] **Form e-mail notifications** — Project configuration → **Notifications** tab → form submission notification → your (later the client's) e-mail. Until then messages are only stored in Netlify under Forms.
 - [ ] **Send one test message** through the contact form on the live site and check it appears in Netlify under Forms. Do the same for the newsletter, a workshop sign-up, a program inquiry and the booking request.
 - [ ] **"Powered by Netlify" badge** — decide whether to keep it; the setting is at Project configuration → General → Powered by Netlify badge.
-- [ ] **Let the client try editing (optional, before handover)** — the client needs a GitHub account, added as a collaborator on the repository (GitHub → repository → Settings → Collaborators).
+- [ ] **Let the client try editing** — planned for the call on 20 Nov; steps are at the top of this file.
 - [ ] **Watch the credits** — Netlify → team → Billing/Usage. If they run out, both this site and your own are paused until the monthly reset.
 - [ ] **Check the site on a real iPhone and a real Android phone.**
 
@@ -119,8 +138,8 @@ grep -rniE "upiši|upisati|tvojdomen|primer: true" src/content
 
 ## 8. Not verified yet — worth knowing
 
-- The editing panel on the live site (login, saving, publishing).
-- Whether **Save** in the panel really skips a deploy and **Save and Publish** triggers one, as designed.
+- Whether **Save** in the panel really skips a deploy, as designed. (**Save and Publish** was confirmed on 19 Nov to trigger one.)
+- Uploading a photo through the panel on the live site.
 - Real delivery of form messages and e-mail notifications.
 - Confirmation e-mails and newsletter sign-up against the real Brevo service.
 - The "booking completed" analytics event.

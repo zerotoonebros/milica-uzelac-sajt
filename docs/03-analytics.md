@@ -33,6 +33,7 @@ Menu names in Google's tools shift from time to time; look for the closest match
 | `email_click` | Click on the e-mail address | — |
 | `phone_click` | Click on the phone number | — |
 | `social_click` | Click on a social network icon | `mesto` (network) |
+| `announcement_click` | Click on the link in the announcement bar under the header | `mesto` (`baner`), `tekst_dugmeta` |
 | `kolacici_izbor` | Visitor saves a cookie choice | `analitika`, `marketing` (true/false) |
 
 `form_name` values: `kontakt`, `newsletter`, `prijava-radionica`, `zakazivanje`, `upit-program`.

@@ -3,6 +3,7 @@
 import { Font } from 'astro:assets';
 import '../styles/global.css';
 import Zaglavlje from '../components/Zaglavlje.astro';
+import Obavestenje from '../components/Obavestenje.astro';
 import Podnozje from '../components/Podnozje.astro';
 import Kolacici from '../components/Kolacici.astro';
 import { sajt, nadjiSliku, cistTekst } from '../lib/sajt';
@@ -160,6 +161,7 @@ const gtmId = sajt.analitika.gtm_id?.trim() ?? '';
   <body>
     <a href="#sadrzaj" class="preskoci">Preskoči na sadržaj</a>
     <Zaglavlje />
+    <Obavestenje />
     <main id="sadrzaj">
       <slot />
     </main>
