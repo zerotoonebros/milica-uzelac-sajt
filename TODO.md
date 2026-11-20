@@ -1,41 +1,42 @@
 # What is left to do
 
-Status as of **19 Nov 2026**. Tick items off as they are done. Details for every item are in the guide named next to it.
+Status as of **20 Nov 2026**. Tick items off as they are done. Details for every item are in the guide named next to it.
 
-**Where things stand:** the site is built, live as a preview at **https://milica-uzelac.netlify.app**, stored in the private GitHub repository `zerotoonebros/milica-uzelac-sajt`, and publishes automatically on every push. It is hidden from Google. All content is draft.
+**Where things stand:** the site is built, live as a preview at **https://milica-uzelac.netlify.app**, stored in the **public** GitHub repository `zerotoonebros/milica-uzelac-sajt`, and publishes automatically on every push. It is hidden from Google. All content is draft. The client can sign in to the editing panel and publish on her own.
 
-## Where we left off (19 Nov) — for the call with the client
+## Where we left off (20 Nov) — after the call with the client
 
-Done on 19 Nov and published:
+Done on the call:
 
-- **Menu:** the full menu shows on every screen from 1152 px wide; phones and upright tablets keep the round menu button.
-- **Announcement bar:** blue strip under the header, managed in the panel under Podešavanja → Obaveštenje na vrhu sajta (baner).
-- **Editing panel:** sign-in works, and a change made with **Save and Publish** went live.
+- **Client has a GitHub account** (`MilicaUz12`) and is a collaborator on the repository.
+- **Client signed in to the editing panel** at `/admin/` and edited the home page.
+- **Her first publish was blocked by Netlify** ("Unrecognized Git contributor"): on the Free plan, a private repository only builds commits from members of the Netlify team.
+- **Fix: the repository is now public**, and it was linked to the Netlify project again so Netlify picked up the change. Before the switch the whole history was scanned for keys and tokens; none were found.
+- **Confirmed:** her next edit (18:49, **Save and Publish**) went live by itself, with no help from you.
 
-On the call, in this order:
+Consequences of the public repository:
 
-1. **Client creates a GitHub account** at https://github.com/signup with their own e-mail, turns on two-factor authentication and tells you the username.
-2. **You invite them:** https://github.com/zerotoonebros/milica-uzelac-sajt/settings/access → **Add people** → their username. They accept the invitation from GitHub's e-mail.
-3. **Client signs in** at https://milica-uzelac.netlify.app/admin/ with **Sign In with GitHub** and approves the "Milica Uzelac CMS" screen (the Authorize button takes a few seconds to become clickable).
-4. **Client tries one edit:** Stranice → Početna, change a word, **Save**. Check that the site does *not* rebuild (this is the one panel behaviour still unconfirmed). Then try uploading one photo, and finish with **Save and Publish** — one publish, 15 credits.
-5. **Show the announcement bar** and where to switch it on and off. It is on now with an **example text** that points to the invented "Granice bez griže savesti" workshop: agree the real text, or switch it off.
-6. **Collect design feedback** on the menu and the bar, and anything else from section 2 below.
+- Anyone can read the code, the draft texts, these guides and the commit history. Never commit keys or passwords; they belong in Netlify's environment variables.
+- The commit history shows the e-mail addresses of both of you. The client can hide hers for future commits in GitHub under Settings → Emails → "Keep my email addresses private".
+- After the handover the repository must **stay public** (or the client pays for Netlify Pro), otherwise your commits would be the blocked ones.
 
-Hand the client [docs/UPUTSTVO-ZA-UREDJIVANJE.md](docs/UPUTSTVO-ZA-UREDJIVANJE.md) — it has a new part about the bar.
+Not done on the call — next time:
+
+1. **Plain Save test.** Client changes a word and clicks **Save** (not Save and Publish). Check that no new entry appears in Netlify's Deploys list.
+2. **Photo upload** through the panel.
+3. **Announcement bar:** still on with the **example text** pointing to the invented "Granice bez griže savesti" workshop. Agree the real text, or switch it off.
+4. **Design feedback** from the client (section 2 below) and the **content** she needs to send (section 3).
 
 ## Picking up tomorrow
 
 ```bash
+git pull
 npm run dev
 ```
 
-Then open http://localhost:4321. If the client (or you, through the editing panel) changed anything in the meantime, first run:
+Then open http://localhost:4321. Always run `git pull` first now: the client edits through the panel, and each of her edits is a commit.
 
-```bash
-git pull
-```
-
-Remember: **every `git push` publishes the site and costs 15 Netlify credits** from the 300 a month you share with your own site (about 195 used this month by my estimate on 19 Nov, so roughly 105 left; the exact number is in Netlify under the team's Usage & billing). Put `[skip ci]` in a commit message to push without publishing.
+Remember: **every `git push` and every Save and Publish in the panel publishes the site and costs 15 Netlify credits** from the 300 a month you share with your own site. Three publishes on 20 Nov bring my estimate to about 240 used this month, so roughly 60 left, which is four publishes. The exact number is in Netlify under the team's Usage & billing; check it before the next publish. Put `[skip ci]` in a commit message to push without publishing.
 
 ---
 
@@ -49,7 +50,7 @@ Guide: [docs/02-go-live.md](docs/02-go-live.md)
 - [ ] **Form e-mail notifications** — Project configuration → **Notifications** tab → form submission notification → your (later the client's) e-mail. Until then messages are only stored in Netlify under Forms.
 - [ ] **Send one test message** through the contact form on the live site and check it appears in Netlify under Forms. Do the same for the newsletter, a workshop sign-up, a program inquiry and the booking request.
 - [ ] **"Powered by Netlify" badge** — decide whether to keep it; the setting is at Project configuration → General → Powered by Netlify badge.
-- [ ] **Let the client try editing** — planned for the call on 20 Nov; steps are at the top of this file.
+- [x] **Let the client try editing** — done 20 Nov. She signed in, edited the home page and published by herself (after the repository was made public).
 - [ ] **Watch the credits** — Netlify → team → Billing/Usage. If they run out, both this site and your own are paused until the monthly reset.
 - [ ] **Check the site on a real iPhone and a real Android phone.**
 
@@ -61,7 +62,7 @@ Live style guide: https://milica-uzelac.netlify.app/stil/ · Notes: [docs/01-des
 - [ ] **Confirm the fonts** — EB Garamond (headings), Jost (text, buttons), Ms Madi (handwritten accent).
 - [ ] **Confirm or replace the logo** — it is my proposal. If the client has their own, it replaces the files in `public/brend/` and the header.
 - [ ] **Go through every page yourself** and note what you want changed: layout, section order, spacing, wording of buttons.
-- [ ] **Send the client the preview link** and collect their feedback in one list.
+- [ ] **Collect the client's feedback in one list** — she has the preview link and panel access since 20 Nov.
 - [ ] **Decide the language of the editing panel help** — the panel's own buttons are in English; all field names are Serbian.
 
 ## 3. Content from the client
@@ -110,8 +111,8 @@ Everything on the site now is a draft I wrote. Full table: [docs/05-launch-check
 
 Guide 2, section "Handing over to the client"
 
-- [ ] Client creates a **GitHub** account (with two-factor authentication) and a **Netlify** account.
-- [ ] **Transfer the GitHub repository** to the client; the client adds you back as a collaborator.
+- [ ] Client creates a **Netlify** account. (GitHub account `MilicaUz12` exists since 20 Nov; check that two-factor authentication is on.)
+- [ ] **Transfer the GitHub repository** to the client; the client adds you back as a collaborator. **Keep it public** — on Netlify's Free plan a private repository only builds commits from one person.
 - [ ] Point your local folder at the new address (`git remote set-url …`) and update `repo:` in `public/admin/config.yml`.
 - [ ] **Create the Netlify project in the client's account** and redo: repository link, OAuth app (under the client's GitHub), build hook, form notifications, environment variables. Switch off the visitor login wall there too if their team has it on.
 - [ ] **Move the address / domain** from your project to theirs.
@@ -138,7 +139,7 @@ grep -rniE "upiši|upisati|tvojdomen|primer: true" src/content
 
 ## 8. Not verified yet — worth knowing
 
-- Whether **Save** in the panel really skips a deploy, as designed. (**Save and Publish** was confirmed on 19 Nov to trigger one.)
+- Whether **Save** in the panel really skips a deploy, as designed. (**Save and Publish** is confirmed to trigger one, for you on 19 Nov and for the client on 20 Nov.)
 - Uploading a photo through the panel on the live site.
 - Real delivery of form messages and e-mail notifications.
 - Confirmation e-mails and newsletter sign-up against the real Brevo service.

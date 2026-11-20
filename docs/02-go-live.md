@@ -12,18 +12,18 @@ Menu names in GitHub and Netlify change now and then; if a label differs slightl
 
 ---
 
-## Current state (13 Nov 2026)
+## Current state (20 Nov 2026)
 
 A preview is live, set up under the developer's own accounts for now:
 
 | | |
 | --- | --- |
 | Preview address | **https://milica-uzelac.netlify.app** |
-| Code | Private GitHub repository **zerotoonebros/milica-uzelac-sajt** (developer's account; to be transferred to the client later) |
+| Code | **Public** GitHub repository **zerotoonebros/milica-uzelac-sajt** (developer's account; to be transferred to the client later). Made public on 20 Nov 2026 — see the note under Step 1. Client `MilicaUz12` is a collaborator. |
 | Netlify project | `milica-uzelac`, in the developer's team (Free plan, credits shared with the developer's other project) |
 | Publishing | **Linked to GitHub.** Every push to `main` rebuilds and publishes the site automatically (15 credits each). |
 | Forms | Detection enabled; all five forms are registered. No e-mail notifications set yet (Step 7). |
-| Editing panel (`/admin/`) | **Working since 19 Nov 2026.** Sign-in through GitHub (OAuth app "Milica Uzelac CMS" under `zerotoonebros`), and **Save and Publish** puts a change live. |
+| Editing panel (`/admin/`) | **Working since 19 Nov 2026.** Sign-in through GitHub (OAuth app "Milica Uzelac CMS" under `zerotoonebros`), and **Save and Publish** puts a change live. Confirmed for the client's own account on 20 Nov 2026. |
 | Google | Hidden: indexing is switched off in the site settings. |
 
 **Steps 1, 2 and 3 below are done.** Still to do:
@@ -63,10 +63,12 @@ If you start under your own accounts to move faster, that is fine for the previe
 
 ## Step 1 — Put the code on GitHub (10 min)
 
+> **Why public.** On Netlify's Free plan a private repository only builds commits made by one person, the owner of the Netlify account. A commit from anyone else — the client editing in the panel, or the developer after the handover — is stopped with "Build blocked: Unrecognized Git contributor". A public repository has no such limit. The alternative is Netlify Pro. Nothing secret lives in the repository: keys go in Netlify's environment variables and form messages stay in Netlify. If the repository is ever switched from private to public while linked, Netlify keeps treating it as private until you link it again: **Project configuration → Developer settings → Repository → Manage repository → Link to a different repository**, and pick the same one.
+
 1. Sign in to [github.com](https://github.com) (client's account, per Step 0).
 2. Click **+** (top right) → **New repository**.
    - Name: `milica-uzelac-sajt`
-   - Visibility: **Private**
+   - Visibility: **Public** (see the note below)
    - Do **not** add a README, .gitignore or license (the project already has them).
    - Click **Create repository**.
 3. On your computer, open a terminal in the project folder. Git is already initialized there; nothing is committed yet. Run:
@@ -264,7 +266,7 @@ Use this if you ran the preview under your own accounts. Plan about an hour on a
 
 **Before the call — the client creates** (with their own e-mail): a GitHub account and a Netlify account. Ask them to turn on two-factor authentication on GitHub.
 
-1. **Transfer the repository.** On GitHub, in your repository: **Settings → Danger Zone → Transfer ownership** → type the client's GitHub username. The client gets an e-mail and must accept it. The whole history moves with the repository, and GitHub redirects the old address to the new one.
+1. **Transfer the repository.** On GitHub, in your repository: **Settings → Danger Zone → Transfer ownership** → type the client's GitHub username. The client gets an e-mail and must accept it. The whole history moves with the repository, and GitHub redirects the old address to the new one. Leave the repository **public** (see the note under Step 1), or the developer's commits will not build.
 2. **Get your access back.** After the transfer the repository is theirs and you are no longer in it. The client opens **Settings → Collaborators → Add people** and adds your username.
 3. **Point your computer at the new address:**
 
