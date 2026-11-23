@@ -54,38 +54,17 @@ Guide: [docs/02-go-live.md](docs/02-go-live.md)
 - [x] **"Powered by Netlify" badge** — decided 23 Nov (Project configuration → General → Powered by Netlify badge).
 - [x] **Let the client try editing** — done 20 Nov. She signed in, edited the home page and published by herself (after the repository was made public).
 - [x] **Credits** — read on 23 Nov: Pro plan, **3,000 credits a month** ($20), billing period runs from the 23rd to the 22nd. At 15 credits a publish that is about 200 publishes a month, shared with your own site. Form submissions cost nothing.
-- [ ] **Check the site on a real iPhone and a real Android phone.**
+- [x] **Check the site on real phones** — done by you and the client, 23 Nov; looks fine.
 
 ## 2. Design review — you, then the client
 
 Live style guide: https://milica-uzelac.netlify.app/stil/ · Notes: [docs/01-design-system.md](docs/01-design-system.md)
 
-- [ ] **Confirm the palette.** I combined the cream and navy of your screenshot with the Persian blue and apricot from the moodboard in the brief. Tell me if you meant only the screenshot's colours.
-- [ ] **Confirm the fonts** — EB Garamond (headings), Jost (text, buttons), Ms Madi (handwritten accent).
-- [ ] **Confirm or replace the logo** — it is my proposal. If the client has their own, it replaces the files in `public/brend/` and the header.
-- [ ] **Go through every page yourself** and note what you want changed: layout, section order, spacing, wording of buttons. Look at each on desktop and with the browser narrowed to phone width. One list per page is enough; tick the page off here when done.
-  - [ ] Home — https://milica-uzelac.netlify.app/
-  - [ ] O meni — /o-meni/
-  - [ ] Moja misija — /moja-misija/
-  - [ ] Rad sa mnom (overview) — /rad-sa-mnom/
-  - [ ] Individualne sesije — /rad-sa-mnom/individualne-sesije/
-  - [ ] Grupne radionice (list) — /rad-sa-mnom/grupne-radionice/
-  - [ ] One workshop page — /rad-sa-mnom/grupne-radionice/granice-bez-grize-savesti/
-  - [ ] Programi (list) — /programi/
-  - [ ] One program page — /programi/dnevnik-samopouzdanja/
-  - [ ] E-book — /programi/e-book/
-  - [ ] Masterclass — /programi/masterclass/
-  - [ ] Utisci — /utisci/
-  - [ ] Blog (list) — /blog/
-  - [ ] One blog post — /blog/kako-postaviti-granice-bez-grize-savesti/
-  - [ ] Zakazivanje — /zakazivanje/
-  - [ ] Kontakt — /kontakt/
-  - [ ] Hvala (after a form) — /hvala/
-  - [ ] Politika privatnosti — /politika-privatnosti/
-  - [ ] Politika kolačića — /politika-kolacica/
-  - [ ] 404 — any wrong address, e.g. /nema/
-  - [ ] Cookie banner (private window) and the announcement bar under the header
-- [ ] **Collect the client's feedback in one list** — she has the preview link and panel access since 20 Nov.
+- [x] **Palette** — accepted by you and the client, 23 Nov. Changes later only if needed.
+- [x] **Fonts** — accepted, 23 Nov (EB Garamond, Jost, Ms Madi).
+- [x] **Logo** — accepted for now, 23 Nov. If the client ever brings her own, it replaces the files in `public/brend/` and the header.
+- [x] **Go through every page** — done by you and the client, 23 Nov, on desktop and phone. One change requested: on the home page, every topic chip in "Sa čim ti mogu pomoći" gets the apricot background (previously every fourth one). Done in `src/pages/index.astro`; new chips added in the panel look the same automatically.
+- [x] **Client's feedback** — she is happy with the look (23 Nov). Future tweaks as they come up.
 - [ ] **Decide the language of the editing panel help** — the panel's own buttons are in English; all field names are Serbian.
 
 ## 3. Content from the client
@@ -184,7 +163,6 @@ grep -rniE "upiši|upisati|tvojdomen|primer: true" src/content
 - Confirmation e-mails and newsletter sign-up against the real Brevo service.
 - The "booking completed" analytics event.
 - Speed with the client's real photos (current scores were measured without photos).
-- Appearance on real phones.
 
 ## 9. Ideas for later
 
