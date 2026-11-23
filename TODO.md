@@ -63,7 +63,28 @@ Live style guide: https://milica-uzelac.netlify.app/stil/ · Notes: [docs/01-des
 - [ ] **Confirm the palette.** I combined the cream and navy of your screenshot with the Persian blue and apricot from the moodboard in the brief. Tell me if you meant only the screenshot's colours.
 - [ ] **Confirm the fonts** — EB Garamond (headings), Jost (text, buttons), Ms Madi (handwritten accent).
 - [ ] **Confirm or replace the logo** — it is my proposal. If the client has their own, it replaces the files in `public/brend/` and the header.
-- [ ] **Go through every page yourself** and note what you want changed: layout, section order, spacing, wording of buttons.
+- [ ] **Go through every page yourself** and note what you want changed: layout, section order, spacing, wording of buttons. Look at each on desktop and with the browser narrowed to phone width. One list per page is enough; tick the page off here when done.
+  - [ ] Home — https://milica-uzelac.netlify.app/
+  - [ ] O meni — /o-meni/
+  - [ ] Moja misija — /moja-misija/
+  - [ ] Rad sa mnom (overview) — /rad-sa-mnom/
+  - [ ] Individualne sesije — /rad-sa-mnom/individualne-sesije/
+  - [ ] Grupne radionice (list) — /rad-sa-mnom/grupne-radionice/
+  - [ ] One workshop page — /rad-sa-mnom/grupne-radionice/granice-bez-grize-savesti/
+  - [ ] Programi (list) — /programi/
+  - [ ] One program page — /programi/dnevnik-samopouzdanja/
+  - [ ] E-book — /programi/e-book/
+  - [ ] Masterclass — /programi/masterclass/
+  - [ ] Utisci — /utisci/
+  - [ ] Blog (list) — /blog/
+  - [ ] One blog post — /blog/kako-postaviti-granice-bez-grize-savesti/
+  - [ ] Zakazivanje — /zakazivanje/
+  - [ ] Kontakt — /kontakt/
+  - [ ] Hvala (after a form) — /hvala/
+  - [ ] Politika privatnosti — /politika-privatnosti/
+  - [ ] Politika kolačića — /politika-kolacica/
+  - [ ] 404 — any wrong address, e.g. /nema/
+  - [ ] Cookie banner (private window) and the announcement bar under the header
 - [ ] **Collect the client's feedback in one list** — she has the preview link and panel access since 20 Nov.
 - [ ] **Decide the language of the editing panel help** — the panel's own buttons are in English; all field names are Serbian.
 
