@@ -38,7 +38,7 @@ npm run dev
 
 Then open http://localhost:4321. Always run `git pull` first now: the client edits through the panel, and each of her edits is a commit.
 
-Remember: **every `git push` and every Save and Publish in the panel publishes the site and costs 15 Netlify credits** from the 300 a month you share with your own site. Three publishes on 20 Nov bring my estimate to about 240 used this month, so roughly 60 left, which is four publishes. The exact number is in Netlify under the team's Usage & billing; check it before the next publish. Put `[skip ci]` in a commit message to push without publishing.
+Remember: **every `git push` and every Save and Publish in the panel publishes the site and costs 15 Netlify credits.** Since 23 Nov the team is on Netlify's **Pro plan** (about $20 a month), so the Free-plan limit of 300 credits no longer applies; the real allowance and usage are in Netlify under the team's Usage & billing. Put `[skip ci]` in a commit message to push without publishing.
 
 ---
 
@@ -53,7 +53,7 @@ Guide: [docs/02-go-live.md](docs/02-go-live.md)
 - [ ] **Send one test message** through the contact form on the live site and check it appears in Netlify under Forms. Do the same for the newsletter, a workshop sign-up, a program inquiry and the booking request.
 - [ ] **"Powered by Netlify" badge** — decide whether to keep it; the setting is at Project configuration → General → Powered by Netlify badge.
 - [x] **Let the client try editing** — done 20 Nov. She signed in, edited the home page and published by herself (after the repository was made public).
-- [ ] **Watch the credits** — Netlify → team → Billing/Usage. If they run out, both this site and your own are paused until the monthly reset.
+- [ ] **Watch the credits** — Netlify → team → Usage & billing. Team is on Pro since 23 Nov; note the monthly allowance here once you have seen it.
 - [ ] **Check the site on a real iPhone and a real Android phone.**
 
 ## 2. Design review — you, then the client
