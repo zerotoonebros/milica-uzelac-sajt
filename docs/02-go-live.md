@@ -130,7 +130,7 @@ git push
 
 Netlify's Free plan includes **300 credits per month**, and each production deploy costs **15 credits** — so about **20 publishes per month**. Bandwidth and requests also use credits, though a small site uses very little. Form submissions are free and unlimited. If the credits run out on the Free plan, the site is **paused until the next month**.
 
-**Update 23 Nov 2026:** the developer's team is on the **Pro plan** (about $20 a month), so the Free-plan limit no longer applies while the site is hosted there. The numbers above matter again only if the site moves to a Free-plan account of the client's (Path B below).
+**Update 23 Nov 2026:** the developer's team is on the **Pro plan** (3,000 credits a month, $20, billing period from the 23rd), so the Free-plan limit no longer applies while the site is hosted there. The numbers above matter again only if the site moves to a Free-plan account of the client's (Path B below).
 
 That is why the CMS is set up so that saving does *not* publish each time: the client clicks **Save** as often as they like and publishes several changes at once (see Step 5). For a client who publishes often, the **Personal plan** (1,000 credits, about $9/month at the time of writing) removes the worry. Check current numbers at netlify.com/pricing before deciding.
 

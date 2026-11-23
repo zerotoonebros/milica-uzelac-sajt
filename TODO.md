@@ -38,7 +38,7 @@ npm run dev
 
 Then open http://localhost:4321. Always run `git pull` first now: the client edits through the panel, and each of her edits is a commit.
 
-Remember: **every `git push` and every Save and Publish in the panel publishes the site and costs 15 Netlify credits.** Since 23 Nov the team is on Netlify's **Pro plan** (about $20 a month), so the Free-plan limit of 300 credits no longer applies; the real allowance and usage are in Netlify under the team's Usage & billing. Put `[skip ci]` in a commit message to push without publishing.
+Remember: **every `git push` and every Save and Publish in the panel publishes the site and costs 15 Netlify credits.** Since 23 Nov the team is on Netlify's **Pro plan**: 3,000 credits a month for $20, billing period from the 23rd to the 22nd, so about 200 publishes a month shared with your own site. Usage is under the team's Usage & billing. Put `[skip ci]` in a commit message to push without publishing.
 
 ---
 
@@ -51,9 +51,9 @@ Guide: [docs/02-go-live.md](docs/02-go-live.md)
 - [ ] **Publish button for the panel (optional, skipped)** — Step 5. Only powers the separate "Publish Changes" button and has to be set up in every browser. **Save and Publish** works without it, and that is what the client handbook teaches.
 - [x] **Form e-mail notifications** — done 23 Nov. Netlify → **Forms** → **Submission notifications** tab (not Project configuration → Notifications, which lists only deploy events). Two e-mail notifications, "Any form": yours and the client's; hers confirmed.
 - [x] **Test all five forms on the live site** — done 23 Nov by you and the client: contact, newsletter, workshop sign-up, program inquiry and booking request all appear in Netlify under Forms and the notification e-mails arrive.
-- [ ] **"Powered by Netlify" badge** — decide whether to keep it; the setting is at Project configuration → General → Powered by Netlify badge.
+- [x] **"Powered by Netlify" badge** — decided 23 Nov (Project configuration → General → Powered by Netlify badge).
 - [x] **Let the client try editing** — done 20 Nov. She signed in, edited the home page and published by herself (after the repository was made public).
-- [ ] **Watch the credits** — Netlify → team → Usage & billing. Team is on Pro since 23 Nov; note the monthly allowance here once you have seen it. (Form submissions and notification settings cost no credits.)
+- [x] **Credits** — read on 23 Nov: Pro plan, **3,000 credits a month** ($20), billing period runs from the 23rd to the 22nd. At 15 credits a publish that is about 200 publishes a month, shared with your own site. Form submissions cost nothing.
 - [ ] **Check the site on a real iPhone and a real Android phone.**
 
 ## 2. Design review — you, then the client
