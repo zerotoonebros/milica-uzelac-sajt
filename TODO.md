@@ -109,19 +109,36 @@ Everything on the site now is a draft I wrote. Full table: [docs/05-launch-check
 - [ ] **Update the cookie policy** if the tools differ from what it lists.
 - [ ] **Have a lawyer review both documents** and the cookie banner before launch (the brief asks for this).
 
-## 6. Hand over to the client's accounts
+## 6. Hosting after launch — choose a path
+
+Guide 2, section "Two ways to go live". Everything done so far is valid for both. Decide before the domain is connected.
+
+- [ ] **Decide with the client:** Path A (site stays in your Netlify Pro team, her domain points at it, paid hosting arrangement in writing) or Path B (everything moves to her own accounts, as the brief asks).
+
+### Path A — keep hosting in your team
+
+- [ ] Connect the client's domain to the existing project (section 4 above) and update the addresses in `public/admin/config.yml` and the OAuth app.
+- [ ] On launch day remove **your** e-mail from Forms → Submission notifications, leaving only the client's.
+- [ ] **Written hosting agreement** — monthly price, domain renewal, who edits content, yearly software update, and that she can move to her own accounts at any time (Path B).
+- [ ] Ask the lawyer whether the privacy policy must name you as the hosting account holder.
+- [ ] Optional: transfer the GitHub repository to the client now; then relink it in Netlify and update `repo:` in `public/admin/config.yml`. Keep it public.
+
+### Path B — full handover to the client's accounts
 
 Guide 2, section "Handing over to the client"
 
 - [ ] Client creates a **Netlify** account. (GitHub account `MilicaUz12` exists since 20 Nov; check that two-factor authentication is on.)
 - [ ] **Transfer the GitHub repository** to the client; the client adds you back as a collaborator. **Keep it public** — on Netlify's Free plan a private repository only builds commits from one person.
 - [ ] Point your local folder at the new address (`git remote set-url …`) and update `repo:` in `public/admin/config.yml`.
-- [ ] **Create the Netlify project in the client's account** and redo: repository link, OAuth app (under the client's GitHub), build hook, form notifications, environment variables. Switch off the visitor login wall there too if their team has it on.
+- [ ] **Create the Netlify project in the client's account** and redo: repository link, OAuth app (under the client's GitHub), build hook, form notifications (yours and hers were set on 23 Nov in your project and do not move), environment variables. Switch off the visitor login wall there too if their team has it on.
 - [ ] **Move the address / domain** from your project to theirs.
 - [ ] Export any real form submissions from your project, then **delete your Netlify project and your OAuth app**.
 - [ ] Choose the client's **Netlify plan** — Free allows about 20 publishes a month; Personal is about $9 a month.
+
+### Both paths
+
 - [ ] **30-minute walkthrough** of the editing panel with the client, using [docs/UPUTSTVO-ZA-UREDJIVANJE.md](docs/UPUTSTVO-ZA-UREDJIVANJE.md).
-- [ ] **Agree maintenance in writing** — domain renewal, Netlify plan, who edits content, a yearly update of the site's software.
+- [ ] **Agree maintenance in writing** — domain renewal, hosting, who edits content, a yearly update of the site's software.
 
 ## 7. Launch day
 

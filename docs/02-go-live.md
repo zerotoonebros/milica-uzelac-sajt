@@ -130,6 +130,8 @@ git push
 
 Netlify's Free plan includes **300 credits per month**, and each production deploy costs **15 credits** — so about **20 publishes per month**. Bandwidth and requests also use credits, though a small site uses very little. Form submissions are free and unlimited. If the credits run out on the Free plan, the site is **paused until the next month**.
 
+**Update 23 Nov 2026:** the developer's team is on the **Pro plan** (about $20 a month), so the Free-plan limit no longer applies while the site is hosted there. The numbers above matter again only if the site moves to a Free-plan account of the client's (Path B below).
+
 That is why the CMS is set up so that saving does *not* publish each time: the client clicks **Save** as often as they like and publishes several changes at once (see Step 5). For a client who publishes often, the **Personal plan** (1,000 credits, about $9/month at the time of writing) removes the worry. Check current numbers at netlify.com/pricing before deciding.
 
 ---
@@ -259,6 +261,39 @@ Netlify publishes it automatically.
 
 ---
 
+## Two ways to go live — decide before the domain is connected
+
+Everything done so far (GitHub repository, Netlify project, CMS login, form notifications, tests) is valid for both paths. The difference is only *whose* Netlify account hosts the site after launch.
+
+| | **Path A — keep hosting in your Netlify team** | **Path B — full handover to the client's accounts** |
+| --- | --- | --- |
+| Who pays Netlify | You (Pro plan, already paid; this site shares it) | The client (Free or a paid plan in her name) |
+| Work to go live | Connect the domain (Step 6). Nothing else is redone. | Step 6 **plus** the whole "Handing over" section below (about an hour on a call) |
+| Form notifications | Already set: yours and the client's | Must be created again in her account |
+| Brevo keys, build hook, OAuth app | Stay as they are | Must be created again in her account |
+| Repository | Can stay under `zerotoonebros` with the client as collaborator, or be transferred later | Transferred to the client |
+| What the client owns | Domain, content, the code (public repository), all third-party accounts (Brevo, Google, calendar) | Everything, including hosting |
+| Risk | The site depends on your account and your payment; needs a written agreement | None after the handover, but more setup steps and the Free-plan credit limit |
+| Changing later | Path A can become Path B at any time by following the handover section | — |
+
+The brief (section 10) says the client must own everything, so **Path B is the end state the brief asks for**. Path A is fine as an interim or as a paid hosting arrangement if the client agrees to it in writing.
+
+### Path A — keep hosting in your team
+
+1. **Domain:** follow Step 6 exactly as written. The domain is registered in the client's name; only its DNS points at your Netlify project.
+2. **Addresses in the code:** Step 6, point 6 (`site_url`, `display_url`, OAuth app Homepage URL).
+3. **Notifications:** the client's e-mail already receives every form submission. On launch day remove *your* e-mail from Submission notifications, so that real visitors' messages go only to her (the privacy policy names her as the one handling the data).
+4. **Third-party accounts** (Brevo, calendar, Google) are still created in the client's name; their keys are pasted into *your* Netlify project's environment variables. That is normal: the keys can be moved to another project at any time.
+5. **Repository (optional):** if you transfer it to the client now, relink it in Netlify afterwards (Developer settings → Repository → Manage repository → Link to a different repository, as on 20 Nov) and update `repo:` in `public/admin/config.yml`. Keep it public.
+6. **Written agreement** (brief section 8): who pays for hosting and how much, who renews the domain, who edits content, how the client can leave (answer: Path B at any time; everything is in the public repository, so nothing is locked in), and what happens if you stop maintaining the site.
+7. **Privacy policy:** the hosting provider (Netlify) is already listed; have the lawyer confirm whether the developer, as the account holder, needs a mention as well.
+
+### Path B — full handover
+
+Follow the "Handing over to the client" section below. If a custom domain is already connected to your project (Path A first), the order of point 6 there matters: remove the domain from your project, add it to hers, and keep the same `netlify.app` name on her project if possible so the DNS records do not change.
+
+---
+
 ## Handing over to the client
 
 Use this if you ran the preview under your own accounts. Plan about an hour on a call with the client. The site stays online on your Netlify project until the last step, so there is no downtime.
@@ -307,4 +342,4 @@ Netlify also has a setting for transferring a project to another team. I have no
 | CMS shows "repository not found" | `repo:` in `config.yml` is wrong, or the GitHub account has no write access to the repository. |
 | Change saved but not visible | It was saved with **Save** only. Use **Save and Publish**, then wait a minute and hard-refresh (Ctrl+F5). |
 | Photo does not appear | The file must be uploaded through the CMS (it lands in `src/assets/uploads/`). Very large files (over 10 MB) are rejected. |
-| Site says "Site not available" | Netlify Free credits ran out for the month. Upgrade the plan or wait for the monthly reset. |
+| Site says "Site not available" | Netlify credits ran out for the month (relevant on the Free plan; the developer's team is on Pro since 23 Nov 2026). Upgrade the plan or wait for the monthly reset. |
