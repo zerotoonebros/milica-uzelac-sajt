@@ -65,7 +65,7 @@ Live style guide: https://milica-uzelac.netlify.app/stil/ · Notes: [docs/01-des
 - [x] **Logo** — accepted for now, 23 Nov. If the client ever brings her own, it replaces the files in `public/brend/` and the header.
 - [x] **Go through every page** — done by you and the client, 23 Nov, on desktop and phone. One change requested: on the home page, every topic chip in "Sa čim ti mogu pomoći" gets the apricot background (previously every fourth one). Done in `src/pages/index.astro`; new chips added in the panel look the same automatically.
 - [x] **Client's feedback** — she is happy with the look (23 Nov). Future tweaks as they come up.
-- [ ] **Decide the language of the editing panel help** — the panel's own buttons are in English; all field names are Serbian.
+- [x] **Panel language** — stays as it is (23 Nov): Sveltia's own buttons in English, every field name in Serbian. The client already edits and publishes with it, and the handbook says so.
 
 ## 3. Content from the client
 
