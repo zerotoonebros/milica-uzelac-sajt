@@ -29,6 +29,10 @@ Done after the call (confirmed by you, 23 Nov): the client tried editing on her 
 
 Nothing new has been pushed to GitHub since 20 Nov, so none of her later tests created commits.
 
+**Also done on 23 Nov, on our side:** form notifications (yours and the client's), all five forms tested live, Netlify Pro plan, badge decided, design accepted by both of you, all topic chips on the home page apricot, panel language settled, two hosting paths written up, Serbian to-do list for the client written.
+
+**Next step: a call with the client.** Before it, send her [docs/SPISAK-ZA-KLIJENTKINJU.md](docs/SPISAK-ZA-KLIJENTKINJU.md) and ask her to register the domain and decide the hosting path. On the call: domain → Brevo → Cal.com → legal placeholders; Google Analytics on a second call once the domain is live. Everything left in sections 3–7 waits on her.
+
 ## Picking up tomorrow
 
 ```bash
