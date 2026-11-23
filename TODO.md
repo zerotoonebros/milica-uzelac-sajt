@@ -1,6 +1,6 @@
 # What is left to do
 
-Status as of **20 Nov 2026**. Tick items off as they are done. Details for every item are in the guide named next to it.
+Status as of **23 Nov 2026**. Tick items off as they are done. Details for every item are in the guide named next to it.
 
 **Where things stand:** the site is built, live as a preview at **https://milica-uzelac.netlify.app**, stored in the **public** GitHub repository `zerotoonebros/milica-uzelac-sajt`, and publishes automatically on every push. It is hidden from Google. All content is draft. The client can sign in to the editing panel and publish on her own.
 
@@ -20,12 +20,14 @@ Consequences of the public repository:
 - The commit history shows the e-mail addresses of both of you. The client can hide hers for future commits in GitHub under Settings → Emails → "Keep my email addresses private".
 - After the handover the repository must **stay public** (or the client pays for Netlify Pro), otherwise your commits would be the blocked ones.
 
-Not done on the call — next time:
+Done after the call (confirmed by you, 23 Nov): the client tried editing on her own again and it worked. The four follow-ups from the call are closed:
 
-1. **Plain Save test.** Client changes a word and clicks **Save** (not Save and Publish). Check that no new entry appears in Netlify's Deploys list.
-2. **Photo upload** through the panel.
-3. **Announcement bar:** still on with the **example text** pointing to the invented "Granice bez griže savesti" workshop. Agree the real text, or switch it off.
-4. **Design feedback** from the client (section 2 below) and the **content** she needs to send (section 3).
+- **Plain Save test** — done.
+- **Photo upload** through the panel — done.
+- **Announcement bar** — agreed with the client. Note: as of 23 Nov the repository still holds the example text ("Granice bez griže savesti"); whatever she chose has not been published yet, so check the live site before launch.
+- **Design feedback / content** — moved to sections 2 and 3 below; the ball is with the client.
+
+Nothing new has been pushed to GitHub since 20 Nov, so none of her later tests created commits.
 
 ## Picking up tomorrow
 
