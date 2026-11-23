@@ -49,11 +49,11 @@ Guide: [docs/02-go-live.md](docs/02-go-live.md)
 - [x] **Client login for the editing panel** — done 19 Nov. GitHub OAuth app "Milica Uzelac CMS" registered under `zerotoonebros`, keys installed in Netlify.
 - [x] **Test the editing panel end to end** — done 19 Nov. Signed in at `/admin/`, changed one word on the home page with **Save and Publish**, and it appeared on the live site.
 - [ ] **Publish button for the panel (optional, skipped)** — Step 5. Only powers the separate "Publish Changes" button and has to be set up in every browser. **Save and Publish** works without it, and that is what the client handbook teaches.
-- [ ] **Form e-mail notifications** — Project configuration → **Notifications** tab → form submission notification → your (later the client's) e-mail. Until then messages are only stored in Netlify under Forms.
-- [ ] **Send one test message** through the contact form on the live site and check it appears in Netlify under Forms. Do the same for the newsletter, a workshop sign-up, a program inquiry and the booking request.
+- [x] **Form e-mail notifications** — done 23 Nov. Netlify → **Forms** → **Submission notifications** tab (not Project configuration → Notifications, which lists only deploy events). Two e-mail notifications, "Any form": yours and the client's; hers confirmed.
+- [x] **Test all five forms on the live site** — done 23 Nov by you and the client: contact, newsletter, workshop sign-up, program inquiry and booking request all appear in Netlify under Forms and the notification e-mails arrive.
 - [ ] **"Powered by Netlify" badge** — decide whether to keep it; the setting is at Project configuration → General → Powered by Netlify badge.
 - [x] **Let the client try editing** — done 20 Nov. She signed in, edited the home page and published by herself (after the repository was made public).
-- [ ] **Watch the credits** — Netlify → team → Usage & billing. Team is on Pro since 23 Nov; note the monthly allowance here once you have seen it.
+- [ ] **Watch the credits** — Netlify → team → Usage & billing. Team is on Pro since 23 Nov; note the monthly allowance here once you have seen it. (Form submissions and notification settings cost no credits.)
 - [ ] **Check the site on a real iPhone and a real Android phone.**
 
 ## 2. Design review — you, then the client
@@ -143,7 +143,6 @@ grep -rniE "upiši|upisati|tvojdomen|primer: true" src/content
 
 - Whether **Save** in the panel really skips a deploy, as designed. (**Save and Publish** is confirmed to trigger one, for you on 19 Nov and for the client on 20 Nov.)
 - Uploading a photo through the panel on the live site.
-- Real delivery of form messages and e-mail notifications.
 - Confirmation e-mails and newsletter sign-up against the real Brevo service.
 - The "booking completed" analytics event.
 - Speed with the client's real photos (current scores were measured without photos).

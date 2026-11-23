@@ -24,7 +24,9 @@ Every form has: Serbian validation messages, a clear success message, a required
 
 ## Step 2 — E-mail notifications to the client
 
-Netlify → **Project configuration → Notifications → Form submission notifications → Add notification → Email notification**.
+Netlify → **Forms** (left menu) → **Submission notifications** tab → **Add notification → Email notification**. (Project configuration → Notifications lists only deploy events.) Direct link: `https://app.netlify.com/projects/<project>/forms?tab=notifications`.
+
+An address that is not a member of the Netlify team gets a confirmation e-mail first and stays "pending" until its owner clicks the link. Done on 23 Nov 2026 for the developer's and the client's addresses.
 
 - Event: *New form submission*
 - E-mail: the client's address

@@ -20,9 +20,9 @@ A preview is live, set up under the developer's own accounts for now:
 | --- | --- |
 | Preview address | **https://milica-uzelac.netlify.app** |
 | Code | **Public** GitHub repository **zerotoonebros/milica-uzelac-sajt** (developer's account; to be transferred to the client later). Made public on 20 Nov 2026 — see the note under Step 1. Client `MilicaUz12` is a collaborator. |
-| Netlify project | `milica-uzelac`, in the developer's team (Free plan, credits shared with the developer's other project) |
+| Netlify project | `milica-uzelac`, in the developer's team (Pro plan since 23 Nov 2026; credits shared with the developer's other project) |
 | Publishing | **Linked to GitHub.** Every push to `main` rebuilds and publishes the site automatically (15 credits each). |
-| Forms | Detection enabled; all five forms are registered. No e-mail notifications set yet (Step 7). |
+| Forms | Detection enabled; all five forms are registered and tested on the live site (23 Nov 2026). E-mail notifications go to the developer and the client (Step 7). |
 | Editing panel (`/admin/`) | **Working since 19 Nov 2026.** Sign-in through GitHub (OAuth app "Milica Uzelac CMS" under `zerotoonebros`), and **Save and Publish** puts a change live. Confirmed for the client's own account on 20 Nov 2026. |
 | Google | Hidden: indexing is switched off in the site settings. |
 
@@ -30,7 +30,6 @@ A preview is live, set up under the developer's own accounts for now:
 
 1. **Step 4d** — give the client access: they create a GitHub account and are added as a collaborator on the repository.
 2. **Step 5** — the publish button (optional; **Save and Publish** works without it).
-3. **Step 7** — form e-mail notifications.
 
 **Mind the credits.** Each push to `main` costs 15 of the team's 300 monthly credits, shared with the developer's own site. To push something that does not need to go live (for example a change to these guides), put `[skip ci]` in the commit message and Netlify skips the build:
 
@@ -208,9 +207,9 @@ Canonical links, the sitemap and `robots.txt` pick up the primary domain on thei
 
 ---
 
-## Step 7 — Turn on form notifications (5 min)
+## Step 7 — Turn on form notifications (5 min) — done 23 Nov 2026
 
-Forms are detected automatically on the first deploy. See [04-forms-newsletter-booking.md](04-forms-newsletter-booking.md) for e-mail notifications, spam protection, confirmation e-mails and the newsletter.
+Forms are detected automatically on the first deploy. Notifications are set on the project's **Forms** page, **Submission notifications** tab. See [04-forms-newsletter-booking.md](04-forms-newsletter-booking.md) for e-mail notifications, spam protection, confirmation e-mails and the newsletter.
 
 ---
 
