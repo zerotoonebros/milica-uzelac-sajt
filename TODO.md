@@ -69,7 +69,7 @@ Live style guide: https://milica-uzelac.netlify.app/stil/ · Notes: [docs/01-des
 
 ## 3. Content from the client
 
-Everything on the site now is a draft I wrote. Full table: [docs/05-launch-checklist.md](docs/05-launch-checklist.md)
+Everything on the site now is a draft I wrote. Full table: [docs/05-launch-checklist.md](docs/05-launch-checklist.md). **Client-facing version in Serbian, ready to send: [docs/SPISAK-ZA-KLIJENTKINJU.md](docs/SPISAK-ZA-KLIJENTKINJU.md)** (written 23 Nov) — she does all of this herself in the panel; only the decisions in its section 1 come back to you.
 
 - [ ] **Photos** — every photo slot shows a placeholder illustration. Portrait (4:5) for the home page and "O meni"; square for two sections; landscape for blog, workshops, programs.
 - [ ] **Alt text** for every photo (one sentence describing it).

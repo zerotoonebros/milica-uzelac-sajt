@@ -81,6 +81,7 @@ docs/                 guides (see below)
 | [docs/04-forms-newsletter-booking.md](docs/04-forms-newsletter-booking.md) | you | Form notifications, spam protection, confirmation e-mails, newsletter, booking calendar |
 | [docs/05-launch-checklist.md](docs/05-launch-checklist.md) | you + client | The client's checklist mapped to what is done, what you do, what the client does |
 | [docs/UPUTSTVO-ZA-UREDJIVANJE.md](docs/UPUTSTVO-ZA-UREDJIVANJE.md) | client (Serbian) | How to edit the site in the CMS |
+| [docs/SPISAK-ZA-KLIJENTKINJU.md](docs/SPISAK-ZA-KLIJENTKINJU.md) | client (Serbian) | What she fills in herself before launch, where each item is in the panel, and the decisions to send you |
 
 ## Important before launch
 
