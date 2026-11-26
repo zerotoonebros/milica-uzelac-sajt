@@ -6,7 +6,7 @@
   "uvod": {
     "nadnaslov": "Individualne sesije",
     "naslov": "Coaching jedan na jedan, *posvećen samo tebi*",
-    "tekst": "Prostor u kome stajemo, sagledavamo gde si i pravimo plan za ono što želiš da promeniš — u karijeri, odnosima ili odnosu prema sebi."
+    "tekst": "Prostor u kome stajemo, sagledavamo gde si i pravimo plan za ono što želiš da promeniš u karijeri, odnosima ili odnosu prema sebi."
   },
   "za_koga": {
     "nadnaslov": "Za koga je",
@@ -47,10 +47,26 @@
   "detalji": {
     "naslov": "Praktične informacije",
     "stavke": [
-      { "ikona": "sat", "naziv": "Trajanje sesije", "vrednost": "Upiši trajanje (npr. 60 minuta)" },
-      { "ikona": "mesto", "naziv": "Format", "vrednost": "Online (video poziv) ili uživo" },
-      { "ikona": "kalendar", "naziv": "Dinamika", "vrednost": "Upiši dinamiku (npr. na dve nedelje)" },
-      { "ikona": "srce", "naziv": "Cena", "vrednost": "Upiši cenu ili „po dogovoru na uvodnom razgovoru“" }
+      {
+        "ikona": "sat",
+        "naziv": "Trajanje sesije",
+        "vrednost": "Upiši trajanje (npr. 60 minuta)"
+      },
+      {
+        "ikona": "mesto",
+        "naziv": "Format",
+        "vrednost": "Online (video poziv) ili uživo"
+      },
+      {
+        "ikona": "kalendar",
+        "naziv": "Dinamika",
+        "vrednost": "Upiši dinamiku (npr. na dve nedelje)"
+      },
+      {
+        "ikona": "srce",
+        "naziv": "Cena",
+        "vrednost": "Upiši cenu ili „po dogovoru na uvodnom razgovoru“"
+      }
     ]
   },
   "pitanja": {
