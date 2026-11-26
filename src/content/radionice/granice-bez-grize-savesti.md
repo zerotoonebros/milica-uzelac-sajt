@@ -1,11 +1,6 @@
 ---
 naslov: Od želje do cilja. Ispuni svoj najveći cilj.
-opis: |-
-  Koliko puta si tokom godine poželela nešto, započela i odustala, promenila plan ili jednostavno nastavila dalje, bez mnogo vremena da se osvrneš na sve što se dogodilo?
-
-  Da li bi volela da ovog puta uradiš nešto drugačije?
-
-  Pozivamo te da zastaneš, osvrneš se na godinu iza sebe i izabereš JEDNU želju kojoj želiš da posvetiš svoju pažnju i energiju u narednoj godini.
+opis: Novogodišnja coaching i vision board radionica. Za žene koje žele da se fokusiraju na jednu želju i da je pretoče u cilj koji će ispuniti u narednoj godini, pažljivo biranim koracima, koji su konkretni, jasni i realni.
 datum: 2026-12-22T18:00
 trajanje: 3 sata
 format: uzivo
@@ -28,6 +23,12 @@ primer: false
 seo_naslov: 'Radionica: Od želje do cilja. Ispuni svoj najveći cilj. (uživo)'
 seo_opis: Coaching radionica o postavljanju cilja za narednu godinu. Mala grupa, konkretna pitanja, kreativni rad i vision board. Prijavi se i ostvari svoju najveću želju u 2027.godini.
 ---
+
+Koliko puta si tokom godine poželela nešto, započela i odustala, promenila plan ili jednostavno nastavila dalje, bez mnogo vremena da se osvrneš na sve što se dogodilo?
+
+Da li bi volela da ovog puta uradiš nešto drugačije?
+
+Pozivamo te da zastaneš, osvrneš se na godinu iza sebe i izabereš **jednu želju** kojoj želiš da posvetiš svoju pažnju i energiju u narednoj godini.
 
 Na radionici ćemo kroz coaching tehnike, razgovor i kreativni rad proći kroz sledeće segmente:
 
