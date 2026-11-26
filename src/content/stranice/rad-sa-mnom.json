@@ -6,7 +6,7 @@
   "uvod": {
     "nadnaslov": "Rad sa mnom",
     "naslov": "Dva načina da *radimo zajedno*",
-    "tekst": "Nekome najviše prija posvećen razgovor jedan na jedan, a nekome energija i podrška grupe. Oba puta vode ka istom — jasnijoj slici o sebi i konkretnim koracima."
+    "tekst": "Nekome najviše prija posvećen razgovor jedan na jedan, a nekome energija i podrška grupe. Oba puta vode ka istom: jasnijoj slici o sebi i konkretnim koracima."
   },
   "opcije": [
     {
@@ -36,6 +36,6 @@
   ],
   "nedoumica": {
     "naslov": "Nisi sigurna šta je za tebe?",
-    "tekst": "Zakaži uvodni razgovor. Ispričaćeš mi gde si sada, a ja ću ti iskreno reći koji način rada ima najviše smisla — pa i ako to nije rad sa mnom."
+    "tekst": "Zakaži uvodni razgovor. Ispričaćeš mi gde si sada, a ja ću ti iskreno reći koji način rada ima najviše smisla, pa i ako to nije rad sa mnom."
   }
 }
