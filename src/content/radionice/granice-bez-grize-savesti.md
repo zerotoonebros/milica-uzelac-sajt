@@ -1,6 +1,6 @@
 ---
-naslov: Od želje do cilja. Ispuni svoj najveći cilj.
-opis: Novogodišnja coaching i vision board radionica. Za žene koje žele da se fokusiraju na jednu želju i da je pretoče u cilj koji će ispuniti u narednoj godini, pažljivo biranim koracima, koji su konkretni, jasni i realni.
+naslov: Od želje do realizacije. Ispuni svoj najveći cilj.
+opis: Novogodišnja coaching i vision board radionica. Za žene koje žele da se fokusiraju samo na jednu želju i da je pretoče u cilj koji će ispuniti u narednoj godini, pažljivo biranim koracima, koji su konkretni, jasni i realni.
 datum: 2026-12-22T18:00
 trajanje: 3 sata
 format: uzivo
