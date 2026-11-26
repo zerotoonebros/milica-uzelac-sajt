@@ -1,35 +1,44 @@
 ---
-naslov: Granice bez griže savesti
-opis: Praktična online radionica na kojoj učiš da prepoznaš svoje granice, izgovoriš ih mirno i ostaneš pri njima — na poslu i kod kuće.
-datum: "2027-01-23T10:00"
+naslov: Od želje do cilja. Ispuni svoj najveći cilj.
+opis: |-
+  Koliko puta si tokom godine poželela nešto, započela i odustala, promenila plan ili jednostavno nastavila dalje, bez mnogo vremena da se osvrneš na sve što se dogodilo?
+
+  Da li bi volela da ovog puta uradiš nešto drugačije?
+
+  Pozivamo te da zastaneš, osvrneš se na godinu iza sebe i izabereš JEDNU želju kojoj želiš da posvetiš svoju pažnju i energiju u narednoj godini.
+datum: 2026-12-22T18:00
 trajanje: 3 sata
-format: online
-lokacija: Zoom (link stiže na e-mail)
-cena: ""
-broj_mesta: do 12 učesnica
+format: uzivo
+lokacija: Mileševska 34a, Vračar, Beograd
+cena: 4.500 RSD
+broj_mesta: ''
 status: prijave-otvorene
-slika: ""
-slika_alt: ""
+slika: /src/assets/uploads/od-zelje-do-realizacije-ispuni-svoj-najveci-cilj-vision-board-i-coaching-radionica.webp
+slika_alt: Milica i Smilja su na slici. Ovo je vizual za njihovu vision board i coaching radionicu Od želje do cilja. Ispuni svoj najveći cilj.
 za_koga:
-  - Teško ti je da kažeš „ne“, a posle se osećaš iscrpljeno ili ozlojeđeno
-  - Preuzimaš tuđe obaveze da bi izbegla sukob
-  - Želiš da se zauzmeš za sebe, a da ne povrediš odnos
+  - za tebe ako planiraš da narednu godinu započneš sa jasnijom vizijom onoga što zaista želiš
+  - za tebe koja osećaš da je vreme da jednu važnu želju konačno staviš na prvo mesto, prevaziđeš ono što te koči i posvetiš joj se
+  - za tebe koja ne želiš da se sve završi na maštanju, već želiš da svoju želju pretvoriš u konkretan cilj i prve korake ka njegovom ostvarenju
 sta_dobijas:
-  - Mapu svojih granica — gde su jasne, a gde propuštaju
-  - Gotove rečenice za najčešće situacije na poslu i u porodici
-  - Tehniku za smirivanje griže savesti posle izgovorenog „ne“
-  - Radnu svesku sa vežbama za narednih 14 dana
-primer: true
-seo_naslov: "Radionica: Granice bez griže savesti (online)"
-seo_opis: Online radionica o postavljanju granica za žene. Mala grupa, konkretne vežbe i radna sveska. Prijavi se i nauči da kažeš „ne“ bez griže savesti.
+  - jasnoću o sebi i svojim željama
+  - svesnost o onome što je koči
+  - osvestivanje sopstvenih snaga i osečaj lične odgovornosti
+  - fokus, prioritete i jasan pravac za dalje
+primer: false
+seo_naslov: 'Radionica: Od želje do cilja. Ispuni svoj najveći cilj. (uživo)'
+seo_opis: Coaching radionica o postavljanju cilja za narednu godinu. Mala grupa, konkretna pitanja, kreativni rad i vision board. Prijavi se i ostvari svoju najveću želju u 2027.godini.
 ---
 
-Ovo je radionica za žene koje su umorne od toga da uvek budu na raspolaganju. Radimo u maloj grupi, pa ima prostora za tvoja pitanja i primere iz tvog života.
+Na radionici ćemo kroz coaching tehnike, razgovor i kreativni rad proći kroz sledeće segmente:
 
-## Kako izgleda radionica
+✨ Osvrt na godinu iza tebe: šta si ostvarila, a šta naučila, na šta si ponosna, a šta želiš da promeniš?
 
-Prvi deo posvećen je razumevanju: odakle dolazi potreba da svima udovoljimo i zašto nas granice plaše. U drugom delu vežbamo — u parovima i malim grupama — konkretne rečenice i situacije koje donesete.
+✨ Fokus na ono što želiš sada: koju jednu važnu želju želiš da ostvariš i zašto ti je ona važna?
 
-## Šta ti je potrebno
+✨ Izazovi i rešenja: šta bi moglo da te spreči na tom putu i kako možeš da odgovoriš na te izazove?
 
-Miran kutak, stabilna internet veza, sveska i olovka. Kamera je dobrodošla, ali nije obavezna.
+✨ Tvoja kreativna vizija: kreiraćeš Vision Board koji predstavlja tvoj cilj i ono čemu težiš.
+
+✨ Plan realizacije: definisaćeš akcioni plan i odabrati prvi korak koji ćeš da napraviti.
+
+A najlepše od svega je to što svoj Vision Board nosiš kući, kao vizuelni podsetnik na ono što želiš da ostvariš!
