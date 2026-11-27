@@ -30,6 +30,8 @@ Da li bi volela da ovog puta uradiš nešto drugačije?
 
 Pozivamo te da zastaneš, osvrneš se na godinu iza sebe i izabereš **jednu želju** kojoj želiš da posvetiš svoju pažnju i energiju u narednoj godini.
 
+## Tok radionice
+
 Na radionici ćemo kroz coaching tehnike, razgovor i kreativni rad proći kroz sledeće segmente:
 
 ✨ Osvrt na godinu iza tebe: šta si ostvarila, a šta naučila, na šta si ponosna, a šta želiš da promeniš?
