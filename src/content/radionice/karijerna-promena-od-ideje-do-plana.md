@@ -1,6 +1,6 @@
 ---
 naslov: 'Karijerna promena nakon 30-e: od unutrašnjeg preispitivanja do konkretnog plana'
-opis: 'Već dugo razmišljaš o *promeni posla*, *novoj profesiji* ili potpuno drugačijem profesionalnom pravcu. Osećaš da možeš više, želiš drugačije uslove rada, više smisla, autonomije i prostora za sebe. Ali te istovremeno zaustavljaju *strah*, *nesigurnost*, *manjak samopouzdanja* i pitanja: ,,Da li je kasno da počnem ispočetka?“ ili ,,Šta ako pogrešim?“'
+opis: 'Već dugo razmišljaš o promeni posla, novoj profesiji ili potpuno drugačijem profesionalnom pravcu. Osećaš da možeš više, želiš drugačije uslove rada, više smisla, autonomije i prostora za sebe. Ali te istovremeno zaustavljaju *strah*, nesigurnost, manjak samopouzdanja i pitanja: ,,Da li je kasno da počnem ispočetka?“ ili ,,Šta ako pogrešim?“'
 datum: 2026-11-18T19:00
 trajanje: 2 sata
 format: online
