@@ -1,0 +1,37 @@
+# Dugme „Publish Changes“ u panelu (/admin/) šalje GitHub-u signal „sveltia-cms-publish“.
+# Ovaj fajl taj signal prosleđuje Netlify-ju, koji onda ponovo objavljuje sajt
+# sa svim izmenama sačuvanim preko „Save“.
+#
+# Adresa Netlify build hook-a je tajna i čuva se u GitHub-u:
+# repozitorijum → Settings → Secrets and variables → Actions → NETLIFY_BUILD_HOOK.
+# Vidi docs/02-go-live.md, korak 5.
+
+name: Objava sajta iz panela
+
+on:
+  repository_dispatch:
+    types: [sveltia-cms-publish]
+
+permissions: {}
+
+# Ako se dugme klikne više puta zaredom, objave idu jedna po jedna.
+concurrency:
+  group: objava-iz-panela
+  cancel-in-progress: false
+
+jobs:
+  objava:
+    name: Pokreni objavu na Netlify-ju
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Pozovi Netlify build hook
+        env:
+          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -z "$NETLIFY_BUILD_HOOK" ]; then
+            echo "::error::Tajna NETLIFY_BUILD_HOOK nije podešena (Settings → Secrets and variables → Actions)."
+            exit 1
+          fi
+          curl --fail --silent --show-error -X POST -d '{}' \
+            "${NETLIFY_BUILD_HOOK}?trigger_title=Objava+iz+panela+%28Publish+Changes%29"

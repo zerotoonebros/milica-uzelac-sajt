@@ -13,6 +13,7 @@ backend:
   branch: main
   # „Save“ samo čuva izmenu. Sajt se ponovo objavljuje kada se izabere „Save and Publish“
   # (strelica pored dugmeta Save) ili klikne „Publish Changes“. Tako se više izmena objavi odjednom.
+  # „Publish Changes“ radi preko .github/workflows/objava-iz-panela.yml (vidi docs/02-go-live.md, korak 5).
   skip_ci: true
   commit_messages:
     create: 'Sadržaj: dodato „{{slug}}“ ({{collection}})'

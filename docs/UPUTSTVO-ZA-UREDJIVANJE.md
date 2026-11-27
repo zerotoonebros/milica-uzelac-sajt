@@ -28,10 +28,13 @@ Na vrhu svake stranice za uređivanje je dugme **Save**. Pored njega je mala str
 | --- | --- |
 | **Save** | Čuva izmenu, ali je **još ne prikazuje** na sajtu |
 | Strelica → **Save and Publish** | Čuva i **objavljuje**. Izmena je na sajtu za oko jedan minut. |
+| **Publish Changes** (plavo dugme gore desno, na spisku) | **Objavljuje** sve što si do tada sačuvala. Koristi ga kada si završila, a sve si čuvala sa Save. |
 
 Kada objaviš, objavljuje se **sve** što si do tada sačuvala.
 
-**Savet:** ako menjaš više stvari odjednom, za svaku klikni **Save**, a tek kod poslednje **Save and Publish**. Broj objava mesečno je ograničen (oko 20 na besplatnom paketu), pa je bolje objaviti više izmena odjednom nego svaku posebno.
+Posle klika na **Publish Changes** na ekranu se ne dešava ništa posebno. To je u redu: objava je krenula i sajt je osvežen za jedan do dva minuta. Klikni **samo jednom**, jer svaki klik troši jednu objavu.
+
+**Savet:** ako menjaš više stvari odjednom, za svaku klikni **Save**, a na kraju jednom **Publish Changes** (ili kod poslednje izmene **Save and Publish**). Broj objava mesečno je ograničen (oko 20 na besplatnom paketu), pa je bolje objaviti više izmena odjednom nego svaku posebno.
 
 Ne vidiš izmenu na sajtu? Sačekaj minut i osveži stranicu (Ctrl + F5 na računaru).
 
@@ -168,7 +171,7 @@ Plava traka odmah ispod menija, na svim stranicama. Služi da najaviš jednu akt
 
 | Problem | Rešenje |
 | --- | --- |
-| Izmena se ne vidi | Da li si kliknula **Save and Publish**? Sačekaj minut, pa osveži (Ctrl + F5). |
+| Izmena se ne vidi | Da li si objavila (**Save and Publish** ili **Publish Changes**)? Samo **Save** nije dovoljno. Sačekaj minut-dva, pa osveži (Ctrl + F5). |
 | Greškom sam nešto obrisala ili promenila | Ništa nije izgubljeno — svaka izmena se čuva u istoriji. Javi programeru šta da vrati. |
 | Ne mogu da se prijavim | Proveri da li si prijavljena na pravi GitHub nalog. |
 | Fotografija neće da se doda | Proveri da je manja od 10 MB i da je JPG, PNG ili WebP. |

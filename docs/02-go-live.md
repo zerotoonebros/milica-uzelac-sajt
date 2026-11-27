@@ -29,7 +29,7 @@ A preview is live, set up under the developer's own accounts for now:
 **Steps 1, 2 and 3 below are done.** Still to do:
 
 1. **Step 4d** — give the client access: they create a GitHub account and are added as a collaborator on the repository.
-2. **Step 5** — the publish button (optional; **Save and Publish** works without it).
+2. **Step 5** — done 27 Nov 2026: the **Publish Changes** button now starts a deploy (build hook + GitHub Actions workflow).
 
 **Mind the credits.** Each push to `main` costs 15 of the team's 300 monthly credits, shared with the developer's own site. To push something that does not need to go live (for example a change to these guides), put `[skip ci]` in the commit message and Netlify skips the build:
 
@@ -179,12 +179,19 @@ In `config.yml` the option `skip_ci: true` means:
 - **Save** stores the change in GitHub but does **not** rebuild the site (no Netlify credits used).
 - **Save and Publish** (the arrow next to Save) stores the change **and** rebuilds the site.
 
-For the **Publish Changes** button in the CMS header to work on Netlify, give it a build hook:
+- **Publish Changes** (the button in the CMS header) rebuilds the site with **everything saved so far**, without opening an entry.
 
-1. Netlify → **Project configuration → Developer settings → Continuous deployment → Build hooks → Add build hook**. Name: `CMS`, branch: `main` → **Save**. Copy the URL.
-2. In the CMS: account menu (top right) → **Settings → Developer** → paste the URL into the deploy hook field.
+**How Publish Changes reaches Netlify (set up 27 Nov 2026).** The button does not talk to Netlify. It sends GitHub a `repository_dispatch` event of type `sveltia-cms-publish`, and by itself that does nothing: on 27 Nov the client saved a day of work with **Save**, clicked **Publish Changes**, and no deploy started. Three parts now pass the click on:
 
-The hook URL is stored only in that browser, so repeat the second part on the client's computer. If you skip this step, **Save and Publish** still works.
+1. A Netlify build hook: **Project configuration → Build & deploy → Continuous deployment → Build hooks**, name `CMS (Publish Changes)`, branch `main`.
+2. Its URL stored as the GitHub Actions secret `NETLIFY_BUILD_HOOK`: repository **Settings → Secrets and variables → Actions**.
+3. The workflow `.github/workflows/objava-iz-panela.yml`, which runs on that event and calls the hook.
+
+It works for every editor in every browser, with nothing to set up on their computer. Each click is one deploy (15 credits), even when nothing changed, so click once. A click shows up in the repository's **Actions** tab within seconds and in Netlify's deploy list as "Objava iz panela (Publish Changes)".
+
+The hook URL is a secret: the repository is public, and anyone who has the URL can start deploys and spend credits. Never commit it. If it leaks, delete the hook in Netlify, add a new one and update the secret.
+
+**After a handover to the client's accounts (Path B):** the hook belongs to the Netlify project, so create a new one in her project and set the secret again in the transferred repository. Repository secrets do not travel with a transfer.
 
 If you would rather have every Save publish immediately (simpler for the client, but uses a deploy each time), change `skip_ci: true` to `skip_ci: false` in `config.yml`.
 
@@ -340,6 +347,7 @@ Netlify also has a setting for transferring a project to another team. I have no
 | Netlify deploy fails | Open the deploy log. Usually a content field has an invalid value (e.g. an empty required date). Fix it in the CMS or revert the commit on GitHub. The live site is unaffected. |
 | CMS login window closes with an error | The callback URL in the GitHub OAuth app is not exactly `https://api.netlify.com/auth/done`, or the provider is not installed in Netlify. |
 | CMS shows "repository not found" | `repo:` in `config.yml` is wrong, or the GitHub account has no write access to the repository. |
-| Change saved but not visible | It was saved with **Save** only. Use **Save and Publish**, then wait a minute and hard-refresh (Ctrl+F5). |
+| Change saved but not visible | It was saved with **Save** only. Click **Publish Changes** in the header (or use **Save and Publish** on an entry), then wait a minute and hard-refresh (Ctrl+F5). |
+| **Publish Changes** clicked, no deploy in Netlify | Open the repository's **Actions** tab. No run: the editor has no write access, or the workflow file is missing from `main`. Failed run: the secret `NETLIFY_BUILD_HOOK` is missing or the hook was deleted in Netlify (Step 5). |
 | Photo does not appear | The file must be uploaded through the CMS (it lands in `src/assets/uploads/`). Very large files (over 10 MB) are rejected. |
 | Site says "Site not available" | Netlify credits ran out for the month (relevant on the Free plan; the developer's team is on Pro since 23 Nov 2026). Upgrade the plan or wait for the monthly reset. |

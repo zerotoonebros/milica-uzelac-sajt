@@ -52,7 +52,7 @@ Guide: [docs/02-go-live.md](docs/02-go-live.md)
 
 - [x] **Client login for the editing panel** — done 19 Nov. GitHub OAuth app "Milica Uzelac CMS" registered under `zerotoonebros`, keys installed in Netlify.
 - [x] **Test the editing panel end to end** — done 19 Nov. Signed in at `/admin/`, changed one word on the home page with **Save and Publish**, and it appeared on the live site.
-- [ ] **Publish button for the panel (optional, skipped)** — Step 5. Only powers the separate "Publish Changes" button and has to be set up in every browser. **Save and Publish** works without it, and that is what the client handbook teaches.
+- [x] **Publish button for the panel** — done 27 Nov (Step 5). Skipping it bit us: the client saved a day of work with **Save**, clicked **Publish Changes**, and nothing deployed. The button now starts a deploy through `.github/workflows/objava-iz-panela.yml` and a Netlify build hook kept in the GitHub secret `NETLIFY_BUILD_HOOK`; nothing to set up per browser.
 - [x] **Form e-mail notifications** — done 23 Nov. Netlify → **Forms** → **Submission notifications** tab (not Project configuration → Notifications, which lists only deploy events). Two e-mail notifications, "Any form": yours and the client's; hers confirmed.
 - [x] **Test all five forms on the live site** — done 23 Nov by you and the client: contact, newsletter, workshop sign-up, program inquiry and booking request all appear in Netlify under Forms and the notification e-mails arrive.
 - [x] **"Powered by Netlify" badge** — decided 23 Nov (Project configuration → General → Powered by Netlify badge).
