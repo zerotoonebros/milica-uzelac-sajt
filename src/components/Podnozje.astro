@@ -239,9 +239,16 @@ const godina = new Date().getFullYear();
     margin: 0;
     padding: 0;
   }
+  /* Tri kolone do 72em, pa četiri: sa četiri kolone meni na ekranu od oko 1024px ne staje
+     između logotipa i kontakta (stranica je dobijala vodoravno pomeranje). */
   @media (min-width: 60em) {
     .podnozje__nav {
       justify-content: center;
+      grid-template-columns: repeat(3, max-content);
+    }
+  }
+  @media (min-width: 72em) {
+    .podnozje__nav {
       grid-template-columns: repeat(4, max-content);
     }
   }

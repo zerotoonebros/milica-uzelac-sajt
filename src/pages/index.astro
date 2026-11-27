@@ -96,7 +96,7 @@ const shema = [
           odnos="4/5"
           sablon={1}
           prioritet
-          sizes="(min-width: 56em) 36vw, 80vw"
+          sizes="(min-width: 56em) min(34rem, 42vw), 90vw"
         />
         <Oblik vrsta="list" boja="var(--c-plava)" class="hero__oblik hero__oblik--list" />
         <Oblik vrsta="talas" boja="var(--c-teget)" class="hero__oblik hero__oblik--talas" />
@@ -296,12 +296,19 @@ const shema = [
   }
   .hero__unutra {
     display: grid;
-    gap: clamp(3rem, 2rem + 4vw, 5rem);
+    gap: clamp(2.5rem, 1.5rem + 3vw, 4rem);
     align-items: center;
   }
   @media (min-width: 56em) {
     .hero__unutra {
       grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    }
+  }
+  /* Na širokom ekranu portret dobija skoro polovinu širine. Ispod 78em naslovu treba više mesta:
+     red „koje su spremne za“ je širok oko 526px i u užoj koloni bi se prelomio u četiri reda. */
+  @media (min-width: 78em) {
+    .hero__unutra {
+      grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
     }
   }
   .hero__tekst {
@@ -341,10 +348,17 @@ const shema = [
     border-radius: 50%;
     background: var(--c-kajsija-tamna);
   }
+  /* Portret na vrhu početne. Uvećan 27. nov 2026. na želju klijentkinje (bio je najviše 26rem):
+     na širokom ekranu je visok koliko i tekst pored njega (do 34rem širine, oko 30% više nego pre). */
   .hero__slika {
     position: relative;
-    width: min(100%, 26rem);
+    width: min(100%, 30rem);
     margin-inline: auto;
+  }
+  @media (min-width: 56em) {
+    .hero__slika {
+      width: min(100%, 34rem);
+    }
   }
   .hero__slika :global(.foto) {
     position: relative;
@@ -374,6 +388,25 @@ const shema = [
     right: -12%;
     bottom: 10%;
     opacity: 0.8;
+  }
+  /* Uz veći portret oblici manje vire sa strane, da ne zalaze pod tekst i ne seku se o ivicu ekrana */
+  @media (min-width: 56em) {
+    .hero__slika :global(.hero__oblik--sunce) {
+      width: 42%;
+      right: -9%;
+    }
+    .hero__slika :global(.hero__oblik--oblutak) {
+      width: 56%;
+      left: -10%;
+    }
+    .hero__slika :global(.hero__oblik--list) {
+      width: 27%;
+      left: -8%;
+    }
+    .hero__slika :global(.hero__oblik--talas) {
+      width: 30%;
+      right: -7%;
+    }
   }
   @media (prefers-reduced-motion: no-preference) {
     .hero__slika :global(.hero__oblik--sunce) {
