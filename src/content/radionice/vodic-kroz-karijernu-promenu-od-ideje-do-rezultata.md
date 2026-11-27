@@ -3,7 +3,7 @@ naslov: 'Vodič kroz karijernu promenu: od ideje do rezultata'
 opis: |-
   Ako znaš da želiš karijernu promenu, ali ne znaš šta je sledeći pravi korak, ova radionica je napravljena za tebe.
 
-  Na radionici definišemo razvoj karijere kroz *4K model* karijerne promene.
+  Na radionici definišemo razvoj karijere kroz 4K model karijerne promene.
 datum: 2026-09-15T19:00
 trajanje: 2 sata
 format: online
