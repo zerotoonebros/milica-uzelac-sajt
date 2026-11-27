@@ -835,5 +835,5 @@ collections:
                 summary: '{{naziv}} → {{link}}'
                 fields:
                   - { label: Naziv, name: naziv, widget: string }
-                  - { label: Link, name: link, widget: string }
+                  - { label: Link, name: link, widget: string, hint: 'Može da vodi i na deo stranice: /rad-sa-mnom/grupne-radionice/#aktuelne ili /rad-sa-mnom/grupne-radionice/#odrzane.' }
                   - { label: Kratak opis, name: opis, widget: string, required: false }

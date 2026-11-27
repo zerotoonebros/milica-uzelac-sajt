@@ -134,6 +134,12 @@ const jeAktivna = (link: string) => (link === '/' ? putanja === '/' : putanja.st
       if ((e.target as HTMLElement).closest('a')) postavi(false);
     });
 
+    // Link iz padajućeg menija ka delu iste stranice (npr. …/grupne-radionice/#odrzane) ne učitava
+    // novu stranicu, pa bi meni ostao otvoren preko sadržaja dok je link u fokusu.
+    zaglavlje.querySelectorAll<HTMLAnchorElement>('.nav__padajuci a').forEach((link) => {
+      link.addEventListener('click', () => link.blur());
+    });
+
     // Na širokom ekranu mobilni meni se sam zatvara
     const siroko = window.matchMedia('(min-width: 72em)');
     siroko.addEventListener('change', (e) => e.matches && postavi(false));

@@ -8,7 +8,8 @@
       "link": "/rad-sa-mnom/",
       "podmeni": [
         { "naziv": "Individualne sesije", "link": "/rad-sa-mnom/individualne-sesije/", "opis": "Coaching jedan na jedan, uživo ili online" },
-        { "naziv": "Grupne radionice", "link": "/rad-sa-mnom/grupne-radionice/", "opis": "Rad u maloj grupi, online i uživo" }
+        { "naziv": "Aktuelne radionice", "link": "/rad-sa-mnom/grupne-radionice/#aktuelne", "opis": "Naredni termini, online i uživo" },
+        { "naziv": "Održane radionice", "link": "/rad-sa-mnom/grupne-radionice/#odrzane", "opis": "Pregled dosadašnjih radionica" }
       ]
     },
     {

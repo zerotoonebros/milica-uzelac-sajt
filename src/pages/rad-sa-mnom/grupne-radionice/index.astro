@@ -24,9 +24,9 @@ const prosle = sve
     putanja={[{ naziv: 'Rad sa mnom', link: '/rad-sa-mnom/' }, { naziv: 'Grupne radionice' }]}
   />
 
-  <section class="sekcija sekcija--bez-vrha" aria-labelledby="naredne-naslov">
+  <section class="sekcija sekcija--bez-vrha" aria-labelledby="aktuelne">
     <div class="omot">
-      <h2 id="naredne-naslov" class="podnaslov-liste" data-otkrij>{s.naredne.naslov}</h2>
+      <h2 id="aktuelne" class="podnaslov-liste" data-otkrij>{s.naredne.naslov}</h2>
       {
         naredne.length > 0 ? (
           <div class="mreza mreza--2">
@@ -69,9 +69,9 @@ const prosle = sve
 
   {
     prosle.length > 0 && (
-      <section class="sekcija" aria-labelledby="prosle-naslov">
+      <section class="sekcija" aria-labelledby="odrzane">
         <div class="omot">
-          <h2 id="prosle-naslov" class="podnaslov-liste" data-otkrij>
+          <h2 id="odrzane" class="podnaslov-liste" data-otkrij>
             {s.prosle.naslov}
           </h2>
           <div class="mreza mreza--2">
@@ -88,7 +88,10 @@ const prosle = sve
 </Osnovni>
 
 <style>
+  /* Naslovi „Aktuelne radionice“ (#aktuelne) i „Održane radionice“ (#odrzane) su mete linkova
+     iz menija; razmak iznad ostavlja malo vazduha ispod zaglavlja kada se stranica tu zaustavi. */
   .podnaslov-liste {
+    scroll-margin-top: 2.5rem;
     margin-bottom: 2rem;
     font-size: var(--fs-h3);
   }
