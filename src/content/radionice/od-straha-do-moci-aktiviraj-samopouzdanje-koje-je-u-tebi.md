@@ -13,7 +13,7 @@ opis: |-
 
   Tvoja sledeća verzija života počinje tačno tamo gde sada osećaš strah.
 datum: 2026-05-13T19:00
-trajanje: 1.5 h
+trajanje: 1.5 sat
 format: online
 lokacija: Google Meet (link stiže na mail)
 cena: besplatno
