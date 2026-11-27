@@ -31,7 +31,7 @@ sta_dobijas:
   - praktičan način kako da izgradiš ili ponovo aktiviraš svoje samopoudanje
   - četiri konkretna koraka za aktiviranje samopoudanja koje je u tebi
 primer: false
-seo_naslov: 'Online radionica:'
+seo_naslov: 'Online radionica: Od straha do moći: Aktiviraj samopouzdanje koje je u tebi'
 seo_opis: Radionica je namenjena ženama koje sumnjaju u sebe, preispituju svoje odluke i često čekaju da budu potpuno sigurne pre nego što naprave sledeći korak. Za tebe je ako te strah od greške, neuspeha ili tuđeg mišljenja sprečava da pokažeš svoje sposobnosti, zauzmeš se za sebe ili kreneš ka onome što želiš. Ako često umanjuješ svoje uspehe, potcenjuješ svoje kvalitete i više veruješ svojim sumnjama nego sopstvenim mogućnostima, vreme je da to promeniš.
 ---
 
