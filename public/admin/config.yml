@@ -130,7 +130,7 @@ collections:
           - { label: Uskoro (prijave još nisu otvorene), value: uskoro }
           - { label: Popunjeno, value: popunjeno }
           - { label: Završeno (održana), value: zavrseno }
-      - { label: Fotografija, name: slika, widget: image, required: false }
+      - { label: Fotografija, name: slika, widget: image, required: false, hint: 'Preporuka: uspravna, 1080 × 1350 px (odnos 4:5, kao objava na Instagramu). Prikazuje se cela, bez sečenja. Kvadratna (1080 × 1080) se takođe prikazuje cela.' }
       - { label: Opis fotografije (alt tekst), name: slika_alt, widget: string, required: false }
       - label: Za koga je radionica
         name: za_koga
@@ -161,7 +161,7 @@ collections:
   - name: programi
     label: Programi
     label_singular: Program
-    description: E-book programi i Online Masterclass programi.
+    description: 'E-book programi i Online Masterclass programi. Na sajtu se vide samo kada je uključeno: Podešavanja → Opšta podešavanja → Programi → „Prikaži Programe na sajtu“.'
     folder: src/content/programi
     create: true
     extension: md
@@ -760,6 +760,15 @@ collections:
               - { label: Tekst dugmeta, name: tekst_dugmeta, widget: string }
               - { label: Link dugmeta, name: link, widget: string, hint: 'Podrazumevano /zakazivanje/ — stranica sajta sa kalendarom ili formom.' }
               - { label: Link kalendara (Cal.com ili Calendly), name: kalendar_url, widget: string, required: false, hint: 'Npr. https://cal.com/ime/uvodni-razgovor. Dok je prazno, na stranici Zakazivanje stoji forma „Zatraži termin“.' }
+          - label: Programi (E-book i Online Masterclass)
+            name: programi
+            widget: object
+            fields:
+              - label: Prikaži Programe na sajtu
+                name: prikazi
+                widget: boolean
+                default: false
+                hint: 'Dok je isključeno, „Programi“ se ne vide u meniju, na početnoj ni na adresi /programi/. Sve što je uneto pod Programi ostaje sačuvano i pojavljuje se čim se ovo uključi.'
           - label: Podnožje (dno svake stranice)
             name: futer
             widget: object

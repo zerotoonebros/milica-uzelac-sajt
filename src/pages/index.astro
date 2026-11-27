@@ -7,12 +7,15 @@ import Oblik from '../components/Oblik.astro';
 import KarticaBlog from '../components/KarticaBlog.astro';
 import KarticaRadionice from '../components/KarticaRadionice.astro';
 import Utisak from '../components/Utisak.astro';
-import { sajt, mdRed, md, apsolutni } from '../lib/sajt';
+import { sajt, mdRed, md, apsolutni, jeSakriveno } from '../lib/sajt';
 import s from '../content/stranice/pocetna.json';
 
 const tekstovi = (await getCollection('blog', ({ data }) => !data.nacrt))
   .sort((a, b) => b.data.datum.valueOf() - a.data.datum.valueOf())
   .slice(0, 3);
+
+// Kartice koje vode na sakriveni deo sajta (npr. Programi dok su isključeni) se ne prikazuju
+const usluge = s.usluge.stavke.filter((usluga) => !jeSakriveno(usluga.link));
 
 const radionice = (await getCollection('radionice'))
   .filter((r) => r.data.status !== 'zavrseno')
@@ -150,9 +153,9 @@ const shema = [
         <h2 id="usluge-naslov" set:html={mdRed(s.usluge.naslov)} />
         <p class="uvod">{s.usluge.tekst}</p>
       </div>
-      <div class="mreza mreza--4">
+      <div class:list={['mreza', usluge.length === 4 ? 'mreza--4' : usluge.length === 3 ? 'mreza--3' : 'mreza--2']}>
         {
-          s.usluge.stavke.map((usluga, i) => (
+          usluge.map((usluga, i) => (
             <article class="kartica kartica--link usluga" data-otkrij style={`--kasnjenje:${i}`}>
               <span class="usluga__ikona">
                 <Ikona naziv={usluga.ikona as any} velicina={28} />

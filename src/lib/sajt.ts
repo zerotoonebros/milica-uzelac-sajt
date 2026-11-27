@@ -6,7 +6,26 @@ import navigacijaPodaci from '../content/podesavanja/navigacija.json';
 import obavestenjePodaci from '../content/podesavanja/obavestenje.json';
 
 export const sajt = sajtPodaci;
-export const navigacija = navigacijaPodaci.stavke;
+
+/* ---------- Programi: prekidač ----------
+   Ceo deo „Programi“ (E-book i Online Masterclass) uključuje se i isključuje jednim poljem u CMS-u:
+   Podešavanja → Opšta podešavanja → Programi → „Prikaži Programe na sajtu“.
+   Dok je isključeno: stavka nestaje iz menija i podnožja, kartice na početnoj se ne prikazuju,
+   a stranice /programi/… se ne objavljuju (vidi astro.config.mjs). Sadržaj programa ostaje sačuvan. */
+export const programiVidljivi = sajtPodaci.programi?.prikazi !== false;
+
+/** true za link ka delu sajta koji je trenutno sakriven */
+export function jeSakriveno(link?: string | null): boolean {
+  return !programiVidljivi && !!link && /^\/programi(\/|$)/.test(link);
+}
+
+type Podstavka = { naziv: string; link: string; opis?: string };
+type Stavka = { naziv: string; link: string; podmeni: Podstavka[] };
+
+/** Glavni meni (zaglavlje i podnožje), bez stavki koje vode na sakriveni deo sajta. */
+export const navigacija: Stavka[] = (navigacijaPodaci.stavke as Stavka[])
+  .filter((stavka) => !jeSakriveno(stavka.link))
+  .map((stavka) => ({ ...stavka, podmeni: stavka.podmeni.filter((pod) => !jeSakriveno(pod.link)) }));
 /** Obaveštenje (baner) ispod zaglavlja — uključuje se i isključuje u CMS-u. */
 export const obavestenje = obavestenjePodaci;
 

@@ -940,6 +940,12 @@ h3 em {
   gap: 2.5rem;
   min-width: 0;
 }
+/* Vizual radionice (objava za Instagram, 4:5 ili kvadrat): prikazuje se ceo, u veličini
+   plakata, da ne zauzme ceo ekran pre teksta. Položene fotografije idu preko cele kolone. */
+.detalj__vizual--uspravan {
+  max-width: 30rem;
+  box-shadow: var(--senka-1);
+}
 .detalj__blok {
   display: grid;
   gap: 1.25rem;

@@ -16,6 +16,9 @@
     "link": "/zakazivanje/",
     "kalendar_url": ""
   },
+  "programi": {
+    "prikazi": false
+  },
   "futer": {
     "poruka_naslov": "Piši mi",
     "poruka_tekst": "Imaš pitanje ili nisi sigurna odakle da kreneš? Pošalji mi poruku — odgovaram lično, najčešće u roku od dva radna dana.",

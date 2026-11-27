@@ -5,7 +5,7 @@ import UvodStranice from '../../../components/UvodStranice.astro';
 import Fotografija from '../../../components/Fotografija.astro';
 import Forma from '../../../components/Forma.astro';
 import Ikona from '../../../components/Ikona.astro';
-import { sajt, datumIVreme, nazivFormata, statusRadionice, apsolutni, mdClanak } from '../../../lib/sajt';
+import { sajt, datumIVreme, nazivFormata, statusRadionice, apsolutni, mdClanak, nadjiSliku } from '../../../lib/sajt';
 
 export async function getStaticPaths() {
   const radionice = await getCollection('radionice');
@@ -17,6 +17,13 @@ const r = radionica.data;
 const sadrzaj = await mdClanak(radionica.body);
 const status = statusRadionice[r.status];
 const link = `/rad-sa-mnom/grupne-radionice/${radionica.id}/`;
+
+// Vizual radionice je zamišljen kao objava za Instagram: 1080 × 1350 px (odnos 4:5).
+// Okvir prati stvarni odnos slike, pa se ništa ne seče: 4:5 ostaje 4:5, kvadrat ostaje kvadrat.
+// Samo slike više od 4:5 ili šire od 16:9 se podsecaju do te granice.
+const fajlSlike = nadjiSliku(r.slika);
+const odnosSlike = fajlSlike ? Math.min(16 / 9, Math.max(4 / 5, fajlSlike.width / fajlSlike.height)) : 4 / 5;
+const uspravanVizual = odnosSlike < 1.2;
 
 // Strukturisani podaci za Google (događaj) — samo za prave, nadolazeće radionice
 const shema =
@@ -62,7 +69,18 @@ const shema =
   <section class="sekcija sekcija--bez-vrha">
     <div class="omot detalj">
       <div class="detalj__sadrzaj">
-        {r.slika && <Fotografija slika={r.slika} alt={r.slika_alt ?? ''} odnos="16/9" prioritet sizes="(min-width: 60em) 55vw, 92vw" />}
+        {
+          r.slika && (
+            <Fotografija
+              slika={r.slika}
+              alt={r.slika_alt ?? ''}
+              odnos={odnosSlike.toFixed(4)}
+              prioritet
+              class={uspravanVizual ? 'detalj__vizual detalj__vizual--uspravan' : 'detalj__vizual'}
+              sizes={uspravanVizual ? '(min-width: 36em) 30rem, 92vw' : '(min-width: 60em) 55vw, 92vw'}
+            />
+          )
+        }
         <div class="tekst" set:html={sadrzaj} />
 
         {

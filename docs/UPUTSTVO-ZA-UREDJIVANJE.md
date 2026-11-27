@@ -79,6 +79,8 @@ Prijave ti stižu na e-mail. Posle radionice promeni status u **Završeno**.
 
 ## 5. Novi program (E-book ili Masterclass)
 
+> **Programi su trenutno sakriveni na sajtu** (od 27. novembra 2026): nema ih u meniju, na početnoj ni na adresi /programi/. Sve što uneseš pod **Programi** ostaje sačuvano. Kada budeš spremna da ih prikažeš: **Podešavanja → Opšta podešavanja → Programi → „Prikaži Programe na sajtu“** → uključi → objavi.
+
 1. **Programi → New Program**, izaberi **Vrstu**.
 2. Dok je polje **Link za kupovinu / pristup** prazno, na stranici programa stoji forma „Javi mi kada bude dostupno“ — tako vidiš koliko ima zainteresovanih.
 3. Kada je program spreman: upiši link, stavi status **Dostupno** i objavi. Forma se zamenjuje dugmetom „Želim ovaj program“.
@@ -114,7 +116,8 @@ Primer: `Coaching za žene koje su spremne za *svoj sledeći korak*`
 | --- | --- |
 | Portret na početnoj i na „O meni“ | Uspravan, 4:5 (npr. 1600 × 2000 px) |
 | „O meni“ na početnoj, „Vizija“ | Kvadrat (npr. 1600 × 1600 px) |
-| Naslovna slika bloga, radionice, programa | Položen, 3:2 ili 16:9 (npr. 2000 × 1333 px) |
+| Vizual radionice | Uspravan, 4:5, **1080 × 1350 px** (kao objava na Instagramu). Prikazuje se ceo, ništa se ne seče. Kvadrat 1080 × 1080 se takođe prikazuje ceo. |
+| Naslovna slika bloga i programa | Položen, 3:2 ili 16:9 (npr. 2000 × 1333 px) |
 | Slika za deljenje na mrežama | 1200 × 630 px |
 
 Fotografija se sama iseca da stane u okvir, pa je važno da je lice blizu sredine.
